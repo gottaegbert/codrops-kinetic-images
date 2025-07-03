@@ -5,7 +5,7 @@ import Billboard from '@/components/webgl/Billboard/Billboard';
 import Banner from '@/components/webgl/Banner/Banner';
 import Loader from '@/components/ui/modules/Loader/Loader';
 import images from '@/data/images';
-import { View, Common } from '@/webgl/View';
+import { View } from '@/webgl/View';
 import { useCollageTexture } from '@/hooks/useCollageTexture';
 
 const COUNT = 10;
@@ -18,7 +18,7 @@ export default function Home() {
 
     return (
         <div className={styles.page}>
-            <View className={styles.view} orbit>
+            <View className={styles.view} orbit={false} cameraFOV={7} cameraPosition={[0, 0, 70]}>
                 <group rotation={[-0.15, 0, -0.2]}>
                     {Array.from({ length: COUNT }).map((_, index) => [
                         <Billboard
@@ -41,7 +41,6 @@ export default function Home() {
                         />,
                     ])}
                 </group>
-                <Common cameraFOV={7} cameraPosition={[0, 0, 70]} />
             </View>
         </div>
     );

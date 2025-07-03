@@ -3,7 +3,7 @@
 import styles from './page.module.scss';
 import Spiral from '@/components/webgl/Spiral/Spiral';
 import images from '@/data/images';
-import { View, Common } from '@/webgl/View';
+import { View } from '@/webgl/View';
 import { useCollageTexture } from '@/hooks/useCollageTexture';
 import Loader from '@/components/ui/modules/Loader/Loader';
 
@@ -14,9 +14,8 @@ export default function Home() {
 
     return (
         <div className={styles.page}>
-            <View className={styles.view} orbit>
+            <View className={styles.view} orbit={false} cameraFOV={7} cameraPosition={[0, 0, 100]}>
                 <Spiral texture={texture} />
-                <Common cameraFOV={7} cameraPosition={[0, 0, 100]} />
             </View>
         </div>
     );

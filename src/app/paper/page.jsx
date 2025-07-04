@@ -21,7 +21,7 @@ export default function Home() {
 
     return (
         <div className={styles.page}>
-            <View className={styles.view} orbit={false}>
+            <View className={styles.view} orbit>
                 <PerspectiveCamera
                     makeDefault
                     fov={20}

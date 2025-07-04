@@ -19,4 +19,4 @@ export class MeshImageMaterial extends THREE.MeshBasicMaterial {
     };
 }
 
-extend({ MeshImageMaterial }); 
+extend({ MeshImageMaterial });

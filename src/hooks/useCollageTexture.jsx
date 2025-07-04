@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { getCanvasTexture } from '@/webgl/helpers/getCanvasTexture';
 
-export function useCollageTexture(images, options = {}) {
+export default function useCollageTexture(images, options = {}) {
     const [textureResults, setTextureResults] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -37,4 +37,4 @@ export function useCollageTexture(images, options = {}) {
         isLoading,
         error,
     };
-} 
+}

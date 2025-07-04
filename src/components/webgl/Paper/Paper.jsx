@@ -31,4 +31,4 @@ function Paper({ texture, ...props }) {
     return <primitive {...props} object={scene} />;
 }
 
-export default Paper; 
+export default Paper;

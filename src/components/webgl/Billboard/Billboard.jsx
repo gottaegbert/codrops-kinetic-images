@@ -42,4 +42,4 @@ function Billboard({ texture, dimensions, radius = 5, ...props }) {
     );
 }
 
-export default Billboard; 
+export default Billboard;

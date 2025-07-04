@@ -3,4 +3,4 @@ export const metadata = {
     description: 'Made by Dominik Fojcik',
 };
 
-export default metadata; 
+export default metadata;

@@ -36,4 +36,4 @@ function Spiral({ texture }) {
     return <primitive object={scene} />;
 }
 
-export default Spiral; 
+export default Spiral;

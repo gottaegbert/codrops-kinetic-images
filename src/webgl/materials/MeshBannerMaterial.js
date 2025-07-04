@@ -36,4 +36,4 @@ export class MeshBannerMaterial extends THREE.MeshBasicMaterial {
     };
 }
 
-extend({ MeshBannerMaterial }); 
+extend({ MeshBannerMaterial });

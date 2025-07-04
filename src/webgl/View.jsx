@@ -1,10 +1,10 @@
 'use client';
 
 import { forwardRef, useImperativeHandle, useRef } from 'react';
-import { OrbitControls, PerspectiveCamera, View as ViewImpl } from '@react-three/drei';
+import { OrbitControls, View as ViewImpl } from '@react-three/drei';
 import { Three } from '@/webgl/helpers/Three';
 
-const View = forwardRef(({ children, orbit, cameraPosition = [0, 0, 13], cameraFOV = 20, ...props  }, ref) => {
+const View = forwardRef(({ children, orbit, ...props }, ref) => {
     const localRef = useRef(null);
     useImperativeHandle(ref, () => localRef.current);
 
@@ -16,7 +16,6 @@ const View = forwardRef(({ children, orbit, cameraPosition = [0, 0, 13], cameraF
                     {children}
                     {orbit && <OrbitControls />}
                 </ViewImpl>
-                <PerspectiveCamera makeDefault fov={cameraFOV} position={cameraPosition} near={0.01} far={100000} />
             </Three>
         </>
     );
@@ -24,4 +23,4 @@ const View = forwardRef(({ children, orbit, cameraPosition = [0, 0, 13], cameraF
 
 View.displayName = 'View';
 
-export { View }; 
+export { View };

@@ -1,12 +1,12 @@
 'use client';
 
 import styles from './page.module.scss';
-import Billboard from '@/components/webgl/Billboard/Billboard';
-import Banner from '@/components/webgl/Banner/Banner';
-import Loader from '@/components/ui/modules/Loader/Loader';
 import images from '@/data/images';
+import { Billboard, Banner } from '@/components/webgl';
+import { Loader } from '@/components/ui/modules';
 import { View } from '@/webgl/View';
-import { useCollageTexture } from '@/hooks/useCollageTexture';
+import { PerspectiveCamera } from '@react-three/drei';
+import { useCollageTexture } from '@/hooks';
 
 const COUNT = 10;
 const GAP = 3.2;
@@ -18,7 +18,14 @@ export default function Home() {
 
     return (
         <div className={styles.page}>
-            <View className={styles.view} orbit={false} cameraFOV={7} cameraPosition={[0, 0, 70]}>
+            <View className={styles.view} orbit={false}>
+                <PerspectiveCamera
+                    makeDefault
+                    fov={7}
+                    position={[0, 0, 70]}
+                    near={0.01}
+                    far={100000}
+                />
                 <group rotation={[-0.15, 0, -0.2]}>
                     {Array.from({ length: COUNT }).map((_, index) => [
                         <Billboard
@@ -44,4 +51,4 @@ export default function Home() {
             </View>
         </div>
     );
-} 
+}

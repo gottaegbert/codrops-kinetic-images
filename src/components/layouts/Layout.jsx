@@ -3,8 +3,7 @@
 import { useRef } from 'react';
 import dynamic from 'next/dynamic';
 import { usePathname } from 'next/navigation';
-import Header from '@/components/ui/modules/Header/Header';
-import Footer from '@/components/ui/modules/Footer/Footer';
+import { Header, Footer } from '@/components/ui/modules';
 
 const Scene = dynamic(() => import('@/webgl/Scene'), { ssr: false });
 
@@ -54,4 +53,4 @@ export function Layout({ children }) {
             </Footer>
         </div>
     );
-} 
+}

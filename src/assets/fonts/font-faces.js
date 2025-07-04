@@ -17,4 +17,4 @@ function getFontFaces() {
 
 const fontFaces = getFontFaces();
 
-export default fontFaces; 
+export default fontFaces;

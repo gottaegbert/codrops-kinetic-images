@@ -129,4 +129,4 @@ export async function getCanvasTexture({
 
     // Create and return texture result
     return createTextureResult(canvasElement, dimensions);
-} 
+}

@@ -1,11 +1,12 @@
 'use client';
 
 import styles from './page.module.scss';
-import Spiral from '@/components/webgl/Spiral/Spiral';
 import images from '@/data/images';
+import { PerspectiveCamera } from '@react-three/drei';
 import { View } from '@/webgl/View';
-import { useCollageTexture } from '@/hooks/useCollageTexture';
-import Loader from '@/components/ui/modules/Loader/Loader';
+import { useCollageTexture } from '@/hooks';
+import { Spiral } from '@/components/webgl';
+import { Loader } from '@/components/ui/modules';
 
 export default function Home() {
     const { texture, isLoading } = useCollageTexture(images);
@@ -14,9 +15,16 @@ export default function Home() {
 
     return (
         <div className={styles.page}>
-            <View className={styles.view} orbit={false} cameraFOV={7} cameraPosition={[0, 0, 100]}>
+            <View className={styles.view} orbit={false}>
+                <PerspectiveCamera
+                    makeDefault
+                    fov={7}
+                    position={[0, 0, 100]}
+                    near={0.01}
+                    far={100000}
+                />
                 <Spiral texture={texture} />
             </View>
         </div>
     );
-} 
+}

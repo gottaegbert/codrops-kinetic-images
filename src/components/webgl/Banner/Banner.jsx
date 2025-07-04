@@ -2,14 +2,15 @@
 
 import * as THREE from 'three';
 import bannerTexture from '@/assets/images/banner.jpg';
-
 import { useTexture } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
 import { useRef } from 'react';
-import '../../../webgl/materials/MeshBannerMaterial';
+
+import '@/webgl/materials/MeshBannerMaterial';
 
 function Banner({ radius = 1.6, ...props }) {
     const ref = useRef(null);
+
     const texture = useTexture(bannerTexture.src);
     texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
 
@@ -36,4 +37,4 @@ function Banner({ radius = 1.6, ...props }) {
     );
 }
 
-export default Banner; 
+export default Banner;

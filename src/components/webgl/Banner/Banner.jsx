@@ -30,7 +30,7 @@ function Banner({ radius = 1.6, ...props }) {
                 map-repeat={[15, 1]}
                 side={THREE.DoubleSide}
                 toneMapped={false}
-                backfaceRepeatX={3}
+                backfaceRepeatX={0.2}
             />
         </mesh>
     );

@@ -13,7 +13,7 @@ export class MeshBannerMaterial extends THREE.MeshBasicMaterial {
     }
 
     onBeforeCompile = (shader) => {
-        shader.uniforms.repeatX = { value: this.backfaceRepeatX * 0.1 };
+        shader.uniforms.repeatX = { value: this.backfaceRepeatX };
         shader.fragmentShader = shader.fragmentShader
             .replace(
                 '#include <common>',

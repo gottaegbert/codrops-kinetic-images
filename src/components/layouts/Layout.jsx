@@ -23,8 +23,43 @@ export function Layout({ children }) {
             }}
         >
             <Header>
-                <div>
-                    <p>Codrops - Kinetic Images</p>
+                <div
+                    style={{
+                        display: 'flex',
+                        width: '100%',
+                        gap: '0.5rem',
+                        flexDirection: 'column',
+                    }}
+                >
+                    <h1>Kinetic Images</h1>
+                    <nav
+                        style={{
+                            display: 'flex',
+                            width: '100%',
+                            gap: '0.5rem',
+                            fontSize: '0.85rem',
+                            opacity: 0.6,
+                        }}
+                    >
+                        <a href="https://tympanus.net/codrops/?p=96765">Article</a>
+                        <a href="https://github.com/DGFX/codrops-kinetic-images">Code</a>
+                        <a href="https://tympanus.net/codrops/demos/">All demos</a>
+                    </nav>
+                    <nav
+                        style={{
+                            display: 'flex',
+                            width: '100%',
+                            gap: '0.5rem',
+                            fontSize: '0.85rem',
+                            opacity: 0.6,
+                        }}
+                    >
+                        <a href="https://tympanus.net/codrops/demos/?tag=3d">#3d</a>
+                        <a href="https://tympanus.net/codrops/demos/?tag=three-js">#three.js</a>
+                        <a href="https://tympanus.net/codrops/demos/?tag=react-three-fiber">
+                            #react-three-fiber
+                        </a>
+                    </nav>
                 </div>
             </Header>
             {children}

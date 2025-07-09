@@ -4,6 +4,7 @@ import { useRef } from 'react';
 import dynamic from 'next/dynamic';
 import { usePathname } from 'next/navigation';
 import { Header, Footer } from '@/components/ui/modules';
+import Link from 'next/link';
 
 const Scene = dynamic(() => import('@/webgl/Scene'), { ssr: false });
 
@@ -76,15 +77,15 @@ export function Layout({ children }) {
                 eventPrefix="client"
             />
             <Footer>
-                <a href="./" className={pathname === '/' ? 'active' : ''}>
+                <Link href="./" className={pathname === '/' ? 'active' : ''}>
                     Tower
-                </a>
-                <a href="./paper" className={pathname === '/paper' ? 'active' : ''}>
+                </Link>
+                <Link href="./paper" className={pathname === '/paper' ? 'active' : ''}>
                     Paper
-                </a>
-                <a href="./spiral" className={pathname === '/spiral' ? 'active' : ''}>
+                </Link>
+                <Link href="./spiral" className={pathname === '/spiral' ? 'active' : ''}>
                     Spiral
-                </a>
+                </Link>
             </Footer>
         </div>
     );

@@ -18,6 +18,17 @@ export default function Home() {
 
     return (
         <div className={styles.page}>
+            <div className={styles.intro}>
+                <h2 className={styles.introTitle}>Welcome to MaKaleidos</h2>
+                <p className={styles.introSubtitle}>
+                    Discover contemporary art through immersive virtual exhibitions. 
+                    Experience art in a whole new dimension where creativity meets technology.
+                </p>
+                <a href="/exhibitions" className={styles.ctaButton}>
+                    Explore Current Exhibition
+                </a>
+            </div>
+
             <View className={styles.view} orbit>
                 <PerspectiveCamera
                     makeDefault

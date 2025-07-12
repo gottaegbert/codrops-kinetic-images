@@ -10,7 +10,7 @@ import '@/webgl/materials/MeshBannerMaterial';
 function Banner({ radius = 1.6, ...props }) {
     const ref = useRef(null);
 
-    const texture = useTexture('/banner.jpg');
+    const texture = useTexture('/test.jpg');
     texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
 
     useFrame((state, delta) => {

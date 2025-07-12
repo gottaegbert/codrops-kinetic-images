@@ -24,7 +24,7 @@ export function Layout({ children }) {
             }}
         >
             <Header>
-                <div
+                {/* <div
                     style={{
                         display: 'flex',
                         width: '100%',
@@ -61,7 +61,7 @@ export function Layout({ children }) {
                             #react-three-fiber
                         </a>
                     </nav>
-                </div>
+                </div> */}
             </Header>
             {children}
             <Scene

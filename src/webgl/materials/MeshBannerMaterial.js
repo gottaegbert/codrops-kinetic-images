@@ -29,7 +29,7 @@ export class MeshBannerMaterial extends THREE.MeshBasicMaterial {
                 '#include <color_fragment>',
                 /* glsl */ `#include <color_fragment>
                 if (!gl_FrontFacing) {
-                    diffuseColor.rgb = pal( vMapUv.x * repeatX, vec3(0.5,0.5,0.5),vec3(0.5,0.5,0.5),vec3(1.0,1.0,1.0),vec3(0.0,0.10,0.20) );
+                    diffuseColor.rgb = pal( vMapUv.x * repeatX, vec3(0.3,0.9,0.9),vec3(0.5,0.5,0.5),vec3(1.0,1.0,1.0),vec3(0.0,0.10,0.20) );
                 }
             `
             );

@@ -9,20 +9,29 @@ import { easing } from 'maath';
 import * as THREE from 'three';
 
 const COUNT = 19;
-const SPACING = 0.9; // Spacing between cards for linear stacking
+const INITIAL_SPACING = 0.05; // Initial spacing between cards
+const FINAL_SPACING = 0.6; // Final spacing between cards
 
 function Card({ index, position, onPointerOver, onPointerOut, hovered, active }) {
     const ref = useRef();
+    const materialRef = useRef();
     const texture = useTexture(`/images/img${(index % 19) + 1}.webp`);
 
     // Fix texture wrapping and flipping
     texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
     texture.flipY = true;
 
-    useFrame((state, delta) => {
+    useFrame((_, delta) => {
         const f = hovered ? 1.25 : active ? 1.25 : 1;
-        easing.damp3(ref.current.position, [hovered ? 0.25 : 0, hovered ? 0.25 : 0, 0], 0.1, delta);
+        const targetOpacity = hovered ?1.0 : 0.85; // Increase opacity on hover
+
+        easing.damp3(ref.current.position, [  0, 0, hovered ? 0.5:0], 0.1, delta);
         easing.damp3(ref.current.scale, [f, f, f], 0.15, delta);
+
+        // Smooth opacity transition
+        if (materialRef.current) {
+            easing.damp(materialRef.current, 'opacity', targetOpacity, 0.2, delta);
+        }
     });
 
     return (
@@ -30,13 +39,14 @@ function Card({ index, position, onPointerOver, onPointerOut, hovered, active })
             <RoundedBox
                 ref={ref}
                 rotation={[0, -Math.PI / 2, 0]}
-                args={[1, 1, 0.001]} // width, height, depth - smaller card size
-                radius={0.05} // rounded corner radius
-                smoothness={4} // corner smoothness
+                args={[1, 1, 0.02]} // width, height, depth - smaller card size
+                radius={0.02} // rounded corner radius
+                smoothness={1} // corner smoothness
                 onPointerOver={(e) => (e.stopPropagation(), onPointerOver(index))}
                 onPointerOut={(e) => (e.stopPropagation(), onPointerOut())}
             >
                 <meshPhysicalMaterial
+                    ref={materialRef}
                     map={texture}
                     transparent={true}
                     opacity={0.85}
@@ -54,17 +64,16 @@ function Card({ index, position, onPointerOver, onPointerOut, hovered, active })
     );
 }
 
-function CameraController({ triggerAnimation }) {
+function CameraController({ triggerAnimation, onProgressChange }) {
     const cameraRef = useRef();
     const [startTime] = useState(Date.now());
     const [animationTriggered, setAnimationTriggered] = useState(false);
     const [animationStartTime, setAnimationStartTime] = useState(null);
 
-    useFrame((state) => {
+    useFrame(() => {
         if (!cameraRef.current) return;
 
         const elapsed = (Date.now() - startTime) / 1000;
-
         // 检查动画触发条件：5秒后自动触发 或 第一次hover触发
         if (!animationTriggered && (elapsed > 5 || triggerAnimation)) {
             setAnimationTriggered(true);
@@ -85,9 +94,12 @@ function CameraController({ triggerAnimation }) {
                     : 1 - Math.pow(-2 * animationProgress + 2, 2) / 2;
         }
 
+        // 通知父组件进度变化，用于更新spacing
+        onProgressChange(progress);
+
         // 创建平滑的相机路径
-        const startPos = [-50, 0, 0];
-        const endPos = [-50, 30, 50];
+        const startPos = [-30, 0, 0];
+        const endPos = [-40, 15, 30];
 
         // 使用三角函数创建更自然的曲线运动
         const curveProgress = Math.sin(progress * Math.PI * 0.5);
@@ -107,24 +119,24 @@ function CameraController({ triggerAnimation }) {
         <OrthographicCamera
             ref={cameraRef}
             makeDefault
-            zoom={200}
-            position={[-50, 0, 0]}
+            zoom={300}
+            position={[-40, 0, 0]}
             near={0.01}
             far={100000}
         />
     );
 }
 
-function Cards({ onFirstHover }) {
+function Cards({ onFirstHover, currentSpacing }) {
     const [hovered, hover] = useState(null);
     const [scrollOffset, setScrollOffset] = useState(0);
     const [hasTriggeredFirstHover, setHasTriggeredFirstHover] = useState(false);
     const groupRef = useRef();
 
-    // 计算滚动范围限制
-    const totalWidth = COUNT * SPACING;
-    const maxScrollLeft = totalWidth / 2 - SPACING; // 最左边的卡片可见
-    const maxScrollRight = -(totalWidth / 2 - SPACING); // 最右边的卡片可见
+    // 计算滚动范围限制，使用动态spacing
+    const totalWidth = COUNT * currentSpacing;
+    const maxScrollLeft = totalWidth / 2 - currentSpacing; // 最左边的卡片可见
+    const maxScrollRight = -(totalWidth / 2 - currentSpacing); // 最右边的卡片可见
 
     // 处理第一次hover触发相机动画
     const handleCardHover = (index) => {
@@ -149,7 +161,7 @@ function Cards({ onFirstHover }) {
         return () => window.removeEventListener('wheel', handleWheel);
     }, [maxScrollLeft, maxScrollRight]);
 
-    useFrame((state, delta) => {
+    useFrame((_, delta) => {
         if (groupRef.current) {
             easing.damp3(groupRef.current.position, [scrollOffset, 0, 0], 0.1, delta);
         }
@@ -158,8 +170,8 @@ function Cards({ onFirstHover }) {
     return (
         <group ref={groupRef} rotation={[0, 0, 0]}>
             {Array.from({ length: COUNT }).map((_, index) => {
-                // Linear stacking like the example: i * spacing - (amount * spacing) / 2
-                const xOffset = index * SPACING - (COUNT * SPACING) / 2;
+                // Linear stacking using dynamic spacing
+                const xOffset = index * currentSpacing - (COUNT * currentSpacing) / 2;
                 const yOffset = 0;
                 const zOffset = 0; // Slight depth separation
 
@@ -181,6 +193,7 @@ function Cards({ onFirstHover }) {
 
 export default function Home() {
     const [shouldTriggerAnimation, setShouldTriggerAnimation] = useState(false);
+    const [animationProgress, setAnimationProgress] = useState(0);
 
     const handleFirstHover = () => {
         if (!shouldTriggerAnimation) {
@@ -188,14 +201,24 @@ export default function Home() {
         }
     };
 
+    const handleProgressChange = (progress) => {
+        setAnimationProgress(progress);
+    };
+
+    // Calculate current spacing based on animation progress
+    const currentSpacing = INITIAL_SPACING + (FINAL_SPACING - INITIAL_SPACING) * animationProgress;
+
     return (
         <div className={styles.page}>
             <View className={styles.view}>
-                <CameraController triggerAnimation={shouldTriggerAnimation} />
-                <ambientLight intensity={0.8} />
-                <directionalLight position={[10, 10, 5]} intensity={1.2} />
+                <CameraController
+                    triggerAnimation={shouldTriggerAnimation}
+                    onProgressChange={handleProgressChange}
+                />
+                <ambientLight intensity={1.4} />
+                <directionalLight position={[10, 10, 5]} intensity={1.9} />
                 <pointLight position={[0, 0, 10]} intensity={0.5} color="#ffffff" />
-                <Cards onFirstHover={handleFirstHover} />
+                <Cards onFirstHover={handleFirstHover} currentSpacing={currentSpacing} />
             </View>
         </div>
     );

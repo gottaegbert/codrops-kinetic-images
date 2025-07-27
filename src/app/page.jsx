@@ -23,9 +23,9 @@ function Card({ index, position, onPointerOver, onPointerOut, hovered, active })
 
     useFrame((_, delta) => {
         const f = hovered ? 1.25 : active ? 1.25 : 1;
-        const targetOpacity = hovered ?1.0 : 0.85; // Increase opacity on hover
+        const targetOpacity = hovered ? 1.0 : 0.85; // Increase opacity on hover
 
-        easing.damp3(ref.current.position, [  0, 0, hovered ? 0.5:0], 0.1, delta);
+        easing.damp3(ref.current.position, [0, 0, hovered ? 0.9 : 0], 0.4, delta);
         easing.damp3(ref.current.scale, [f, f, f], 0.15, delta);
 
         // Smooth opacity transition
@@ -127,16 +127,21 @@ function CameraController({ triggerAnimation, onProgressChange }) {
     );
 }
 
-function Cards({ onFirstHover, currentSpacing }) {
+function Cards({ onFirstHover, currentSpacing, viewRef }) {
     const [hovered, hover] = useState(null);
-    const [scrollOffset, setScrollOffset] = useState(0);
+    // 初始位置设为最左边（显示第一张卡片）
+    const [scrollOffset, setScrollOffset] = useState(() => {
+        const totalWidth = COUNT * INITIAL_SPACING;
+        return totalWidth / 2 - INITIAL_SPACING;
+    });
     const [hasTriggeredFirstHover, setHasTriggeredFirstHover] = useState(false);
+
     const groupRef = useRef();
 
     // 计算滚动范围限制，使用动态spacing
     const totalWidth = COUNT * currentSpacing;
-    const maxScrollLeft = totalWidth / 2 - currentSpacing; // 最左边的卡片可见
-    const maxScrollRight = -(totalWidth / 2 - currentSpacing); // 最右边的卡片可见
+    const maxScrollLeft = totalWidth / 2 - currentSpacing; // 最左边的卡片可见（起始位置）
+    const maxScrollRight = -(totalWidth / 2 - currentSpacing); // 最右边的卡片可见（结束位置）
 
     // 处理第一次hover触发相机动画
     const handleCardHover = (index) => {
@@ -147,19 +152,61 @@ function Cards({ onFirstHover, currentSpacing }) {
         }
     };
 
+    // 当spacing改变时，调整scrollOffset以保持相对位置
+    useEffect(() => {
+        const totalWidth = COUNT * currentSpacing;
+        const newMaxScrollLeft = totalWidth / 2 - currentSpacing;
+
+        // 如果当前在初始位置，保持在左边
+        if (scrollOffset >= maxScrollLeft * 0.9) {
+            setScrollOffset(newMaxScrollLeft);
+        }
+    }, [currentSpacing, maxScrollLeft]);
+
     useEffect(() => {
         const handleWheel = (event) => {
-            event.preventDefault();
-            setScrollOffset((prev) => {
-                const newOffset = prev + event.deltaY * 0.01;
-                // 限制滚动范围
-                return Math.max(maxScrollRight, Math.min(maxScrollLeft, newOffset));
-            });
+            const deltaY = event.deltaY;
+            const scrollSensitivity = 0.01;
+
+            // Check if mouse is over the 3D view area
+            const viewElement = viewRef?.current;
+            if (!viewElement) return;
+
+            const rect = viewElement.getBoundingClientRect();
+            const mouseX = event.clientX;
+            const mouseY = event.clientY;
+            const isOverView =
+                mouseX >= rect.left &&
+                mouseX <= rect.right &&
+                mouseY >= rect.top &&
+                mouseY <= rect.bottom;
+
+            // If not over the 3D view, allow normal scrolling
+            if (!isOverView) return;
+
+            // 反转滚动方向：向下滚动（deltaY > 0）向右移动（减少offset）
+            const newOffset = scrollOffset - deltaY * scrollSensitivity;
+            const clampedOffset = Math.max(maxScrollRight, Math.min(maxScrollLeft, newOffset));
+
+            // 检查是否在边界处
+            const atLeftBoundary = scrollOffset >= maxScrollLeft && deltaY < 0; // 在左边界且向上滚动
+            const atRightBoundary = scrollOffset <= maxScrollRight && deltaY > 0; // 在右边界且向下滚动
+
+            // 只有当不在边界或者滚动方向不会超出边界时才阻止默认行为
+            if (!atLeftBoundary && !atRightBoundary) {
+                event.preventDefault();
+                setScrollOffset(clampedOffset);
+            }
+            // 在边界处且继续向边界方向滚动时，允许页面正常滚动
         };
 
+        // Use window event listener to capture all scroll events
         window.addEventListener('wheel', handleWheel, { passive: false });
-        return () => window.removeEventListener('wheel', handleWheel);
-    }, [maxScrollLeft, maxScrollRight]);
+
+        return () => {
+            window.removeEventListener('wheel', handleWheel);
+        };
+    }, [maxScrollLeft, maxScrollRight, scrollOffset, viewRef]);
 
     useFrame((_, delta) => {
         if (groupRef.current) {
@@ -194,6 +241,7 @@ function Cards({ onFirstHover, currentSpacing }) {
 export default function Home() {
     const [shouldTriggerAnimation, setShouldTriggerAnimation] = useState(false);
     const [animationProgress, setAnimationProgress] = useState(0);
+    const viewRef = useRef();
 
     const handleFirstHover = () => {
         if (!shouldTriggerAnimation) {
@@ -210,7 +258,7 @@ export default function Home() {
 
     return (
         <div className={styles.page}>
-            <View className={styles.view}>
+            <View ref={viewRef} className={styles.view}>
                 <CameraController
                     triggerAnimation={shouldTriggerAnimation}
                     onProgressChange={handleProgressChange}
@@ -218,8 +266,43 @@ export default function Home() {
                 <ambientLight intensity={1.4} />
                 <directionalLight position={[10, 10, 5]} intensity={1.9} />
                 <pointLight position={[0, 0, 10]} intensity={0.5} color="#ffffff" />
-                <Cards onFirstHover={handleFirstHover} currentSpacing={currentSpacing} />
+                <Cards
+                    onFirstHover={handleFirstHover}
+                    currentSpacing={currentSpacing}
+                    viewRef={viewRef}
+                />
             </View>
+            <div className={styles.content}>
+                <div className={styles.section}>
+                    <h2 className={styles.sectionTitle}>Explore Our Gallery</h2>
+                    <div className={styles.infiniteScroll}>
+                        <div className={styles.scrollContent}>
+                            <div className={styles.scrollItem}>Contemporary Art</div>
+                            <div className={styles.scrollItem}>Digital Experience</div>
+                            <div className={styles.scrollItem}>Curated Collection</div>
+                            <div className={styles.scrollItem}>Modern Gallery</div>
+                            <div className={styles.scrollItem}>Immersive Journey</div>
+                            <div className={styles.scrollItem}>Artistic Vision</div>
+                            <div className={styles.scrollItem}>Creative Expression</div>
+                            <div className={styles.scrollItem}>Visual Stories</div>
+                        </div>
+                        <div className={styles.scrollContent}>
+                            <div className={styles.scrollItem}>Contemporary Art</div>
+                            <div className={styles.scrollItem}>Digital Experience</div>
+                            <div className={styles.scrollItem}>Curated Collection</div>
+                            <div className={styles.scrollItem}>Modern Gallery</div>
+                            <div className={styles.scrollItem}>Immersive Journey</div>
+                            <div className={styles.scrollItem}>Artistic Vision</div>
+                            <div className={styles.scrollItem}>Creative Expression</div>
+                            <div className={styles.scrollItem}>Visual Stories</div>
+                        </div>
+                    </div>
+                    <p className={styles.sectionText}>
+                        Discover contemporary art through an immersive digital experience. Continue
+                        below to learn more about our exhibitions.
+                    </p>
+                </div>
+            </div>
         </div>
     );
 }

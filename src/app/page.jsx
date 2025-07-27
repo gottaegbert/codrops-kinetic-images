@@ -30,7 +30,7 @@ function Card({ index, position, onPointerOver, onPointerOut, hovered, active })
             <RoundedBox
                 ref={ref}
                 rotation={[0, -Math.PI / 2, 0]}
-                args={[1, 1, 0.05]} // width, height, depth - smaller card size
+                args={[1, 1, 0.001]} // width, height, depth - smaller card size
                 radius={0.05} // rounded corner radius
                 smoothness={4} // corner smoothness
                 onPointerOver={(e) => (e.stopPropagation(), onPointerOver(index))}
@@ -43,7 +43,7 @@ function Card({ index, position, onPointerOver, onPointerOut, hovered, active })
                     roughness={0.1}
                     metalness={0.0}
                     clearcoat={1.0}
-                    clearcoatRoughness={0.1}
+                    clearcoatRoughness={0.3}
                     transmission={0.2}
                     thickness={0.5}
                     ior={1.5}
@@ -58,12 +58,12 @@ function Cards() {
     const [hovered, hover] = useState(null);
     
     return (
-        <group rotation={[-0.15, 0, -0.2]}>
+        <group rotation={[0, 0, 0]}>
             {Array.from({ length: COUNT }).map((_, index) => {
                 // Linear stacking like the example: i * spacing - (amount * spacing) / 2
                 const xOffset = index * SPACING - (COUNT * SPACING) / 2;
                 const yOffset = 0;
-                const zOffset = -index * 0.02; // Slight depth separation
+                const zOffset = 0; // Slight depth separation
                 
                 return (
                     <Card
@@ -87,8 +87,9 @@ export default function Home() {
             <View className={styles.view} orbit>
                 <OrthographicCamera
                     makeDefault
-                    zoom={100}
-                    position={[10, 10, 10]}
+                    zoom={200}
+                    position={[-50, 0, 0]}
+                    // position={[-50, 30, 50]}
                     near={0.01}
                     far={100000}
                 />

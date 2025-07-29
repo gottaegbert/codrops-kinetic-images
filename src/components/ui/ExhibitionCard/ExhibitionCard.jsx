@@ -16,14 +16,14 @@ export default function ExhibitionCard() {
     return (
         <div className={styles.exhibitionCard}>
             <div className={styles.header}>
-                <h3 className={styles.title}>Exhibition Information</h3>
-                <div className={styles.badge}>Current</div>
+                <h3 className={styles.title}>Current Exhibition</h3>
+                <div className={styles.badge}>online</div>
             </div>
             
             <div className={styles.content}>
                 <div className={styles.exhibitionNumber}>
                     <span className={styles.label}>No.</span>
-                    <span className={styles.number}>2025-01</span>
+                    <span className={styles.number}>202507</span>
                 </div>
                 
                 <h4 className={styles.exhibitionName}>

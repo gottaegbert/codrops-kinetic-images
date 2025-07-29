@@ -278,32 +278,50 @@ export default function Home() {
             </div>
             <div className={styles.content} data-content-section>
                 <div className={styles.section}>
-                    <h2 className={styles.sectionTitle}>Explore Our Gallery</h2>
+                    {/* 横向滚动条 - 展览信息 */}
                     <div className={styles.infiniteScroll}>
                         <div className={styles.scrollContent}>
-                            <div className={styles.scrollItem}>Contemporary Art</div>
-                            <div className={styles.scrollItem}>Digital Experience</div>
-                            <div className={styles.scrollItem}>Curated Collection</div>
-                            <div className={styles.scrollItem}>Modern Gallery</div>
-                            <div className={styles.scrollItem}>Immersive Journey</div>
-                            <div className={styles.scrollItem}>Artistic Vision</div>
-                            <div className={styles.scrollItem}>Creative Expression</div>
-                            <div className={styles.scrollItem}>Visual Stories</div>
+                            <div className={styles.scrollItem}>ISSUE NO.1</div>
+                            <div className={styles.scrollItem}>FRANCESCO CLEMENTE</div>
+                            <div className={styles.scrollItem}>DIGITAL METAMORPHOSIS</div>
+                            <div className={styles.scrollItem}>CONTEMPORARY VISIONS</div>
+                            <div className={styles.scrollItem}>MARINA CHEN</div>
+                            <div className={styles.scrollItem}>ALEX RODRIGUEZ</div>
+                            <div className={styles.scrollItem}>YUKI TANAKA</div>
+                            <div className={styles.scrollItem}>IMMERSIVE ART</div>
                         </div>
                         <div className={styles.scrollContent}>
-                            <div className={styles.scrollItem}>Contemporary Art</div>
-                            <div className={styles.scrollItem}>Digital Experience</div>
-                            <div className={styles.scrollItem}>Curated Collection</div>
-                            <div className={styles.scrollItem}>Modern Gallery</div>
-                            <div className={styles.scrollItem}>Immersive Journey</div>
-                            <div className={styles.scrollItem}>Artistic Vision</div>
-                            <div className={styles.scrollItem}>Creative Expression</div>
-                            <div className={styles.scrollItem}>Visual Stories</div>
+                            <div className={styles.scrollItem}>ISSUE NO.1</div>
+                            <div className={styles.scrollItem}>FRANCESCO CLEMENTE</div>
+                            <div className={styles.scrollItem}>DIGITAL METAMORPHOSIS</div>
+                            <div className={styles.scrollItem}>CONTEMPORARY VISIONS</div>
+                            <div className={styles.scrollItem}>MARINA CHEN</div>
+                            <div className={styles.scrollItem}>ALEX RODRIGUEZ</div>
+                            <div className={styles.scrollItem}>YUKI TANAKA</div>
+                            <div className={styles.scrollItem}>IMMERSIVE ART</div>
                         </div>
                     </div>
+                    
+                    {/* 页面导航 */}
+                    <div className={styles.pageNavigation}>
+                        <span className={styles.navLabel}>On this page:</span>
+                        <div className={styles.navLinks}>
+                            <a href="#press" className={styles.navLink}>Press</a>
+                            <a href="#interview" className={styles.navLink}>Interview</a>
+                            <a href="#biography" className={styles.navLink}>Biography</a>
+                            <a href="#selected-exhibition" className={styles.navLink}>Selected Exhibition</a>
+                        </div>
+                    </div>
+                    
+                    <h2 className={styles.sectionTitle}>Digital Metamorphosis: Contemporary Visions</h2>
                     <p className={styles.sectionText}>
-                        Discover contemporary art through an immersive digital experience. Continue
-                        below to learn more about our exhibitions.
+                        An immersive exploration of digital art's evolution, featuring groundbreaking works that blur the boundaries between physical and virtual realms. This exhibition showcases how contemporary artists are redefining creative expression through technology.
+                        An immersive exploration of digital art's evolution, featuring groundbreaking works that blur the boundaries between physical and virtual realms. This exhibition showcases how contemporary artists are redefining creative expression through technology.
+                        An immersive exploration of digital art's evolution, featuring groundbreaking works that blur the boundaries between physical and virtual realms. This exhibition showcases how contemporary artists are redefining creative expression through technology.
+                        An immersive exploration of digital art's evolution, featuring groundbreaking works that blur the boundaries between physical and virtual realms. This exhibition showcases how contemporary artists are redefining creative expression through technology.
+                        An immersive exploration of digital art's evolution, featuring groundbreaking works that blur the boundaries between physical and virtual realms. This exhibition showcases how contemporary artists are redefining creative expression through technology.
+                        An immersive exploration of digital art's evolution, featuring groundbreaking works that blur the boundaries between physical and virtual realms. This exhibition showcases how contemporary artists are redefining creative expression through technology.
+                 
                     </p>
                 </div>
             </div>

@@ -4,9 +4,15 @@
     background: #fafafa;
 }
 
-.view {
+.heroSection {
+    position: relative;
     width: 100%;
     height: calc(100vh - 100px);
+}
+
+.view {
+    width: 100%;
+    height: 100%;
     position: relative;
     overflow: hidden;
     /* Ensure the 3D view stays in place while page scrolls */
@@ -162,8 +168,15 @@
         // min-height: 200vh; /* Allow page to be taller than viewport to enable scrolling */
     }
 
-    .view {
+    .heroSection {
         height: calc(100vh - 140px);
+        display: flex;
+        flex-direction: column;
+    }
+
+    .view {
+        height: 100%;
+        flex: 1;
     }
 
     .intro {

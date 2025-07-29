@@ -1,2 +1,4 @@
 {
+    "css-modules.languages": ["javascript", "jsx"],
+    "css-modules.camelCase": true
 }

@@ -7,6 +7,7 @@ import { useFrame } from '@react-three/fiber';
 import { useRef, useState, useEffect } from 'react';
 import { easing } from 'maath';
 import * as THREE from 'three';
+import ExhibitionCard from '@/components/ui/ExhibitionCard/ExhibitionCard';
 
 const COUNT = 19;
 const INITIAL_SPACING = 0.05; // Initial spacing between cards
@@ -258,21 +259,24 @@ export default function Home() {
 
     return (
         <div className={styles.page}>
-            <View ref={viewRef} className={styles.view}>
-                <CameraController
-                    triggerAnimation={shouldTriggerAnimation}
-                    onProgressChange={handleProgressChange}
-                />
-                <ambientLight intensity={1.4} />
-                <directionalLight position={[10, 10, 5]} intensity={1.9} />
-                <pointLight position={[0, 0, 10]} intensity={0.5} color="#ffffff" />
-                <Cards
-                    onFirstHover={handleFirstHover}
-                    currentSpacing={currentSpacing}
-                    viewRef={viewRef}
-                />
-            </View>
-            <div className={styles.content}>
+            <div className={styles.heroSection}>
+                <ExhibitionCard />
+                <View ref={viewRef} className={styles.view}>
+                    <CameraController
+                        triggerAnimation={shouldTriggerAnimation}
+                        onProgressChange={handleProgressChange}
+                    />
+                    <ambientLight intensity={1.4} />
+                    <directionalLight position={[10, 10, 5]} intensity={1.9} />
+                    <pointLight position={[0, 0, 10]} intensity={0.5} color="#ffffff" />
+                    <Cards
+                        onFirstHover={handleFirstHover}
+                        currentSpacing={currentSpacing}
+                        viewRef={viewRef}
+                    />
+                </View>
+            </div>
+            <div className={styles.content} data-content-section>
                 <div className={styles.section}>
                     <h2 className={styles.sectionTitle}>Explore Our Gallery</h2>
                     <div className={styles.infiniteScroll}>

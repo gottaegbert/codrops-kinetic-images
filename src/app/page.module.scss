@@ -1,7 +1,7 @@
 .page {
     // min-height: 200vh; /* Allow page to be taller than viewport to enable scrolling */
     padding-top: 0px; /* Account for fixed header */
-    background: #f0f4f7; /* 浅蓝灰色背景 */
+    background: var(--color-background) /* 浅蓝灰色背景 */
 }
 
 .heroSection {
@@ -32,17 +32,17 @@
     color: #000;
     max-width: 600px;
     padding: 3rem;
-    
+
     // 轻盈磨砂玻璃效果
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(24px) saturate(180%);
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 1.5rem;
-    box-shadow: 
+    box-shadow:
         0 12px 40px rgba(0, 0, 0, 0.08),
         0 4px 16px rgba(0, 0, 0, 0.04),
         inset 0 1px 0 rgba(255, 255, 255, 0.3);
-    
+
     // 内部光效
     &::before {
         content: '';
@@ -51,9 +51,10 @@
         left: 0;
         right: 0;
         height: 1px;
-        background: linear-gradient(90deg, 
-            transparent 0%, 
-            rgba(255, 255, 255, 0.6) 50%, 
+        background: linear-gradient(
+            90deg,
+            transparent 0%,
+            rgba(255, 255, 255, 0.6) 50%,
             transparent 100%
         );
         border-radius: 1.5rem 1.5rem 0 0;
@@ -89,7 +90,7 @@
     display: inline-block;
     position: relative;
     overflow: hidden;
-    
+
     // 内部光效
     &::before {
         content: '';
@@ -98,22 +99,18 @@
         left: -100%;
         width: 100%;
         height: 100%;
-        background: linear-gradient(90deg, 
-            transparent, 
-            rgba(255, 255, 255, 0.1), 
-            transparent
-        );
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
         transition: left 0.6s ease;
     }
 
     &:hover {
         background: rgba(0, 0, 0, 0.9);
         transform: translateY(-3px) scale(1.02);
-        box-shadow: 
+        box-shadow:
             0 8px 30px rgba(0, 0, 0, 0.3),
             0 4px 15px rgba(0, 0, 0, 0.2);
         border-color: rgba(255, 255, 255, 0.2);
-        
+
         &::before {
             left: 100%;
         }
@@ -121,7 +118,7 @@
 }
 
 .content {
-    background: #f8fafb; /* 更浅的蓝灰色 */
+    background: var(--color-background); /* 更浅的蓝灰色 */
     position: relative;
     z-index: 2;
 }
@@ -151,40 +148,14 @@
     white-space: nowrap;
     margin: 2rem 0;
     position: relative;
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--color-green);
     border-radius: 1.2rem;
-    padding: 1rem 0;
-    box-shadow: 
-        0 4px 20px rgba(0, 0, 0, 0.04),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
-    
-    &::before,
-    &::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        width: 100px;
-        height: 100%;
-        z-index: 2;
-        pointer-events: none;
-    }
-    
-    &::before {
-        left: 0;
-        background: linear-gradient(to right, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
-    }
-    
-    &::after {
-        right: 0;
-        background: linear-gradient(to left, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
-    }
+  
 }
 
 .scrollContent {
     display: inline-block;
-    animation: scroll 30s linear infinite;
+    animation: scroll 20s linear infinite;
     white-space: nowrap;
 }
 
@@ -199,13 +170,13 @@
     font-weight: 500;
     color: #000000;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    
+
     // &:hover {
     //     background: rgba(102, 204, 153, 0.12);
     //     border-color: rgba(102, 204, 153, 0.2);
     //     transform: translateY(-3px) scale(1.02);
     //     color: #000000;
-    //     box-shadow: 
+    //     box-shadow:
     //         0 8px 25px rgba(102, 204, 153, 0.15),
     //         0 4px 12px rgba(0, 0, 0, 0.04);
     // }
@@ -254,12 +225,12 @@
     transition: all 0.3s ease;
     position: relative;
     padding: 0.5rem 0;
-    
+
     &:hover {
         color: #66cc99;
         transform: translateY(-1px);
     }
-    
+
     &:after {
         content: '';
         position: absolute;
@@ -270,7 +241,7 @@
         background: #66cc99;
         transition: width 0.3s ease;
     }
-    
+
     &:hover:after {
         width: 100%;
     }
@@ -286,11 +257,13 @@
         height: calc(100vh - 140px);
         display: flex;
         flex-direction: column;
+        position: relative;
     }
 
     .view {
         height: 100%;
         flex: 1;
+        position: relative;
     }
 
     .intro {
@@ -317,23 +290,23 @@
     .sectionText {
         font-size: 1rem;
     }
-    
+
     .infiniteScroll {
         margin: 1.5rem 0;
-        
+
         &::before,
         &::after {
             width: 50px;
         }
     }
-    
+
     .scrollItem {
         padding: 0.8rem 1.5rem;
         margin: 0 0.5rem;
         font-size: 1rem;
         color: #000000; /* 确保移动端也是黑色文字 */
     }
-    
+
     .pageNavigation {
         flex-direction: column;
         align-items: flex-start;
@@ -341,13 +314,56 @@
         margin: 2rem 0 1.5rem 0;
         padding: 1rem 0;
     }
-    
+
     .navLinks {
         gap: 1rem;
         width: 100%;
     }
-    
+
     .navLink {
         font-size: 0.9rem;
     }
 }
+
+// 移动端滚动提示
+.scrollHint {
+    display: none;
+    
+    @media (max-width: 768px) {
+        display: flex;
+        position: absolute;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        align-items: center;
+        gap: 0.5rem;
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(8px);
+        padding: 0.75rem 1.5rem;
+        border-radius: 2rem;
+        color: white;
+        font-size: 0.875rem;
+        font-weight: 500;
+        z-index: 10;
+        animation: fadeInOut 4s ease-in-out infinite;
+        
+        .scrollIcon {
+            width: 16px;
+            height: 16px;
+            opacity: 0.8;
+            animation: bounce 2s ease-in-out infinite;
+        }
+    }
+}
+
+@keyframes fadeInOut {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+}
+
+

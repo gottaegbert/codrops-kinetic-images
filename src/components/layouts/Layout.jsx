@@ -21,6 +21,7 @@ export function Layout({ children }) {
                 minHeight: '100vh',
                 overflow: 'auto',
                 touchAction: 'auto',
+          
             }}
         >
             <Header>
@@ -72,6 +73,7 @@ export function Layout({ children }) {
                     width: '100vw',
                     height: '100vh',
                     zIndex: 1,
+                   
                 }}
                 eventSource={ref}
                 eventPrefix="client"

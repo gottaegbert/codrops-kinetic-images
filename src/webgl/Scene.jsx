@@ -7,7 +7,7 @@ import * as THREE from 'three';
 
 export default function Scene(props) {
     return (
-        <Canvas {...props}>
+        <Canvas {...props} >
             <r3f.Out />
             <Preload all />
         </Canvas>

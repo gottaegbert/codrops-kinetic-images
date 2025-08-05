@@ -128,7 +128,7 @@ function CameraController({ triggerAnimation, onProgressChange }) {
     );
 }
 
-function Cards({ onFirstHover, currentSpacing, viewRef }) {
+function Cards({ onFirstHover, currentSpacing, viewRef, onScrollStart }) {
     const [hovered, hover] = useState(null);
     // 初始位置设为最左边（显示第一张卡片）
     const [scrollOffset, setScrollOffset] = useState(() => {
@@ -136,6 +136,8 @@ function Cards({ onFirstHover, currentSpacing, viewRef }) {
         return totalWidth / 2 - INITIAL_SPACING;
     });
     const [hasTriggeredFirstHover, setHasTriggeredFirstHover] = useState(false);
+    
+
 
     const groupRef = useRef();
 
@@ -197,15 +199,77 @@ function Cards({ onFirstHover, currentSpacing, viewRef }) {
             if (!atLeftBoundary && !atRightBoundary) {
                 event.preventDefault();
                 setScrollOffset(clampedOffset);
+                // 通知父组件用户开始滚动
+                if (onScrollStart) {
+                    onScrollStart();
+                }
             }
             // 在边界处且继续向边界方向滚动时，允许页面正常滚动
         };
 
+        const handleTouchStart = (e) => {
+            const viewElement = viewRef?.current;
+            if (!viewElement) return;
+            
+            const rect = viewElement.getBoundingClientRect();
+            const touchY = e.touches[0].clientY;
+            const isOverView = touchY >= rect.top && touchY <= rect.bottom;
+            
+            if (isOverView) {
+                viewElement.touchStartY = e.touches[0].clientY;
+            }
+        };
+
+        const handleTouchMove = (e) => {
+            const viewElement = viewRef?.current;
+            if (!viewElement || !viewElement.touchStartY) return;
+            
+            const rect = viewElement.getBoundingClientRect();
+            const touchY = e.touches[0].clientY;
+            const isOverView = touchY >= rect.top && touchY <= rect.bottom;
+            
+            if (!isOverView) return;
+            
+            const deltaY = viewElement.touchStartY - touchY;
+            const scrollSensitivity = 0.008;
+            
+            const newOffset = scrollOffset - deltaY * scrollSensitivity;
+            const clampedOffset = Math.max(maxScrollRight, Math.min(maxScrollLeft, newOffset));
+            
+            // 检查是否在边界处
+            const atLeftBoundary = scrollOffset >= maxScrollLeft && deltaY < 0;
+            const atRightBoundary = scrollOffset <= maxScrollRight && deltaY > 0;
+            
+            // 只有当不在边界或者滚动方向不会超出边界时才阻止默认行为
+            if (!atLeftBoundary && !atRightBoundary) {
+                e.preventDefault();
+                setScrollOffset(clampedOffset);
+                viewElement.touchStartY = touchY; // 更新起始位置
+                // 通知父组件用户开始滚动
+                if (onScrollStart) {
+                    onScrollStart();
+                }
+            }
+        };
+
+        const handleTouchEnd = () => {
+            const viewElement = viewRef?.current;
+            if (viewElement) {
+                delete viewElement.touchStartY;
+            }
+        };
+
         // Use window event listener to capture all scroll events
         window.addEventListener('wheel', handleWheel, { passive: false });
+        window.addEventListener('touchstart', handleTouchStart, { passive: true });
+        window.addEventListener('touchmove', handleTouchMove, { passive: false });
+        window.addEventListener('touchend', handleTouchEnd, { passive: true });
 
         return () => {
             window.removeEventListener('wheel', handleWheel);
+            window.removeEventListener('touchstart', handleTouchStart);
+            window.removeEventListener('touchmove', handleTouchMove);
+            window.removeEventListener('touchend', handleTouchEnd);
         };
     }, [maxScrollLeft, maxScrollRight, scrollOffset, viewRef]);
 
@@ -242,6 +306,7 @@ function Cards({ onFirstHover, currentSpacing, viewRef }) {
 export default function Home() {
     const [shouldTriggerAnimation, setShouldTriggerAnimation] = useState(false);
     const [animationProgress, setAnimationProgress] = useState(0);
+    const [showScrollHint, setShowScrollHint] = useState(true);
     const viewRef = useRef();
 
     const handleFirstHover = () => {
@@ -253,6 +318,21 @@ export default function Home() {
     const handleProgressChange = (progress) => {
         setAnimationProgress(progress);
     };
+
+    const handleScrollStart = () => {
+        if (showScrollHint) {
+            setShowScrollHint(false);
+        }
+    };
+
+    // 自动隐藏滚动提示
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setShowScrollHint(false);
+        }, 5000); // 5秒后自动隐藏
+
+        return () => clearTimeout(timer);
+    }, []);
 
     // Calculate current spacing based on animation progress
     const currentSpacing = INITIAL_SPACING + (FINAL_SPACING - INITIAL_SPACING) * animationProgress;
@@ -273,10 +353,35 @@ export default function Home() {
                         onFirstHover={handleFirstHover}
                         currentSpacing={currentSpacing}
                         viewRef={viewRef}
+                        onScrollStart={handleScrollStart}
                     />
                 </View>
+                
+                {/* 移动端滚动提示 */}
+                {showScrollHint && (
+                    <div className={styles.scrollHint}>
+                        <svg className={styles.scrollIcon} viewBox="0 0 24 24" fill="none">
+                            <path
+                                d="M12 5v14"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                            />
+                            <path
+                                d="M19 12l-7 7-7-7"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                            />
+                        </svg>
+                        <span>Scroll Navigating</span>
+                    </div>
+                )}
             </div>
             <div className={styles.content} data-content-section>
+                <ExhibitionCard mobile={true} />
                 <div className={styles.section}>
                     {/* 横向滚动条 - 展览信息 */}
                     <div className={styles.infiniteScroll}>
@@ -285,43 +390,58 @@ export default function Home() {
                             <div className={styles.scrollItem}>FRANCESCO CLEMENTE</div>
                             <div className={styles.scrollItem}>DIGITAL METAMORPHOSIS</div>
                             <div className={styles.scrollItem}>CONTEMPORARY VISIONS</div>
-                            <div className={styles.scrollItem}>MARINA CHEN</div>
-                            <div className={styles.scrollItem}>ALEX RODRIGUEZ</div>
-                            <div className={styles.scrollItem}>YUKI TANAKA</div>
-                            <div className={styles.scrollItem}>IMMERSIVE ART</div>
-                        </div>
-                        <div className={styles.scrollContent}>
+                            {/* Duplicate content for seamless loop */}
                             <div className={styles.scrollItem}>ISSUE NO.1</div>
                             <div className={styles.scrollItem}>FRANCESCO CLEMENTE</div>
                             <div className={styles.scrollItem}>DIGITAL METAMORPHOSIS</div>
                             <div className={styles.scrollItem}>CONTEMPORARY VISIONS</div>
-                            <div className={styles.scrollItem}>MARINA CHEN</div>
-                            <div className={styles.scrollItem}>ALEX RODRIGUEZ</div>
-                            <div className={styles.scrollItem}>YUKI TANAKA</div>
-                            <div className={styles.scrollItem}>IMMERSIVE ART</div>
                         </div>
                     </div>
-                    
+
                     {/* 页面导航 */}
                     <div className={styles.pageNavigation}>
                         <span className={styles.navLabel}>On this page:</span>
                         <div className={styles.navLinks}>
-                            <a href="#press" className={styles.navLink}>Press</a>
-                            <a href="#interview" className={styles.navLink}>Interview</a>
-                            <a href="#biography" className={styles.navLink}>Biography</a>
-                            <a href="#selected-exhibition" className={styles.navLink}>Selected Exhibition</a>
+                            <a href="#press" className={styles.navLink}>
+                                Press
+                            </a>
+                            <a href="#interview" className={styles.navLink}>
+                                Interview
+                            </a>
+                            <a href="#biography" className={styles.navLink}>
+                                Biography
+                            </a>
+                            <a href="#selected-exhibition" className={styles.navLink}>
+                                Selected Exhibition
+                            </a>
                         </div>
                     </div>
-                    
-                    <h2 className={styles.sectionTitle}>Digital Metamorphosis: Contemporary Visions</h2>
+
+                    <h2 className={styles.sectionTitle}>
+                        Digital Metamorphosis: Contemporary Visions
+                    </h2>
                     <p className={styles.sectionText}>
-                        An immersive exploration of digital art's evolution, featuring groundbreaking works that blur the boundaries between physical and virtual realms. This exhibition showcases how contemporary artists are redefining creative expression through technology.
-                        An immersive exploration of digital art's evolution, featuring groundbreaking works that blur the boundaries between physical and virtual realms. This exhibition showcases how contemporary artists are redefining creative expression through technology.
-                        An immersive exploration of digital art's evolution, featuring groundbreaking works that blur the boundaries between physical and virtual realms. This exhibition showcases how contemporary artists are redefining creative expression through technology.
-                        An immersive exploration of digital art's evolution, featuring groundbreaking works that blur the boundaries between physical and virtual realms. This exhibition showcases how contemporary artists are redefining creative expression through technology.
-                        An immersive exploration of digital art's evolution, featuring groundbreaking works that blur the boundaries between physical and virtual realms. This exhibition showcases how contemporary artists are redefining creative expression through technology.
-                        An immersive exploration of digital art's evolution, featuring groundbreaking works that blur the boundaries between physical and virtual realms. This exhibition showcases how contemporary artists are redefining creative expression through technology.
-                 
+                        An immersive exploration of digital art's evolution, featuring
+                        groundbreaking works that blur the boundaries between physical and virtual
+                        realms. This exhibition showcases how contemporary artists are redefining
+                        creative expression through technology. An immersive exploration of digital
+                        art's evolution, featuring groundbreaking works that blur the boundaries
+                        between physical and virtual realms. This exhibition showcases how
+                        contemporary artists are redefining creative expression through technology.
+                        An immersive exploration of digital art's evolution, featuring
+                        groundbreaking works that blur the boundaries between physical and virtual
+                        realms. This exhibition showcases how contemporary artists are redefining
+                        creative expression through technology. An immersive exploration of digital
+                        art's evolution, featuring groundbreaking works that blur the boundaries
+                        between physical and virtual realms. This exhibition showcases how
+                        contemporary artists are redefining creative expression through technology.
+                        An immersive exploration of digital art's evolution, featuring
+                        groundbreaking works that blur the boundaries between physical and virtual
+                        realms. This exhibition showcases how contemporary artists are redefining
+                        creative expression through technology. An immersive exploration of digital
+                        art's evolution, featuring groundbreaking works that blur the boundaries
+                        between physical and virtual realms. This exhibition showcases how
+                        contemporary artists are redefining creative expression through technology.
                     </p>
                 </div>
             </div>

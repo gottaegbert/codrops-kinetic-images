@@ -2,7 +2,7 @@
 
 import styles from './ExhibitionCard.module.scss';
 
-export default function ExhibitionCard() {
+export default function ExhibitionCard({ mobile = false }) {
     const handleLearnMoreClick = () => {
         const contentSection = document.querySelector('[data-content-section]');
         if (contentSection) {
@@ -13,11 +13,13 @@ export default function ExhibitionCard() {
         }
     };
 
+    const cardClass = mobile ? styles.exhibitionCardMobile : styles.exhibitionCard;
+
     return (
-        <div className={styles.exhibitionCard}>
+        <div className={cardClass}>
             <div className={styles.header}>
                 <h3 className={styles.title}>Current Exhibition</h3>
-                <div className={styles.badge}>online</div>
+                <div className={styles.badge}>Paintings</div>
             </div>
 
             <div className={styles.content}>

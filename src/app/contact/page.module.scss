@@ -1,0 +1,204 @@
+@import '../../styles/card-system.scss';
+
+.page {
+    position: relative;
+    z-index: 2;
+    padding: 8rem 2rem 4rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    min-height: 100vh;
+    
+    // 添加轻盈的背景纹理
+    &::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(circle at 30% 20%, rgba(102, 204, 153, 0.06) 0%, transparent 50%),
+                    radial-gradient(circle at 70% 80%, rgba(196, 237, 255, 0.08) 0%, transparent 50%);
+        z-index: -1;
+        pointer-events: none;
+    }
+}
+
+.hero {
+    margin-bottom: 3rem;
+    text-align: center;
+}
+
+.title {
+    margin: 0 0 1rem;
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    font-weight: 300;
+    letter-spacing: -0.03em;
+    color: #000;
+    
+    // 轻盈的文字阴影
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.subtitle {
+    margin: 0;
+    font-size: 1.1rem;
+    color: #5a6c7d;
+    font-weight: 400;
+    opacity: 0.8;
+    line-height: 1.6;
+}
+
+.content {
+    display: grid;
+    gap: 2rem;
+}
+
+.columns {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.card {
+    // 轻盈磨砂玻璃效果
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 1.5rem;
+    padding: 2rem;
+    
+    // 柔和阴影
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.04),
+        0 2px 8px rgba(0, 0, 0, 0.02),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    
+    // 轻微内光效果
+    position: relative;
+    overflow: hidden;
+    
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(90deg, 
+            transparent 0%, 
+            rgba(255, 255, 255, 0.4) 50%, 
+            transparent 100%);
+    }
+    
+    // 悬停效果
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 
+            0 12px 40px rgba(0, 0, 0, 0.06),
+            0 4px 12px rgba(0, 0, 0, 0.03),
+            inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        border-color: rgba(255, 255, 255, 0.3);
+    }
+    
+    h2 {
+        margin: 0 0 1.5rem;
+        font-size: 1.4rem;
+        font-weight: 500;
+        color: #000;
+        letter-spacing: -0.01em;
+    }
+    
+    p {
+        margin: 0 0 1rem;
+        line-height: 1.7;
+        color: #2d3748;
+        opacity: 0.9;
+        
+        &:last-child {
+            margin-bottom: 0;
+        }
+        
+        a {
+            color: #66cc99;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            
+            &:hover {
+                color: #5ab087;
+                text-decoration: underline;
+            }
+        }
+    }
+}
+
+.muted {
+    color: #5a6c7d;
+    font-size: 0.9rem;
+    opacity: 0.7;
+}
+
+.note {
+    // 特殊提示卡片
+    background: rgba(102, 204, 153, 0.08);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(102, 204, 153, 0.2);
+    border-radius: 1.25rem;
+    padding: 1.5rem 2rem;
+    text-align: center;
+    
+    box-shadow: 
+        0 4px 20px rgba(102, 204, 153, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    
+    p {
+        margin: 0;
+        color: #2d3748;
+        font-size: 0.95rem;
+        line-height: 1.6;
+        opacity: 0.9;
+    }
+}
+
+// 响应式设计
+@media (max-width: 768px) {
+    .page {
+        padding: 7rem 1.5rem 3rem;
+    }
+    
+    .title {
+        font-size: 2.5rem;
+    }
+    
+    .columns {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .card {
+        padding: 1.5rem;
+        border-radius: 1.25rem;
+    }
+    
+    .note {
+        padding: 1.25rem 1.5rem;
+        border-radius: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .page {
+        padding: 6rem 1rem 2rem;
+    }
+    
+    .card {
+        padding: 1.25rem;
+        border-radius: 1rem;
+    }
+    
+    .note {
+        padding: 1rem 1.25rem;
+    }
+}

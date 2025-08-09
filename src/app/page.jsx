@@ -9,6 +9,9 @@ import { easing } from 'maath';
 import * as THREE from 'three';
 import ExhibitionCard from '@/components/ui/ExhibitionCard/ExhibitionCard';
 
+// import { EffectComposer, Bloom, DepthOfField, ToneMapping } from '@react-three/postprocessing'
+
+
 const COUNT = 19;
 const INITIAL_SPACING = 0.05; // Initial spacing between cards
 const FINAL_SPACING = 0.6; // Final spacing between cards
@@ -355,6 +358,7 @@ export default function Home() {
                         viewRef={viewRef}
                         onScrollStart={handleScrollStart}
                     />
+                    
                 </View>
                 
                 {/* 移动端滚动提示 */}

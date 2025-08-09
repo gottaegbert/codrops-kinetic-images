@@ -13,19 +13,19 @@ function Header({ children }) {
                     <a href="/" className={styles.navLink}>
                         Gallery
                     </a>
-                    <a href="/Archive" className={styles.navLink}>
+                    <a href="/exhibitions" className={styles.navLink}>
                         Exhibitions
                     </a>
-                    <a href="/News" className={styles.navLink}>
+                    <a href="/artists" className={styles.navLink}>
                         Artists
                     </a>
-                    <a href="/Review" className={styles.navLink}>
+                    <a href="/magazine" className={styles.navLink}>
                         Magazine
                     </a>
-                    <a href="/About" className={styles.navLink}>
+                    <a href="/about" className={styles.navLink}>
                         About
                     </a>
-                    <a href="/Contact" className={styles.navLink}>
+                    <a href="/contact" className={styles.navLink}>
                         Contact
                     </a>
                 </nav>

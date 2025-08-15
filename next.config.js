@@ -9,6 +9,9 @@ const nextConfig = {
     reactStrictMode: true,
     swcMinify: true,
     trailingSlash: true,
+    images: {
+        unoptimized: true
+    },
     sassOptions: {
         additionalData: `
         $env: ${process.env.NODE_ENV};

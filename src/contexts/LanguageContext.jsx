@@ -11,6 +11,7 @@ const translations = {
             home: 'Home',
             about: 'About',
             exhibitions: 'Exhibitions',
+            archive: 'Archive',
             contact: 'Contact'
         },
         about: {
@@ -58,6 +59,7 @@ const translations = {
             artMagazine: 'Art Magazine',
             artistInterviews: 'Artist Interviews',
             exhibitionArchive: 'Exhibition Archive',
+            archive: 'Archive',
             connect: 'Connect',
             aboutUs: 'About Us',
             contact: 'Contact',
@@ -86,6 +88,7 @@ const translations = {
             home: '首页',
             about: '关于',
             exhibitions: '展览',
+            archive: '档案',
             contact: '联系'
         },
         about: {
@@ -133,6 +136,7 @@ const translations = {
             artMagazine: '艺术杂志',
             artistInterviews: '艺术家访谈',
             exhibitionArchive: '展览档案',
+            archive: '档案',
             connect: '联系',
             aboutUs: '关于我们',
             contact: '联系我们',

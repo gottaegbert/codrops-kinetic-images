@@ -22,6 +22,9 @@ function Header({ children }) {
                     <Link href="/exhibitions" className={styles.navLink}>
                         {t('navigation.exhibitions')}
                     </Link>
+                    <Link href="/archive" className={styles.navLink}>
+                        {t('navigation.archive')}
+                    </Link>
                     <Link href="/about" className={styles.navLink}>
                         {t('navigation.about')}
                     </Link>

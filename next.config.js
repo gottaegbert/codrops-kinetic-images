@@ -8,6 +8,7 @@ const nextConfig = {
     output: 'export',
     reactStrictMode: true,
     swcMinify: true,
+    trailingSlash: true,
     sassOptions: {
         additionalData: `
         $env: ${process.env.NODE_ENV};
@@ -48,4 +49,5 @@ const nextConfig = {
         ignoreDuringBuilds: true,
     },
 };
+
 export default nextConfig;

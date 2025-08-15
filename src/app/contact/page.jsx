@@ -1,13 +1,15 @@
 'use client';
 
+import { useLanguage } from '@/contexts/LanguageContext';
 import styles from './page.module.scss';
 
 export default function ContactPage() {
+    const { t } = useLanguage();
     return (
         <main className={styles.page}>
             <section className={styles.hero}>
-                <h1 className={styles.title}>Contact</h1>
-                <p className={styles.subtitle}>We welcome proposals, interviews, and collaborations.</p>
+                <h1 className={styles.title}>{t('contact.title')}</h1>
+                <p className={styles.subtitle}>{t('contact.subtitle')}</p>
             </section>
 
             <section className={styles.content}>

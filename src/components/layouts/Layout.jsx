@@ -3,6 +3,7 @@
 import { useRef } from 'react';
 import dynamic from 'next/dynamic';
 import { usePathname } from 'next/navigation';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { Header, Footer } from '@/components/ui/modules';
 import Link from 'next/link';
 
@@ -11,6 +12,7 @@ const Scene = dynamic(() => import('@/webgl/Scene'), { ssr: false });
 export function Layout({ children }) {
     const ref = useRef(null);
     const pathname = usePathname();
+    const { t } = useLanguage();
 
     return (
         <div
@@ -79,14 +81,14 @@ export function Layout({ children }) {
                 eventPrefix="client"
             />
             <Footer>
-                <Link href="./" className={pathname === '/' ? 'active' : ''}>
-                    Tower
+                <Link href="/" className={pathname === '/' ? 'active' : ''}>
+                    {t('footer.tower')}
                 </Link>
-                <Link href="./paper" className={pathname === '/paper' ? 'active' : ''}>
-                    Paper
+                <Link href="/paper" className={pathname === '/paper' ? 'active' : ''}>
+                    {t('footer.paper')}
                 </Link>
-                <Link href="./spiral" className={pathname === '/spiral' ? 'active' : ''}>
-                    Spiral
+                <Link href="/spiral" className={pathname === '/spiral' ? 'active' : ''}>
+                    {t('footer.spiral')}
                 </Link>
             </Footer>
         </div>

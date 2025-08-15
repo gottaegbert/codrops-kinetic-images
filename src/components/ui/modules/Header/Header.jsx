@@ -1,6 +1,12 @@
+'use client';
+
+import { useLanguage } from '@/contexts/LanguageContext';
+import Link from 'next/link';
+import LanguageSwitcher from '../../LanguageSwitcher/LanguageSwitcher';
 import styles from './Header.module.scss';
 
 function Header({ children }) {
+    const { t } = useLanguage();
     return (
         <header className={styles.header}>
             <div className={styles.wrapper}>
@@ -10,28 +16,22 @@ function Header({ children }) {
                 </div>
 
                 <nav className={styles.navigation}>
-                    <a href="/" className={styles.navLink}>
-                        Gallery
-                    </a>
-                    <a href="/exhibitions" className={styles.navLink}>
-                        Exhibitions
-                    </a>
-                    <a href="/artists" className={styles.navLink}>
-                        Artists
-                    </a>
-                    <a href="/magazine" className={styles.navLink}>
-                        Magazine
-                    </a>
-                    <a href="/about" className={styles.navLink}>
-                        About
-                    </a>
-                    <a href="/contact" className={styles.navLink}>
-                        Contact
-                    </a>
+                    <Link href="/" className={styles.navLink}>
+                        {t('navigation.home')}
+                    </Link>
+                    <Link href="/exhibitions" className={styles.navLink}>
+                        {t('navigation.exhibitions')}
+                    </Link>
+                    <Link href="/about" className={styles.navLink}>
+                        {t('navigation.about')}
+                    </Link>
+                    <Link href="/contact" className={styles.navLink}>
+                        {t('navigation.contact')}
+                    </Link>
                 </nav>
 
                 <div className={styles.controls}>
-                    <button className={styles.langToggle}>EN / 中文</button>
+                    <LanguageSwitcher />
                 </div>
 
                 {children}

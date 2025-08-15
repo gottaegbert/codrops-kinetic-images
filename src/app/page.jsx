@@ -1,5 +1,6 @@
 'use client';
 
+import { useLanguage } from '@/contexts/LanguageContext';
 import styles from './page.module.scss';
 import { View } from '@/webgl/View';
 import { OrthographicCamera, RoundedBox, useTexture } from '@react-three/drei';
@@ -8,9 +9,7 @@ import { useRef, useState, useEffect } from 'react';
 import { easing } from 'maath';
 import * as THREE from 'three';
 import ExhibitionCard from '@/components/ui/ExhibitionCard/ExhibitionCard';
-
-// import { EffectComposer, Bloom, DepthOfField, ToneMapping } from '@react-three/postprocessing'
-
+import { EffectComposer, Bloom, ToneMapping } from '@react-three/postprocessing';
 
 const COUNT = 19;
 const INITIAL_SPACING = 0.05; // Initial spacing between cards
@@ -139,8 +138,6 @@ function Cards({ onFirstHover, currentSpacing, viewRef, onScrollStart }) {
         return totalWidth / 2 - INITIAL_SPACING;
     });
     const [hasTriggeredFirstHover, setHasTriggeredFirstHover] = useState(false);
-    
-
 
     const groupRef = useRef();
 
@@ -311,6 +308,9 @@ export default function Home() {
     const [animationProgress, setAnimationProgress] = useState(0);
     const [showScrollHint, setShowScrollHint] = useState(true);
     const viewRef = useRef();
+    
+    // 导入语言上下文
+    const { t } = useLanguage();
 
     const handleFirstHover = () => {
         if (!shouldTriggerAnimation) {
@@ -358,7 +358,10 @@ export default function Home() {
                         viewRef={viewRef}
                         onScrollStart={handleScrollStart}
                     />
-                    
+                    <EffectComposer disableNormalPass>
+                        <Bloom luminanceThreshold={0.2} mipmapBlur luminanceSmoothing={0.0} intensity={0.4} />
+                        <ToneMapping toneMappingExposure={0.5} toneMappingWhitePoint={1} toneMappingWhiteBalance={1} />
+                    </EffectComposer>
                 </View>
                 
                 {/* 移动端滚动提示 */}
@@ -380,7 +383,7 @@ export default function Home() {
                                 strokeLinejoin="round"
                             />
                         </svg>
-                        <span>Scroll Navigating</span>
+                        <span>{t('home.scrollHint')}</span>
                     </div>
                 )}
             </div>
@@ -390,62 +393,42 @@ export default function Home() {
                     {/* 横向滚动条 - 展览信息 */}
                     <div className={styles.infiniteScroll}>
                         <div className={styles.scrollContent}>
-                            <div className={styles.scrollItem}>ISSUE NO.1</div>
-                            <div className={styles.scrollItem}>FRANCESCO CLEMENTE</div>
-                            <div className={styles.scrollItem}>DIGITAL METAMORPHOSIS</div>
-                            <div className={styles.scrollItem}>CONTEMPORARY VISIONS</div>
+                            <div className={styles.scrollItem}>{t('home.issue')}</div>
+                            <div className={styles.scrollItem}>{t('home.artist')}</div>
+                            <div className={styles.scrollItem}>{t('home.exhibition')}</div>
+                            <div className={styles.scrollItem}>{t('home.visions')}</div>
                             {/* Duplicate content for seamless loop */}
-                            <div className={styles.scrollItem}>ISSUE NO.1</div>
-                            <div className={styles.scrollItem}>FRANCESCO CLEMENTE</div>
-                            <div className={styles.scrollItem}>DIGITAL METAMORPHOSIS</div>
-                            <div className={styles.scrollItem}>CONTEMPORARY VISIONS</div>
+                            <div className={styles.scrollItem}>{t('home.issue')}</div>
+                            <div className={styles.scrollItem}>{t('home.artist')}</div>
+                            <div className={styles.scrollItem}>{t('home.exhibition')}</div>
+                            <div className={styles.scrollItem}>{t('home.visions')}</div>
                         </div>
                     </div>
 
                     {/* 页面导航 */}
                     <div className={styles.pageNavigation}>
-                        <span className={styles.navLabel}>On this page:</span>
+                        <span className={styles.navLabel}>{t('home.onThisPage')}</span>
                         <div className={styles.navLinks}>
                             <a href="#press" className={styles.navLink}>
-                                Press
+                                {t('home.press')}
                             </a>
                             <a href="#interview" className={styles.navLink}>
-                                Interview
+                                {t('home.interview')}
                             </a>
                             <a href="#biography" className={styles.navLink}>
-                                Biography
+                                {t('home.biography')}
                             </a>
                             <a href="#selected-exhibition" className={styles.navLink}>
-                                Selected Exhibition
+                                {t('home.selectedExhibition')}
                             </a>
                         </div>
                     </div>
 
                     <h2 className={styles.sectionTitle}>
-                        Digital Metamorphosis: Contemporary Visions
+                        {t('home.exhibitionTitle')}
                     </h2>
                     <p className={styles.sectionText}>
-                        An immersive exploration of digital art's evolution, featuring
-                        groundbreaking works that blur the boundaries between physical and virtual
-                        realms. This exhibition showcases how contemporary artists are redefining
-                        creative expression through technology. An immersive exploration of digital
-                        art's evolution, featuring groundbreaking works that blur the boundaries
-                        between physical and virtual realms. This exhibition showcases how
-                        contemporary artists are redefining creative expression through technology.
-                        An immersive exploration of digital art's evolution, featuring
-                        groundbreaking works that blur the boundaries between physical and virtual
-                        realms. This exhibition showcases how contemporary artists are redefining
-                        creative expression through technology. An immersive exploration of digital
-                        art's evolution, featuring groundbreaking works that blur the boundaries
-                        between physical and virtual realms. This exhibition showcases how
-                        contemporary artists are redefining creative expression through technology.
-                        An immersive exploration of digital art's evolution, featuring
-                        groundbreaking works that blur the boundaries between physical and virtual
-                        realms. This exhibition showcases how contemporary artists are redefining
-                        creative expression through technology. An immersive exploration of digital
-                        art's evolution, featuring groundbreaking works that blur the boundaries
-                        between physical and virtual realms. This exhibition showcases how
-                        contemporary artists are redefining creative expression through technology.
+                        {t('home.exhibitionDescription')}
                     </p>
                 </div>
             </div>

@@ -1,8 +1,10 @@
 'use client';
 
+import { useLanguage } from '@/contexts/LanguageContext';
 import styles from './ExhibitionCard.module.scss';
 
 export default function ExhibitionCard({ mobile = false }) {
+    const { t } = useLanguage();
     const handleLearnMoreClick = () => {
         const contentSection = document.querySelector('[data-content-section]');
         if (contentSection) {
@@ -18,41 +20,38 @@ export default function ExhibitionCard({ mobile = false }) {
     return (
         <div className={cardClass}>
             <div className={styles.header}>
-                <h3 className={styles.title}>Current Exhibition</h3>
-                <div className={styles.badge}>Paintings</div>
+                <h3 className={styles.title}>{t('exhibitionCard.currentExhibition')}</h3>
+                <div className={styles.badge}>{t('exhibitionCard.paintings')}</div>
             </div>
 
             <div className={styles.content}>
                 <div className={styles.exhibitionNumber}>
-                    <span className={styles.label}>No.</span>
+                    <span className={styles.label}>{t('exhibitionCard.number')}</span>
                     <span className={styles.number}>202507</span>
                 </div>
 
                 <h4 className={styles.exhibitionName}>
-                    Digital Metamorphosis: Contemporary Visions
+                    {t('home.exhibitionTitle')}
                 </h4>
 
                 <div className={styles.details}>
                     <div className={styles.timeInfo}>
-                        <span className={styles.label}>Duration:</span>
-                        <span>Jan 15 - Mar 30, 2025</span>
+                        <span className={styles.label}>{t('exhibitionCard.duration')}</span>
+                        <span>{t('exhibitionCard.durationText')}</span>
                     </div>
 
                     <div className={styles.artistInfo}>
-                        <span className={styles.label}>Featured Artists:</span>
-                        <span>Marina Chen, Alex Rodriguez, Yuki Tanaka</span>
+                        <span className={styles.label}>{t('exhibitionCard.featuredArtists')}</span>
+                        <span>{t('exhibitionCard.artistsText')}</span>
                     </div>
                 </div>
 
                 <p className={styles.description}>
-                    An immersive exploration of digital art's evolution, featuring groundbreaking
-                    works that blur the boundaries between physical and virtual realms. This
-                    exhibition showcases how contemporary artists are redefining creative expression
-                    through technology.
+                    {t('home.exhibitionDescription')}
                 </p>
 
                 <button className={styles.learnMore} onClick={handleLearnMoreClick}>
-                    <span>Learn More</span>
+                    <span>{t('exhibitionCard.learnMore')}</span>
                     <svg className={styles.arrow} viewBox="0 0 24 24" fill="none">
                         <path
                             d="M7 10l5 5 5-5"

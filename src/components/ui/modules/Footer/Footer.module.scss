@@ -1,15 +1,60 @@
+// 完整的Footer样式
 .footer {
     background: #1a1a1a;
     color: #fff;
     padding: 4rem 0 2rem;
     margin-top: auto;
+}
+
+// 简单导航Footer样式（用于Layout）
+.footerNav {
+    position: fixed;
     bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .container {
     max-width: 1400px;
     margin: 0 auto;
     padding: 0 2rem;
+}
+
+.navigation {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    padding: 1rem 2rem;
+    
+    a {
+        color: rgba(255, 255, 255, 0.7);
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        
+        &:hover,
+        &.active {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.1);
+        }
+    }
+    
+    @media (max-width: 768px) {
+        gap: 1rem;
+        padding: 0.75rem 1rem;
+        
+        a {
+            font-size: 0.85rem;
+            padding: 0.4rem 0.8rem;
+        }
+    }
 }
 
 .content {

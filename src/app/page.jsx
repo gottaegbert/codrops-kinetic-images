@@ -9,7 +9,7 @@ import { useRef, useState, useEffect } from 'react';
 import { easing } from 'maath';
 import * as THREE from 'three';
 import ExhibitionCard from '@/components/ui/ExhibitionCard/ExhibitionCard';
-import { EffectComposer, Bloom, ToneMapping } from '@react-three/postprocessing';
+// import { EffectComposer, Bloom, ToneMapping } from '@react-three/postprocessing';
 
 const COUNT = 19;
 const INITIAL_SPACING = 0.05; // Initial spacing between cards
@@ -358,10 +358,7 @@ export default function Home() {
                         viewRef={viewRef}
                         onScrollStart={handleScrollStart}
                     />
-                    <EffectComposer disableNormalPass>
-                        <Bloom luminanceThreshold={0.2} mipmapBlur luminanceSmoothing={0.0} intensity={0.4} />
-                        <ToneMapping toneMappingExposure={0.5} toneMappingWhitePoint={1} toneMappingWhiteBalance={1} />
-                    </EffectComposer>
+                  
                 </View>
                 
                 {/* 移动端滚动提示 */}

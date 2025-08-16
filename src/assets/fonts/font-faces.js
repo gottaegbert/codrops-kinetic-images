@@ -1,20 +1,4 @@
-import { Geist } from 'next/font/google';
-
-const geist = Geist({
-    subsets: ['latin'],
-});
-
-const fonts = [geist];
-
-function getFontFaces() {
-    let fontFaces = '';
-    fonts.forEach((font) => {
-        fontFaces += `${font.className} `;
-    });
-
-    return fontFaces;
-}
-
-const fontFaces = getFontFaces();
+// 使用系统 Helvetica 字体，不需要从 Google Fonts 加载
+const fontFaces = 'helvetica-font';
 
 export default fontFaces;

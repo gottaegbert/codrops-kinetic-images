@@ -9,7 +9,6 @@ import { useRef, useState, useEffect } from 'react';
 import { easing } from 'maath';
 import * as THREE from 'three';
 import ExhibitionCard from '@/components/ui/ExhibitionCard/ExhibitionCard';
-// import { EffectComposer, Bloom, ToneMapping } from '@react-three/postprocessing';
 
 const COUNT = 19;
 const INITIAL_SPACING = 0.05; // Initial spacing between cards

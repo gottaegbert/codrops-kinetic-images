@@ -2,10 +2,13 @@
 
 :root {
     --color-text: #1a202c;
-    --color-background: #f8ffff;
+    --color-background: #fafafa;
     --color-green: #88f071;
     --color-green-hover: #83f869;
     
+    /* 字体配置 */
+    --font-primary: "Helvetica Neue", Helvetica, Arial, sans-serif;
+
     /* Card System Variables */
     /* 透明度层级 */
     --card-bg-light: rgba(196, 237, 255, 0.85);
@@ -51,6 +54,10 @@ html {
     scrollbar-width: none;
     overscroll-behavior: none;
     font-size: 16px;
+}
+
+.helvetica-font {
+    font-family: var(--font-primary);
 }
 
 body::-webkit-scrollbar {

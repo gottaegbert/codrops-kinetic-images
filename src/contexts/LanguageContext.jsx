@@ -11,6 +11,8 @@ const translations = {
             home: 'Home',
             about: 'About',
             exhibitions: 'Exhibitions',
+            news: 'News',
+            review: 'Review',
             archive: 'Archive',
             contact: 'Contact'
         },
@@ -25,7 +27,6 @@ const translations = {
         },
         home: {
             title: 'MaKaleidos',
-            subtitle: 'Online Art Gallery',
             scrollHint: 'Scroll Navigating',
             issue: 'ISSUE NO.1',
             artist: 'FRANCESCO CLEMENTE',
@@ -37,7 +38,7 @@ const translations = {
             biography: 'Biography',
             selectedExhibition: 'Selected Exhibition',
             exhibitionTitle: 'Digital Metamorphosis: Contemporary Visions',
-            exhibitionDescription: 'An immersive exploration of digital art\'s evolution, featuring groundbreaking works that blur the boundaries between physical and virtual realms. This exhibition showcases how contemporary artists are redefining creative expression through technology.'
+            exhibitionDescription: ' works that blur the boundaries between physical and virtual realms. This exhibition showcases how contemporary artists are redefining creative expression through technology.'
         },
         exhibitionCard: {
             currentExhibition: 'Current Exhibition',
@@ -88,6 +89,8 @@ const translations = {
             home: '首页',
             about: '关于',
             exhibitions: '展览',
+            news: '新闻',
+            review: '评论',
             archive: '档案',
             contact: '联系'
         },

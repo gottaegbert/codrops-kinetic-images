@@ -14,10 +14,10 @@ export default function ArchivePage() {
         {
             id: 1,
             type: 'Exhibition',
-            title: 'Digital Metamorphosis: Contemporary Visions',
+            title: 'Green in the paintings',
             date: '2025.01.15 - 2025.03.30',
             image: '/images/img1.webp',
-            description: 'An immersive exploration of digital art\'s evolution, featuring groundbreaking works that blur the boundaries between physical and virtual realms.'
+            description: 'groundbreaking works that blur the boundaries between physical and virtual realms.'
         },
         {
             id: 2,

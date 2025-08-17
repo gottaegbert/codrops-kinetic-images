@@ -5,7 +5,7 @@ import { Footer } from '@/components/ui/modules';
 import styles from './page.module.scss';
 import Image from 'next/image';
 
-export default function ExhibitionsPage() {
+export default function NewsPage() {
     const { t } = useLanguage();
     
     return (
@@ -14,7 +14,7 @@ export default function ExhibitionsPage() {
                 <h1 className={styles.title}>{t('exhibitions.title')}</h1>
                 
                 <div className={styles.exhibitionGrid}>
-                    {/* Current Exhibition */}
+                    {/* Current Exhibition */}  
                     <div className={styles.exhibitionItem}>
                         <div className={styles.imageContainer}>
                             <Image 

@@ -121,7 +121,7 @@ function CameraController({ triggerAnimation, onProgressChange }) {
         <OrthographicCamera
             ref={cameraRef}
             makeDefault
-            zoom={300}
+            zoom={260}
             position={[-40, 0, 0]}
             near={0.01}
             far={100000}

@@ -19,10 +19,10 @@ export default function ExhibitionCard({ mobile = false }) {
 
     return (
         <div className={cardClass}>
-            <div className={styles.header}>
+            {/* <div className={styles.header}>
                 <h3 className={styles.title}>{t('exhibitionCard.currentExhibition')}</h3>
-                {/* <div className={styles.badge}>{t('exhibitionCard.paintings')}</div> */}
-            </div>
+                <div className={styles.badge}>{t('exhibitionCard.paintings')}</div>
+            </div> */}
 
             <div className={styles.content}>
                 <div className={styles.exhibitionNumber}>

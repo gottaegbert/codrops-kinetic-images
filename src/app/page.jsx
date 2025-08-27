@@ -9,15 +9,31 @@ import { useRef, useState, useEffect } from 'react';
 import { easing } from 'maath';
 import * as THREE from 'three';
 import ExhibitionCard from '@/components/ui/ExhibitionCard/ExhibitionCard';
+import { useCurrentExhibition } from '@/hooks/useCurrentExhibition';
+import { getOptimizedImageUrl } from '@/sanity/client';
 
-const COUNT = 19;
+const COUNT = 10;
 const INITIAL_SPACING = 0.05; // Initial spacing between cards
 const FINAL_SPACING = 0.6; // Final spacing between cards
 
-function Card({ index, position, onPointerOver, onPointerOut, hovered, active }) {
+function Card({
+    index,
+    position,
+    onPointerOver,
+    onPointerOut,
+    hovered,
+    active,
+    imageUrl,
+    altText,
+}) {
     const ref = useRef();
     const materialRef = useRef();
-    const texture = useTexture(`/images/img${(index % 19) + 1}.webp`);
+
+    // Use Sanity image if available, otherwise fallback to local images
+    const fallbackImage = `/images/img${(index % 19) + 1}.webp`;
+    const finalImageUrl = imageUrl || fallbackImage;
+
+    const texture = useTexture(finalImageUrl);
 
     // Fix texture wrapping and flipping
     texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
@@ -138,6 +154,9 @@ function Cards({ onFirstHover, currentSpacing, viewRef, onScrollStart }) {
     });
     const [hasTriggeredFirstHover, setHasTriggeredFirstHover] = useState(false);
 
+    // Fetch current exhibition
+    const { exhibition, loading, error } = useCurrentExhibition();
+
     const groupRef = useRef();
 
     // 计算滚动范围限制，使用动态spacing
@@ -209,11 +228,11 @@ function Cards({ onFirstHover, currentSpacing, viewRef, onScrollStart }) {
         const handleTouchStart = (e) => {
             const viewElement = viewRef?.current;
             if (!viewElement) return;
-            
+
             const rect = viewElement.getBoundingClientRect();
             const touchY = e.touches[0].clientY;
             const isOverView = touchY >= rect.top && touchY <= rect.bottom;
-            
+
             if (isOverView) {
                 viewElement.touchStartY = e.touches[0].clientY;
             }
@@ -222,23 +241,23 @@ function Cards({ onFirstHover, currentSpacing, viewRef, onScrollStart }) {
         const handleTouchMove = (e) => {
             const viewElement = viewRef?.current;
             if (!viewElement || !viewElement.touchStartY) return;
-            
+
             const rect = viewElement.getBoundingClientRect();
             const touchY = e.touches[0].clientY;
             const isOverView = touchY >= rect.top && touchY <= rect.bottom;
-            
+
             if (!isOverView) return;
-            
+
             const deltaY = viewElement.touchStartY - touchY;
             const scrollSensitivity = 0.008;
-            
+
             const newOffset = scrollOffset - deltaY * scrollSensitivity;
             const clampedOffset = Math.max(maxScrollRight, Math.min(maxScrollLeft, newOffset));
-            
+
             // 检查是否在边界处
             const atLeftBoundary = scrollOffset >= maxScrollLeft && deltaY < 0;
             const atRightBoundary = scrollOffset <= maxScrollRight && deltaY > 0;
-            
+
             // 只有当不在边界或者滚动方向不会超出边界时才阻止默认行为
             if (!atLeftBoundary && !atRightBoundary) {
                 e.preventDefault();
@@ -278,9 +297,56 @@ function Cards({ onFirstHover, currentSpacing, viewRef, onScrollStart }) {
         }
     });
 
+    // Prepare image data from current exhibition
+    const exhibitionImages = exhibition?.images || [];
+    const imageData = Array.from({ length: COUNT }).map((_, index) => {
+        const sanityImage = exhibitionImages[index];
+
+        if (sanityImage?.asset) {
+            return {
+                url: getOptimizedImageUrl(sanityImage, {
+                    width: 800,
+                    height: 800,
+                    quality: 85,
+                    format: 'webp',
+                }),
+                alt: sanityImage.alt || `${exhibition?.title || 'Gallery'} image ${index + 1}`,
+                title: sanityImage.title || `Image ${index + 1}`,
+            };
+        }
+
+        return {
+            url: null, // Will use local fallback
+            alt: `Gallery image ${index + 1}`,
+            title: `Image ${index + 1}`,
+        };
+    });
+
+    // Debug info
+    useEffect(() => {
+        if (!loading) {
+            console.log('=== Exhibition Debug Info ===');
+            console.log('Exhibition:', exhibition);
+            console.log('Exhibition title:', exhibition?.title || 'No current exhibition');
+            console.log('Exhibition images raw:', exhibition?.images);
+            console.log('Exhibition images count:', exhibition?.images?.length || 0);
+            console.log('Processed imageData:', imageData);
+            console.log('Has error:', !!error);
+            console.log('Error details:', error);
+            console.log('Error message:', error?.message);
+            console.log('Loading state:', loading);
+
+            // 如果有错误，显示在页面上
+            if (error) {
+                console.error('SANITY ERROR:', error);
+            }
+            console.log('=============================');
+        }
+    }, [exhibition, exhibitionImages.length, loading, error, imageData]);
+
     return (
         <group ref={groupRef} rotation={[0, 0, 0]}>
-            {Array.from({ length: COUNT }).map((_, index) => {
+            {imageData.map((imageInfo, index) => {
                 // Linear stacking using dynamic spacing
                 const xOffset = index * currentSpacing - (COUNT * currentSpacing) / 2;
                 const yOffset = 0;
@@ -295,6 +361,8 @@ function Cards({ onFirstHover, currentSpacing, viewRef, onScrollStart }) {
                         onPointerOut={() => hover(null)}
                         hovered={hovered === index}
                         active={hovered !== null}
+                        imageUrl={imageInfo.url}
+                        altText={imageInfo.alt}
                     />
                 );
             })}
@@ -307,7 +375,7 @@ export default function Home() {
     const [animationProgress, setAnimationProgress] = useState(0);
     const [showScrollHint, setShowScrollHint] = useState(true);
     const viewRef = useRef();
-    
+
     // 导入语言上下文
     const { t } = useLanguage();
 
@@ -343,6 +411,12 @@ export default function Home() {
         <div className={styles.page}>
             <div className={styles.heroSection}>
                 <ExhibitionCard />
+                {/* Optional: Show loading state for Sanity images */}
+                {/* {sanityLoading && (
+                    <div style={{ position: 'absolute', top: '10px', left: '10px', color: 'white', fontSize: '12px' }}>
+                        Loading Sanity images...
+                    </div>
+                )} */}
                 <View ref={viewRef} className={styles.view}>
                     <CameraController
                         triggerAnimation={shouldTriggerAnimation}
@@ -357,9 +431,8 @@ export default function Home() {
                         viewRef={viewRef}
                         onScrollStart={handleScrollStart}
                     />
-                  
                 </View>
-                
+
                 {/* 移动端滚动提示 */}
                 {showScrollHint && (
                     <div className={styles.scrollHint}>
@@ -420,12 +493,8 @@ export default function Home() {
                         </div>
                     </div>
 
-                    <h2 className={styles.sectionTitle}>
-                        {t('home.exhibitionTitle')}
-                    </h2>
-                    <p className={styles.sectionText}>
-                        {t('home.exhibitionDescription')}
-                    </p>
+                    <h2 className={styles.sectionTitle}>{t('home.exhibitionTitle')}</h2>
+                    <p className={styles.sectionText}>{t('home.exhibitionDescription')}</p>
                 </div>
             </div>
         </div>

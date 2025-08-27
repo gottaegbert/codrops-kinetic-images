@@ -57,8 +57,8 @@ function Card({
             <RoundedBox
                 ref={ref}
                 rotation={[0, -Math.PI / 2, 0]}
-                args={[1, 1, 0.02]} // width, height, depth - smaller card size
-                radius={0.02} // rounded corner radius
+                args={[1, 1, 0.005]} // width, height, depth - smaller card size
+                radius={0.005} // rounded corner radius
                 smoothness={1} // corner smoothness
                 onPointerOver={(e) => (e.stopPropagation(), onPointerOver(index))}
                 onPointerOut={(e) => (e.stopPropagation(), onPointerOut())}

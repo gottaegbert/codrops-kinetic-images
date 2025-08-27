@@ -5,7 +5,7 @@ import { media } from 'sanity-plugin-media'
 import { schemaTypes } from './src/sanity/schemas/index.js'
 
 export default defineConfig({
-  name: 'makaleidos-gallery',
+  name: 'makaleidos-cms',
   title: 'MaKaleidos Gallery',
   projectId: 'k2sljkbk',
   dataset: 'production',

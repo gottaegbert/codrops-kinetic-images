@@ -14,7 +14,7 @@ import { getOptimizedImageUrl } from '@/sanity/client';
 
 const COUNT = 10;
 const INITIAL_SPACING = 0.05; // Initial spacing between cards
-const FINAL_SPACING = 0.6; // Final spacing between cards
+const FINAL_SPACING = 0.8; // Final spacing between cards
 
 function Card({
     index,
@@ -24,26 +24,47 @@ function Card({
     hovered,
     active,
     imageUrl,
-    altText,
+    imageDimensions,
 }) {
     const ref = useRef();
     const materialRef = useRef();
 
-    // Use Sanity image if available, otherwise fallback to local images
-    const fallbackImage = `/images/img${(index % 19) + 1}.webp`;
-    const finalImageUrl = imageUrl || fallbackImage;
+    // Only use Sanity images, no fallback
+    if (!imageUrl) {
+        return null; // Don't render card if no image from Sanity
+    }
 
-    const texture = useTexture(finalImageUrl);
+    const texture = useTexture(imageUrl);
 
-    // Fix texture wrapping and flipping
-    texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-    texture.flipY = true;
+    // Configure texture for proper display
+    texture.wrapS = texture.wrapT = THREE.ClampToEdgeWrapping;
+    texture.flipY = true; // Don't flip Y to maintain correct orientation
+    texture.generateMipmaps = false;
+    texture.minFilter = THREE.LinearFilter;
+    texture.magFilter = THREE.LinearFilter;
+    
+    // Calculate aspect ratio from image dimensions
+    const aspectRatio = imageDimensions ? imageDimensions.width / imageDimensions.height : 1;
+    
+    // Set a base size and scale according to aspect ratio
+    const baseSize = 1.2; // Increase base size for better visibility
+    let cardWidth, cardHeight;
+    
+    if (aspectRatio >= 1) {
+        // Landscape image
+        cardWidth = baseSize;
+        cardHeight = baseSize / aspectRatio;
+    } else {
+        // Portrait image
+        cardWidth = baseSize * aspectRatio;
+        cardHeight = baseSize;
+    }
 
     useFrame((_, delta) => {
         const f = hovered ? 1.25 : active ? 1.25 : 1;
         const targetOpacity = hovered ? 1.0 : 0.85; // Increase opacity on hover
 
-        easing.damp3(ref.current.position, [0, 0, hovered ? 0.9 : 0], 0.4, delta);
+        easing.damp3(ref.current.position, [0, 0, hovered ? 0.9 : 0], 0.2, delta);
         easing.damp3(ref.current.scale, [f, f, f], 0.15, delta);
 
         // Smooth opacity transition
@@ -54,20 +75,18 @@ function Card({
 
     return (
         <group position={position}>
-            <RoundedBox
+            <mesh
                 ref={ref}
                 rotation={[0, -Math.PI / 2, 0]}
-                args={[1, 1, 0.005]} // width, height, depth - smaller card size
-                radius={0.005} // rounded corner radius
-                smoothness={1} // corner smoothness
                 onPointerOver={(e) => (e.stopPropagation(), onPointerOver(index))}
                 onPointerOut={(e) => (e.stopPropagation(), onPointerOut())}
             >
+                <planeGeometry args={[cardWidth, cardHeight]} />
                 <meshPhysicalMaterial
                     ref={materialRef}
                     map={texture}
                     transparent={true}
-                    opacity={0.85}
+                    opacity={0.65}
                     roughness={0.1}
                     metalness={0.0}
                     clearcoat={1.0}
@@ -77,7 +96,7 @@ function Card({
                     ior={1.5}
                     side={THREE.FrontSide}
                 />
-            </RoundedBox>
+            </mesh>
         </group>
     );
 }
@@ -117,7 +136,7 @@ function CameraController({ triggerAnimation, onProgressChange }) {
 
         // 创建平滑的相机路径
         const startPos = [-30, 0, 0];
-        const endPos = [-40, 15, 30];
+        const endPos = [-40, 15, 18];
 
         // 使用三角函数创建更自然的曲线运动
         const curveProgress = Math.sin(progress * Math.PI * 0.5);
@@ -147,22 +166,30 @@ function CameraController({ triggerAnimation, onProgressChange }) {
 
 function Cards({ onFirstHover, currentSpacing, viewRef, onScrollStart }) {
     const [hovered, hover] = useState(null);
+    const [imagesLoaded, setImagesLoaded] = useState(false);
+    
+    // Fetch current exhibition first
+    const { exhibition, loading, error } = useCurrentExhibition();
+    
+    // Calculate dynamic count based on available images
+    const exhibitionImages = exhibition?.images || [];
+    const validImages = exhibitionImages.filter(img => img?.asset);
+    const dynamicCount = validImages.length;
+    
     // 初始位置设为最左边（显示第一张卡片）
     const [scrollOffset, setScrollOffset] = useState(() => {
-        const totalWidth = COUNT * INITIAL_SPACING;
+        if (dynamicCount === 0) return 0;
+        const totalWidth = dynamicCount * INITIAL_SPACING;
         return totalWidth / 2 - INITIAL_SPACING;
     });
     const [hasTriggeredFirstHover, setHasTriggeredFirstHover] = useState(false);
 
-    // Fetch current exhibition
-    const { exhibition, loading, error } = useCurrentExhibition();
-
     const groupRef = useRef();
 
-    // 计算滚动范围限制，使用动态spacing
-    const totalWidth = COUNT * currentSpacing;
-    const maxScrollLeft = totalWidth / 2 - currentSpacing; // 最左边的卡片可见（起始位置）
-    const maxScrollRight = -(totalWidth / 2 - currentSpacing); // 最右边的卡片可见（结束位置）
+    // 计算滚动范围限制，使用动态spacing和动态图片数量
+    const totalWidth = dynamicCount * currentSpacing;
+    const maxScrollLeft = dynamicCount > 0 ? totalWidth / 2 - currentSpacing : 0;
+    const maxScrollRight = dynamicCount > 0 ? -(totalWidth / 2 - currentSpacing) : 0;
 
     // 处理第一次hover触发相机动画
     const handleCardHover = (index) => {
@@ -173,16 +200,21 @@ function Cards({ onFirstHover, currentSpacing, viewRef, onScrollStart }) {
         }
     };
 
-    // 当spacing改变时，调整scrollOffset以保持相对位置
+    // 当spacing或图片数量改变时，调整scrollOffset以保持相对位置
     useEffect(() => {
-        const totalWidth = COUNT * currentSpacing;
+        if (dynamicCount === 0) {
+            setScrollOffset(0);
+            return;
+        }
+        
+        const totalWidth = dynamicCount * currentSpacing;
         const newMaxScrollLeft = totalWidth / 2 - currentSpacing;
 
         // 如果当前在初始位置，保持在左边
         if (scrollOffset >= maxScrollLeft * 0.9) {
             setScrollOffset(newMaxScrollLeft);
         }
-    }, [currentSpacing, maxScrollLeft]);
+    }, [currentSpacing, maxScrollLeft, dynamicCount]);
 
     useEffect(() => {
         const handleWheel = (event) => {
@@ -297,64 +329,132 @@ function Cards({ onFirstHover, currentSpacing, viewRef, onScrollStart }) {
         }
     });
 
-    // Prepare image data from current exhibition
-    const exhibitionImages = exhibition?.images || [];
-    const imageData = Array.from({ length: COUNT }).map((_, index) => {
-        const sanityImage = exhibitionImages[index];
-
-        if (sanityImage?.asset) {
+    // Prepare image data from current exhibition - only use available Sanity images
+    const imageData = exhibitionImages
+        .filter(sanityImage => sanityImage?.asset) // Only include images with assets
+        .map((sanityImage, index) => {
+            const dimensions = sanityImage.asset.metadata?.dimensions;
             return {
                 url: getOptimizedImageUrl(sanityImage, {
-                    width: 800,
-                    height: 800,
-                    quality: 85,
+                    width: 1200, // Higher resolution for better quality
+                    quality: 95, // Higher quality, less compression
                     format: 'webp',
+                    fit: 'max', // Don't crop, maintain aspect ratio
                 }),
                 alt: sanityImage.alt || `${exhibition?.title || 'Gallery'} image ${index + 1}`,
                 title: sanityImage.title || `Image ${index + 1}`,
+                dimensions: dimensions,
+                originalIndex: index,
             };
-        }
+        });
 
-        return {
-            url: null, // Will use local fallback
-            alt: `Gallery image ${index + 1}`,
-            title: `Image ${index + 1}`,
-        };
-    });
+    // // Debug info
+    // useEffect(() => {
+    //     if (!loading) {
+    //         console.log('=== Exhibition Debug Info ===');
+    //         console.log('Exhibition:', exhibition);
+    //         console.log('Exhibition title:', exhibition?.title || 'No current exhibition');
+    //         console.log('Exhibition images raw:', exhibition?.images);
+    //         console.log('Exhibition images count:', exhibition?.images?.length || 0);
+    //         console.log('Processed imageData:', imageData);
+    //         console.log('Has error:', !!error);
+    //         console.log('Error details:', error);
+    //         console.log('Error message:', error?.message);
+    //         console.log('Loading state:', loading);
 
-    // Debug info
+    //         // 如果有错误，显示在页面上
+    //         if (error) {
+    //             console.error('SANITY ERROR:', error);
+    //         }
+    //         console.log('=============================');
+    //     }
+    // }, [exhibition, exhibitionImages.length, loading, error, imageData]);
+
+    // Preload all images for better performance
     useEffect(() => {
-        if (!loading) {
-            console.log('=== Exhibition Debug Info ===');
-            console.log('Exhibition:', exhibition);
-            console.log('Exhibition title:', exhibition?.title || 'No current exhibition');
-            console.log('Exhibition images raw:', exhibition?.images);
-            console.log('Exhibition images count:', exhibition?.images?.length || 0);
-            console.log('Processed imageData:', imageData);
-            console.log('Has error:', !!error);
-            console.log('Error details:', error);
-            console.log('Error message:', error?.message);
-            console.log('Loading state:', loading);
-
-            // 如果有错误，显示在页面上
-            if (error) {
-                console.error('SANITY ERROR:', error);
+        if (imageData.length > 0) {
+            setImagesLoaded(false);
+            let loadedCount = 0;
+            const totalImages = imageData.length;
+            
+            imageData.forEach((imageInfo) => {
+                if (imageInfo.url) {
+                    const img = new Image();
+                    img.onload = () => {
+                        loadedCount++;
+                        if (loadedCount === totalImages) {
+                            setImagesLoaded(true);
+                        }
+                    };
+                    img.onerror = () => {
+                        loadedCount++;
+                        if (loadedCount === totalImages) {
+                            setImagesLoaded(true);
+                        }
+                    };
+                    img.src = imageInfo.url;
+                }
+            });
+            
+            // Set loaded if no images to load
+            if (totalImages === 0) {
+                setImagesLoaded(true);
             }
-            console.log('=============================');
+        } else {
+            setImagesLoaded(true);
         }
-    }, [exhibition, exhibitionImages.length, loading, error, imageData]);
+    }, [imageData]);
+
+    // Calculate dynamic spacing based on actual image count
+    const actualCount = imageData.length;
+    const dynamicSpacing = actualCount > 0 ? currentSpacing : 0;
+
+    // Show loading state or error message if needed
+    if (loading) {
+        return (
+            <group>
+                <mesh position={[0, 0, 0]}>
+                    <planeGeometry args={[2, 0.5]} />
+                    <meshBasicMaterial color="#ffffff" transparent opacity={0.8} />
+                </mesh>
+            </group>
+        );
+    }
+
+    if (error) {
+        console.error('Exhibition loading error:', error);
+        return (
+            <group>
+                <mesh position={[0, 0, 0]}>
+                    <planeGeometry args={[3, 0.5]} />
+                    <meshBasicMaterial color="#ff6b6b" transparent opacity={0.8} />
+                </mesh>
+            </group>
+        );
+    }
+
+    if (imageData.length === 0) {
+        return (
+            <group>
+                <mesh position={[0, 0, 0]}>
+                    <planeGeometry args={[4, 0.5]} />
+                    <meshBasicMaterial color="#ffd93d" transparent opacity={0.8} />
+                </mesh>
+            </group>
+        );
+    }
 
     return (
         <group ref={groupRef} rotation={[0, 0, 0]}>
             {imageData.map((imageInfo, index) => {
-                // Linear stacking using dynamic spacing
-                const xOffset = index * currentSpacing - (COUNT * currentSpacing) / 2;
+                // Linear stacking using dynamic spacing based on actual image count
+                const xOffset = index * dynamicSpacing - (actualCount * dynamicSpacing) / 2;
                 const yOffset = 0;
-                const zOffset = 0; // Slight depth separation
+                const zOffset = 0;
 
                 return (
                     <Card
-                        key={`card-${index}`}
+                        key={`card-${imageInfo.originalIndex}-${index}`}
                         index={index}
                         position={[xOffset, yOffset, zOffset]}
                         onPointerOver={handleCardHover}
@@ -363,6 +463,7 @@ function Cards({ onFirstHover, currentSpacing, viewRef, onScrollStart }) {
                         active={hovered !== null}
                         imageUrl={imageInfo.url}
                         altText={imageInfo.alt}
+                        imageDimensions={imageInfo.dimensions}
                     />
                 );
             })}
@@ -411,12 +512,7 @@ export default function Home() {
         <div className={styles.page}>
             <div className={styles.heroSection}>
                 <ExhibitionCard />
-                {/* Optional: Show loading state for Sanity images */}
-                {/* {sanityLoading && (
-                    <div style={{ position: 'absolute', top: '10px', left: '10px', color: 'white', fontSize: '12px' }}>
-                        Loading Sanity images...
-                    </div>
-                )} */}
+                {/* Show loading state while fetching Sanity images */}
                 <View ref={viewRef} className={styles.view}>
                     <CameraController
                         triggerAnimation={shouldTriggerAnimation}

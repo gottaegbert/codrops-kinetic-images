@@ -105,7 +105,7 @@
 .navigation {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
+    gap: 1rem;
     width: 0;
     opacity: 0;
     transform: translateX(-15px) scaleX(0.3);
@@ -115,6 +115,7 @@
     overflow: hidden;
     flex-shrink: 0;
     transform-origin: left center;
+    position: relative;
     
     &.navigationOpen {
         width: fit-content;
@@ -124,6 +125,8 @@
         overflow: visible;
     }
 }
+
+
 
 .navLink {
     display: inline-flex;
@@ -150,10 +153,18 @@
     min-width: fit-content;
     transform-origin: left center;
     
+    // 展开状态
     .navigationOpen & {
         opacity: 1;
         transform: translateX(0) scaleX(1) scaleY(1);
         transition-delay: var(--delay, 0s);
+    }
+    
+    // 收起状态 - 确保有反向动画
+    .navigation:not(.navigationOpen) & {
+        opacity: 0;
+        transform: translateX(-40px) scaleX(0.2) scaleY(0.8);
+        transition-delay: var(--reverse-delay, 0s);
     }
     
     &:hover {
@@ -164,12 +175,35 @@
     }
     
     &.navLinkActive {
-        background: rgba(102, 204, 153, 0.2);
-        border-color: rgba(102, 204, 153, 0.4);
+        background: rgba(102, 204, 153, 0.3);
+        border-color: rgba(102, 204, 153, 0.6);
         color: #66cc99;
         font-weight: 600;
-        box-shadow: 0 6px 20px rgba(102, 204, 153, 0.4);
-        transform: translateX(0) scale(1.05);
+        box-shadow: 0 8px 24px rgba(102, 204, 153, 0.5);
+        transform: translateX(0) scale(1.08);
+        position: relative;
+        
+        // 添加底部边框效果
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 3px;
+            background: linear-gradient(90deg, #66cc99, #4ade80);
+            border-radius: 1.5px;
+            box-shadow: 0 2px 8px rgba(102, 204, 153, 0.6);
+        }
+        
+        // 增强hover效果
+        &:hover {
+            background: rgba(102, 204, 153, 0.35);
+            border-color: rgba(102, 204, 153, 0.7);
+            transform: translateX(0) scale(1.1);
+            box-shadow: 0 10px 30px rgba(102, 204, 153, 0.6);
+        }
     }
 }
 
@@ -244,6 +278,8 @@
             margin-right: 0;
         }
     }
+    
+
 
     .navLink {
         width: 100%;
@@ -257,6 +293,29 @@
         
         .navigationOpen & {
             transform: translateY(0) scaleX(1);
+        }
+        
+        &.navLinkActive {
+            background: rgba(102, 204, 153, 0.3);
+            border-color: rgba(102, 204, 153, 0.6);
+            color: #66cc99;
+            font-weight: 600;
+            box-shadow: 0 4px 16px rgba(102, 204, 153, 0.5);
+            position: relative;
+            
+            // 移动端左侧边框效果
+            &::before {
+                content: '';
+                position: absolute;
+                left: 0;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 3px;
+                height: 60%;
+                background: linear-gradient(180deg, #66cc99, #4ade80);
+                border-radius: 0 1.5px 1.5px 0;
+                box-shadow: 2px 0 8px rgba(102, 204, 153, 0.6);
+            }
         }
     }
 

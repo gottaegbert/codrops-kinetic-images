@@ -1,35 +1,50 @@
 /* [project]/frontend/src/components/ui/LanguageSwitcher/LanguageSwitcher.module.scss.module.css [app-client] (css) */
 .LanguageSwitcher-module-scss-module__0ZuW-a__languageSwitcher {
+  backdrop-filter: blur(10px);
+  background: #ffffff1a;
+  border: 2px solid #fff3;
   align-items: center;
   gap: .5rem;
-  font-size: .9rem;
+  padding: .5rem;
+  font-size: .75rem;
+  transition: all .6s cubic-bezier(.25, .46, .45, .94);
   display: flex;
+  box-shadow: 0 2px 8px #00000014;
+}
+
+.LanguageSwitcher-module-scss-module__0ZuW-a__languageSwitcher:hover {
+  background: #66cc9926;
+  border-color: #66cc994d;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px #6c93;
 }
 
 .LanguageSwitcher-module-scss-module__0ZuW-a__langButton {
-  color: #5a6c7d;
+  color: #000;
   cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: .05em;
   background: none;
   border: none;
-  border-radius: .25rem;
   padding: .25rem .5rem;
-  font-size: .9rem;
-  font-weight: 400;
-  transition: all .2s;
+  font-size: .75rem;
+  font-weight: 300;
+  transition: all .6s cubic-bezier(.25, .46, .45, .94);
 }
 
 .LanguageSwitcher-module-scss-module__0ZuW-a__langButton:hover {
-  color: #000;
-  background: #0000000d;
+  transform: scale(1.1);
 }
 
 .LanguageSwitcher-module-scss-module__0ZuW-a__langButton.LanguageSwitcher-module-scss-module__0ZuW-a__active {
   color: #6c9;
-  font-weight: 500;
+  font-weight: 600;
+  transform: scale(1.05);
 }
 
 .LanguageSwitcher-module-scss-module__0ZuW-a__separator {
-  color: #d1d5db;
+  color: #0000004d;
+  font-size: .8rem;
   font-weight: 300;
 }
 

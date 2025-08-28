@@ -238,10 +238,11 @@
   transform-origin: 0;
   flex-shrink: 0;
   align-items: center;
-  gap: 1.5rem;
+  gap: 1rem;
   width: 0;
   transition: all .6s cubic-bezier(.25, .46, .45, .94);
   display: flex;
+  position: relative;
   overflow: hidden;
   transform: translateX(-15px)scaleX(.3);
 }
@@ -286,6 +287,12 @@
   transform: translateX(0)scaleX(1)scaleY(1);
 }
 
+.Header-module-scss-module__HW1Erq__navigation:not(.Header-module-scss-module__HW1Erq__navigationOpen) .Header-module-scss-module__HW1Erq__navLink {
+  opacity: 0;
+  transition-delay: var(--reverse-delay, 0s);
+  transform: translateX(-40px)scaleX(.2)scaleY(.8);
+}
+
 .Header-module-scss-module__HW1Erq__navLink:hover {
   background: #66cc9926;
   border-color: #66cc994d;
@@ -295,11 +302,32 @@
 
 .Header-module-scss-module__HW1Erq__navLink.Header-module-scss-module__HW1Erq__navLinkActive {
   color: #6c9;
-  background: #6c93;
-  border-color: #6c96;
+  background: #66cc994d;
+  border-color: #6c99;
   font-weight: 600;
-  transform: translateX(0)scale(1.05);
-  box-shadow: 0 6px 20px #6c96;
+  position: relative;
+  transform: translateX(0)scale(1.08);
+  box-shadow: 0 8px 24px #66cc9980;
+}
+
+.Header-module-scss-module__HW1Erq__navLink.Header-module-scss-module__HW1Erq__navLinkActive:after {
+  content: "";
+  background: linear-gradient(90deg, #6c9, #4ade80);
+  border-radius: 1.5px;
+  width: 80%;
+  height: 3px;
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: 0 2px 8px #6c99;
+}
+
+.Header-module-scss-module__HW1Erq__navLink.Header-module-scss-module__HW1Erq__navLinkActive:hover {
+  background: #66cc9959;
+  border-color: #66cc99b3;
+  transform: translateX(0)scale(1.1);
+  box-shadow: 0 10px 30px #6c99;
 }
 
 .Header-module-scss-module__HW1Erq__languageContainer {
@@ -384,6 +412,28 @@
 
   .Header-module-scss-module__HW1Erq__navigationOpen .Header-module-scss-module__HW1Erq__navLink {
     transform: translateY(0)scaleX(1);
+  }
+
+  .Header-module-scss-module__HW1Erq__navLink.Header-module-scss-module__HW1Erq__navLinkActive {
+    color: #6c9;
+    background: #66cc994d;
+    border-color: #6c99;
+    font-weight: 600;
+    position: relative;
+    box-shadow: 0 4px 16px #66cc9980;
+  }
+
+  .Header-module-scss-module__HW1Erq__navLink.Header-module-scss-module__HW1Erq__navLinkActive:before {
+    content: "";
+    background: linear-gradient(#6c9, #4ade80);
+    border-radius: 0 1.5px 1.5px 0;
+    width: 3px;
+    height: 60%;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    box-shadow: 2px 0 8px #6c99;
   }
 }
 

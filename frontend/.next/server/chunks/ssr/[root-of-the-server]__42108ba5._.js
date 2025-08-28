@@ -405,11 +405,17 @@ function Header({ children }) {
     const [userManualControl, setUserManualControl] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
     const [hasScrolledDown, setHasScrolledDown] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
     const pathname = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["usePathname"])();
-    // Auto-collapse when navigating to other pages
+    // Keep navigation open when navigating to other pages
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
-        setIsMenuOpen(false);
-        setUserManualControl(false);
+        // 导航到新页面时保持展开状态
+        setIsMenuOpen(true);
+        setUserManualControl(true);
         setHasScrolledDown(false);
+        // 3秒后恢复自动控制
+        const timer = setTimeout(()=>{
+            setUserManualControl(false);
+        }, 3000);
+        return ()=>clearTimeout(timer);
     }, [
         pathname
     ]);
@@ -491,17 +497,17 @@ function Header({ children }) {
                                 children: "MaKaleidos"
                             }, void 0, false, {
                                 fileName: "[project]/frontend/src/components/ui/modules/Header/Header.jsx",
-                                lineNumber: 85,
+                                lineNumber: 94,
                                 columnNumber: 25
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/frontend/src/components/ui/modules/Header/Header.jsx",
-                            lineNumber: 84,
+                            lineNumber: 93,
                             columnNumber: 21
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/frontend/src/components/ui/modules/Header/Header.jsx",
-                        lineNumber: 83,
+                        lineNumber: 92,
                         columnNumber: 17
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -518,27 +524,27 @@ function Header({ children }) {
                                         className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$components$2f$ui$2f$modules$2f$Header$2f$Header$2e$module$2e$scss$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].menuIcon
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/src/components/ui/modules/Header/Header.jsx",
-                                        lineNumber: 98,
+                                        lineNumber: 107,
                                         columnNumber: 25
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                         className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$components$2f$ui$2f$modules$2f$Header$2f$Header$2e$module$2e$scss$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].menuIcon
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/src/components/ui/modules/Header/Header.jsx",
-                                        lineNumber: 99,
+                                        lineNumber: 108,
                                         columnNumber: 25
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                         className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$components$2f$ui$2f$modules$2f$Header$2f$Header$2e$module$2e$scss$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].menuIcon
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/src/components/ui/modules/Header/Header.jsx",
-                                        lineNumber: 100,
+                                        lineNumber: 109,
                                         columnNumber: 25
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/frontend/src/components/ui/modules/Header/Header.jsx",
-                                lineNumber: 91,
+                                lineNumber: 100,
                                 columnNumber: 21
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("nav", {
@@ -550,55 +556,46 @@ function Header({ children }) {
                                             '--delay': `${index * 0.08}s`,
                                             '--reverse-delay': `${(navItems.length - 1 - index) * 0.05}s`
                                         },
-                                        onClick: ()=>{
-                                            // 点击链接时收起导航
-                                            setIsMenuOpen(false);
-                                            // 短暂进入手动控制模式，避免滚动立即影响
-                                            setUserManualControl(true);
-                                            setTimeout(()=>{
-                                                setUserManualControl(false);
-                                            }, 1000);
-                                        },
                                         children: item.label
                                     }, item.href, false, {
                                         fileName: "[project]/frontend/src/components/ui/modules/Header/Header.jsx",
-                                        lineNumber: 108,
+                                        lineNumber: 117,
                                         columnNumber: 29
                                     }, this))
                             }, void 0, false, {
                                 fileName: "[project]/frontend/src/components/ui/modules/Header/Header.jsx",
-                                lineNumber: 104,
+                                lineNumber: 113,
                                 columnNumber: 21
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/frontend/src/components/ui/modules/Header/Header.jsx",
-                        lineNumber: 89,
+                        lineNumber: 98,
                         columnNumber: 17
                     }, this),
                     children
                 ]
             }, void 0, true, {
                 fileName: "[project]/frontend/src/components/ui/modules/Header/Header.jsx",
-                lineNumber: 81,
+                lineNumber: 91,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$components$2f$ui$2f$modules$2f$Header$2f$Header$2e$module$2e$scss$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].languageContainer,
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$components$2f$ui$2f$LanguageSwitcher$2f$LanguageSwitcher$2e$jsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                     fileName: "[project]/frontend/src/components/ui/modules/Header/Header.jsx",
-                    lineNumber: 137,
-                    columnNumber: 21
+                    lineNumber: 136,
+                    columnNumber: 17
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/frontend/src/components/ui/modules/Header/Header.jsx",
-                lineNumber: 136,
-                columnNumber: 17
+                lineNumber: 135,
+                columnNumber: 13
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/frontend/src/components/ui/modules/Header/Header.jsx",
-        lineNumber: 80,
+        lineNumber: 90,
         columnNumber: 9
     }, this);
 }

@@ -14,11 +14,19 @@ function Header({ children }) {
     const [hasScrolledDown, setHasScrolledDown] = useState(false);
     const pathname = usePathname();
 
-    // Auto-collapse when navigating to other pages
+    // Keep navigation open when navigating to other pages
     useEffect(() => {
-        setIsMenuOpen(false);
-        setUserManualControl(false);
+        // 导航到新页面时保持展开状态
+        setIsMenuOpen(true);
+        setUserManualControl(true);
         setHasScrolledDown(false);
+
+        // 3秒后恢复自动控制
+        const timer = setTimeout(() => {
+            setUserManualControl(false);
+        }, 3000);
+
+        return () => clearTimeout(timer);
     }, [pathname]);
 
     // 滚动监听
@@ -76,10 +84,11 @@ function Header({ children }) {
         { href: '/contact', label: t('navigation.contact') },
     ];
 
+
+
     return (
         <header className={styles.header}>
             <div className={styles.wrapper}>
-                
                 <div className={styles.logo}>
                     <Link href="/">
                         <h1 className={styles.title}>MaKaleidos</h1>
@@ -113,15 +122,6 @@ function Header({ children }) {
                                     '--delay': `${index * 0.08}s`,
                                     '--reverse-delay': `${(navItems.length - 1 - index) * 0.05}s`,
                                 }}
-                                onClick={() => {
-                                    // 点击链接时收起导航
-                                    setIsMenuOpen(false);
-                                    // 短暂进入手动控制模式，避免滚动立即影响
-                                    setUserManualControl(true);
-                                    setTimeout(() => {
-                                        setUserManualControl(false);
-                                    }, 1000);
-                                }}
                             >
                                 {item.label}
                             </Link>
@@ -129,13 +129,12 @@ function Header({ children }) {
                     </nav>
                 </div>
 
-
                 {children}
             </div>
-                {/* Language Switcher - Separate Button on the Right */}
-                <div className={styles.languageContainer}>
-                    <LanguageSwitcher />
-                </div>
+            {/* Language Switcher - Separate Button on the Right */}
+            <div className={styles.languageContainer}>
+                <LanguageSwitcher />
+            </div>
         </header>
     );
 }

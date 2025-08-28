@@ -13,11 +13,14 @@
 !.yarn/releases
 !.yarn/versions
 
+
 # testing
 /coverage
 
 # next.js
+/frontend/.next
 /.next/
+
 
 # production
 /build

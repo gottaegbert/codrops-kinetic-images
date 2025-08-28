@@ -1,0 +1,61 @@
+.main {
+    min-height: 100vh;
+    padding: 8rem 2rem 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    flex: 1;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.title {
+    font-size: 3rem;
+    font-weight: 300;
+    margin-bottom: 1rem;
+    color: #000;
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    color: #666;
+    font-weight: 300;
+    line-height: 1.6;
+}
+
+.content {
+    margin-bottom: 4rem;
+}
+
+.paragraph {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #333;
+    margin-bottom: 1.5rem;
+}
+
+@media (max-width: 768px) {
+    .main {
+        padding: 6rem 1rem 2rem;
+    }
+    
+    .title {
+        font-size: 2rem;
+    }
+    
+    .subtitle {
+        font-size: 1rem;
+    }
+    
+    .paragraph {
+        font-size: 1rem;
+    }
+}

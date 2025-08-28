@@ -1,0 +1,32 @@
+{
+  "../../node_modules/@react-three/drei/core/VideoTexture.js -> hls.js": {
+    "id": null,
+    "files": []
+  },
+  "../../node_modules/@react-three/drei/web/FaceLandmarker.js -> @mediapipe/tasks-vision": {
+    "id": null,
+    "files": []
+  },
+  "../../node_modules/@sanity/client/dist/index.browser.js -> ./_chunks-es/stegaEncodeSourceMap.js": {
+    "id": 4455,
+    "files": [
+      "static/chunks/455.438f6e59f6b97152.js"
+    ]
+  },
+  "../../node_modules/@sanity/client/dist/index.browser.js -> @sanity/eventsource": {
+    "id": 2858,
+    "files": [
+      "static/chunks/858.e406e965347c2a20.js"
+    ]
+  },
+  "components/layouts/Layout.jsx -> @/webgl/Scene": {
+    "id": 2871,
+    "files": [
+      "static/chunks/83607670-37e605c1b6ceb808.js",
+      "static/chunks/c3f2cda1-530ca02c9ccd683f.js",
+      "static/chunks/f5a0c26d-09f182c7c423285b.js",
+      "static/chunks/856-772108e2f6fd2a96.js",
+      "static/chunks/871.9ce3493c04b24811.js"
+    ]
+  }
+}

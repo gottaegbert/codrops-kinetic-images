@@ -1,0 +1,182 @@
+// 全局卡片设计系统 - 轻盈感、透明感、磨砂柔和感
+// CSS Variables are now defined in variables.css
+
+// 基础卡片类
+.card-base {
+    background: var(--card-bg-medium);
+    backdrop-filter: var(--blur-medium);
+    border: var(--border-soft);
+    border-radius: var(--radius-medium);
+    box-shadow: var(--shadow-medium);
+    transition: var(--transition-smooth);
+    position: relative;
+    overflow: hidden;
+
+    // 轻盈感的内部光效
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(
+            90deg,
+            transparent 0%,
+            rgba(255, 255, 255, 0.8) 50%,
+            transparent 100%
+        );
+        opacity: 0.6;
+    }
+
+    // 悬停效果
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-floating);
+        background: var(--card-bg-heavy);
+        border-color: rgba(255, 255, 255, 0.6);
+    }
+}
+
+// 卡片变体
+.card-light {
+    @extend .card-base;
+    background: var(--card-bg-light);
+    backdrop-filter: var(--blur-light);
+    box-shadow: var(--shadow-soft);
+}
+
+.card-heavy {
+    @extend .card-base;
+    background: var(--card-bg-heavy);
+    backdrop-filter: var(--blur-heavy);
+    box-shadow: var(--shadow-strong);
+}
+
+.card-floating {
+    @extend .card-base;
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-floating);
+
+    &:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 16px 60px rgba(0, 0, 0, 0.18);
+    }
+}
+
+// 特殊效果卡片
+.card-glow {
+    @extend .card-base;
+
+    &::after {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        background: linear-gradient(
+            45deg,
+            rgba(102, 204, 153, 0.1),
+            rgba(75, 184, 164, 0.1),
+            rgba(102, 204, 153, 0.1)
+        );
+        border-radius: inherit;
+        z-index: -1;
+        opacity: 0;
+        transition: var(--transition-smooth);
+    }
+
+    &:hover::after {
+        opacity: 1;
+    }
+}
+
+.card-gradient {
+    @extend .card-base;
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.9) 0%,
+        rgba(248, 250, 251, 0.8) 50%,
+        rgba(255, 255, 255, 0.85) 100%
+    );
+}
+
+// 内容区域样式
+.card-content {
+    padding: 1.5rem;
+    position: relative;
+    z-index: 1;
+}
+
+.card-header {
+    padding: 1.5rem 1.5rem 1rem 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    position: relative;
+    z-index: 1;
+}
+
+.card-footer {
+    padding: 1rem 1.5rem 1.5rem 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    position: relative;
+    z-index: 1;
+}
+
+// 响应式设计
+@media (max-width: 768px) {
+    .card-content,
+    .card-header,
+    .card-footer {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+}
+
+// 动画关键帧
+@keyframes cardFloat {
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-2px);
+    }
+}
+
+.card-animate {
+    animation: cardFloat 3s ease-in-out infinite;
+}
+
+// 特殊布局卡片
+.card-overlay {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: var(--blur-heavy);
+    border: var(--border-medium);
+    border-radius: var(--radius-large);
+    box-shadow: var(--shadow-strong);
+
+    &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.2) 0%,
+            rgba(255, 255, 255, 0.05) 100%
+        );
+        border-radius: inherit;
+        pointer-events: none;
+    }
+}
+
+// 磨砂玻璃效果增强
+.glass-effect {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}

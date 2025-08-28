@@ -1,0 +1,33 @@
+.languageSwitcher {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.langButton {
+    background: none;
+    border: none;
+    color: #5a6c7d;
+    cursor: pointer;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    transition: all 0.2s ease;
+    font-size: 0.9rem;
+    font-weight: 400;
+    
+    &:hover {
+        color: #000;
+        background: rgba(0, 0, 0, 0.05);
+    }
+    
+    &.active {
+        color: #66cc99;
+        font-weight: 500;
+    }
+}
+
+.separator {
+    color: #d1d5db;
+    font-weight: 300;
+}

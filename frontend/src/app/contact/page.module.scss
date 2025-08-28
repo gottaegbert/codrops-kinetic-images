@@ -1,0 +1,177 @@
+.page {
+    position: relative;
+    z-index: 2;
+    background: #fff;
+    min-height: 100vh;
+    padding-bottom: 4rem;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 8rem 3rem 0;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 6rem;
+    align-items: start;
+}
+
+// 左侧文本列
+.textColumn {
+    padding-right: 2rem;
+}
+
+.title {
+    font-size: 2.5rem;
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    color: #000;
+    margin: 0 0 3rem;
+    line-height: 1.1;
+}
+
+.section {
+    margin-bottom: 3rem;
+}
+
+.sectionTitle {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #000;
+    margin: 0 0 1rem;
+    letter-spacing: -0.01em;
+}
+
+.paragraph {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #333;
+    margin: 0 0 1rem;
+    font-weight: 400;
+    
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+
+.link {
+    color: #000;
+    text-decoration: none;
+    border-bottom: 1px solid #000;
+    padding-bottom: 1px;
+    transition: all 0.3s ease;
+    
+    &:hover {
+        opacity: 0.7;
+    }
+}
+
+.muted {
+    color: #666;
+    font-style: italic;
+}
+
+.note {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid #eee;
+}
+
+// 右侧信息列
+.infoColumn {
+    position: sticky;
+    top: 8rem;
+}
+
+.infoBlock {
+    margin-bottom: 2.5rem;
+    
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+
+.infoTitle {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #000;
+    margin: 0 0 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.infoParagraph {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #666;
+    margin: 0 0 0.5rem;
+    
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+
+// 响应式设计
+@media (max-width: 1024px) {
+    .container {
+        padding: 7rem 2rem 0;
+    }
+    
+    .grid {
+        gap: 4rem;
+    }
+    
+    .textColumn {
+        padding-right: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 6rem 1.5rem 0;
+    }
+    
+    .grid {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+    
+    .textColumn {
+        padding-right: 0;
+    }
+    
+    .title {
+        font-size: 2rem;
+        margin-bottom: 2rem;
+    }
+    
+    .section {
+        margin-bottom: 2.5rem;
+    }
+    
+    .infoColumn {
+        position: static;
+    }
+    
+    .infoBlock {
+        margin-bottom: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 5rem 1rem 0;
+    }
+    
+    .title {
+        font-size: 1.75rem;
+    }
+    
+    .paragraph,
+    .infoParagraph {
+        font-size: 0.95rem;
+    }
+}

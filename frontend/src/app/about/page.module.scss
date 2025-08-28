@@ -1,0 +1,171 @@
+.page {
+    position: relative;
+    z-index: 2;
+    background: #fff;
+    min-height: 100vh;
+    padding-bottom: 4rem;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 8rem 3rem 0;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: start;
+}
+
+// 左侧文本列
+.textColumn {
+    padding-right: 2rem;
+}
+
+.title {
+    font-size: 2.5rem;
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    color: #000;
+    margin: 0 0 3rem;
+    line-height: 1.1;
+}
+
+.textBlock {
+    margin-bottom: 2.5rem;
+}
+
+.paragraph {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #333;
+    margin: 0;
+    font-weight: 400;
+}
+
+.contactLink {
+    margin-top: 3rem;
+}
+
+.link {
+    color: #000;
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    border-bottom: 1px solid #000;
+    padding-bottom: 2px;
+    transition: all 0.3s ease;
+    
+    &:hover {
+        opacity: 0.7;
+    }
+}
+
+// 右侧图片列
+.imageColumn {
+    position: sticky;
+    top: 8rem;
+}
+
+.imageGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    grid-auto-rows: min-content;
+}
+
+.imageItem {
+    position: relative;
+    overflow: hidden;
+    
+    &:nth-child(1) {
+        grid-row: span 2;
+    }
+    
+    &:nth-child(3) {
+        grid-column: span 2;
+    }
+}
+
+.image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+    
+    &:hover {
+        transform: scale(1.02);
+    }
+}
+
+// 响应式设计
+@media (max-width: 1024px) {
+    .container {
+        padding: 7rem 2rem 0;
+    }
+    
+    .grid {
+        gap: 4rem;
+    }
+    
+    .textColumn {
+        padding-right: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 6rem 1.5rem 0;
+    }
+    
+    .grid {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+    
+    .textColumn {
+        padding-right: 0;
+    }
+    
+    .title {
+        font-size: 2rem;
+        margin-bottom: 2rem;
+    }
+    
+    .textBlock {
+        margin-bottom: 2rem;
+    }
+    
+    .imageColumn {
+        position: static;
+    }
+    
+    .imageGrid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .imageItem {
+        &:nth-child(1),
+        &:nth-child(3) {
+            grid-row: span 1;
+            grid-column: span 1;
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 5rem 1rem 0;
+    }
+    
+    .title {
+        font-size: 1.75rem;
+    }
+    
+    .paragraph {
+        font-size: 0.95rem;
+    }
+}

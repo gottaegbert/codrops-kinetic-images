@@ -1,0 +1,98 @@
+@import '_reset';
+
+:root {
+    --color-text: #1a202c;
+    --color-background: #cacaca;
+    --color-green: #71f0b0;
+    --color-green-hover: #57eca1;
+    
+    /* 字体配置 */
+    --font-primary: "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+    /* Card System Variables */
+    /* 透明度层级 */
+    --card-bg-light: rgba(196, 237, 255, 0.85);
+    --card-bg-medium: rgba(196, 237, 255, 0.75);
+    --card-bg-heavy: rgba(196, 237, 255, 0.95);
+
+    /* 磨砂效果 */
+    --blur-light: blur(8px);
+    --blur-medium: blur(12px);
+    --blur-heavy: blur(20px);
+
+    /* 阴影层级 */
+    --shadow-soft: 0 2px 20px rgba(0, 0, 0, 0.04);
+    --shadow-medium: 0 4px 30px rgba(0, 0, 0, 0.08);
+    --shadow-strong: 0 8px 40px rgba(0, 0, 0, 0.12);
+    --shadow-floating: 0 12px 50px rgba(0, 0, 0, 0.15);
+
+    /* 边框 */
+    --border-soft: 1px solid rgba(255, 255, 255, 0.3);
+    --border-medium: 1px solid rgba(255, 255, 255, 0.5);
+    --border-accent: 1px solid rgba(102, 204, 153, 0.2);
+
+    /* 圆角 */
+    --radius-small: 0.75rem;
+    --radius-medium: 1rem;
+    --radius-large: 1.5rem;
+
+    /* 过渡动画 */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+html,
+body,
+main,
+article {
+    overscroll-behavior: none;
+}
+
+html {
+    font-weight: bolder;
+    font-family: var(--font-primary);
+    scrollbar-width: none;
+    overscroll-behavior: none;
+    font-size: 16px;
+}
+
+.helvetica-font {
+    font-family: var(--font-primary);
+}
+
+body::-webkit-scrollbar {
+    display: none;
+}
+
+body {
+    min-height: 100svh;
+    font-weight: 400;
+    overscroll-behavior: none;
+    -webkit-font-smoothing: antialiased;
+}
+
+.loader {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: var(--color-background);
+    color: #000000;
+    font-size: 1.5rem;
+    font-weight: bold;
+    display: grid;
+    place-items: center;
+}
+
+a {
+    &:hover {
+        opacity: 0.7;
+        transition: opacity 0.3s ease-in-out;
+    }
+
+    &.active {
+        opacity: 0.7;
+        pointer-events: none;
+    }
+}

@@ -1,0 +1,21 @@
+{
+    "name": "studio",
+    "version": "1.0.0",
+    "private": true,
+    "main": "package.json",
+    "license": "UNLICENSED",
+    "scripts": {
+        "build": "sanity build",
+        "dev": "sanity dev",
+        "deploy": "sanity deploy"
+    },
+    "dependencies": {
+        "@sanity/cli": "^4.6.0",
+        "@sanity/vision": "^4.6.0",
+        "react": "^19.0.0",
+        "react-dom": "^19.0.0",
+        "sanity": "^4.6.0",
+        "sanity-plugin-media": "^4.0.0",
+        "styled-components": "^6.1.19"
+    }
+}

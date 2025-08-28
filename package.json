@@ -5,50 +5,23 @@
     "description": "MaKaleidos - Online Art Gallery Platform with virtual exhibitions and magazine-style presentation",
     "author": "MaKaleidos Team",
     "type": "module",
+    "workspaces": [
+        "studio",
+        "frontend"
+    ],
     "scripts": {
-        "dev": "next dev --turbopack",
-        "build": "next build",
-        "start": "next start",
-        "lint": "next lint",
+        "dev": "npm-run-all --parallel --print-label dev:*",
+        "dev:frontend": "npm run dev --workspace=frontend",
+        "dev:studio": "npm run dev --workspace=studio",
+        "build": "npm run build --workspace=frontend",
+        "start": "npm run start --workspace=frontend",
+        "lint": "npm run lint --workspace=frontend",
         "format": "prettier --write .",
-        "format:check": "prettier --check .",
-        "sanity:setup": "node scripts/setup-sanity.js",
-        "sanity:studio": "sanity dev",
-        "sanity:build": "sanity build",
-        "sanity:deploy": "sanity deploy"
-    },
-    "dependencies": {
-        "@react-three/drei": "^10.0.6",
-        "@react-three/fiber": "^9.1.2",
-        "@react-three/postprocessing": "^3.0.4",
-        "@sanity/cli": "^4.6.0",
-        "@sanity/client": "^7.10.0",
-        "@sanity/image-url": "^1.1.0",
-        "@sanity/vision": "^4.6.0",
-        "leva": "^0.10.0",
-        "maath": "^0.10.8",
-        "next": "15.3.4",
-        "next-intl": "^4.3.4",
-        "react": "^19.0.0",
-        "react-dom": "^19.0.0",
-        "sanity": "^4.6.0",
-        "sanity-plugin-media": "^4.0.0",
-        "sass": "^1.86.3",
-        "scss": "^0.2.4",
-        "styled-components": "^6.1.19",
-        "three": "^0.175.0",
-        "tunnel-rat": "^0.1.2"
+        "format:check": "prettier --check ."
     },
     "devDependencies": {
-        "@eslint/eslintrc": "^3",
-        "eslint": "^9",
-        "eslint-config-next": "15.3.4",
-        "file-loader": "^6.2.0",
-        "glslify": "^7.1.1",
-        "glslify-loader": "^2.0.0",
-        "prettier": "^3.5.3",
-        "raw-loader": "^4.0.2",
-        "url-loader": "^4.1.1"
+        "npm-run-all2": "^5.0.2",
+        "prettier": "^3.5.3"
     },
     "keywords": [
         "art",

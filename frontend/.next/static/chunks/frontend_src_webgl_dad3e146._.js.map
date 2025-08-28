@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 7, "column": 0}, "map": {"version":3,"sources":["file:///Users/hu/Documents/GitHub/codrops-kinetic-images/frontend/src/webgl/helpers/global.js"],"sourcesContent":["import tunnel from 'tunnel-rat';\n\nexport const r3f = tunnel();\n"],"names":[],"mappings":";;;AAAA;;AAEO,MAAM,MAAM,CAAA,GAAA,iJAAA,CAAA,UAAM,AAAD","debugId":null}},
+    {"offset": {"line": 22, "column": 0}, "map": {"version":3,"sources":["file:///Users/hu/Documents/GitHub/codrops-kinetic-images/frontend/src/webgl/Scene.jsx"],"sourcesContent":["'use client';\n\nimport { Canvas } from '@react-three/fiber';\nimport { Preload } from '@react-three/drei';\nimport { r3f } from '@/webgl/helpers/global';\nimport * as THREE from 'three';\n\nexport default function Scene(props) {\n    return (\n        <Canvas {...props} >\n            <r3f.Out />\n            <Preload all />\n        </Canvas>\n    );\n}\n"],"names":[],"mappings":";;;;AAEA;AACA;AACA;AAJA;;;;;;AAOe,SAAS,MAAM,KAAK;IAC/B,qBACI,6LAAC,sMAAA,CAAA,SAAM;QAAE,GAAG,KAAK;;0BACb,6LAAC,gJAAA,CAAA,MAAG,CAAC,GAAG;;;;;0BACR,6LAAC,8JAAA,CAAA,UAAO;gBAAC,GAAG;;;;;;;;;;;;AAGxB;KAPwB","debugId":null}}]
+}

@@ -2,30 +2,26 @@ import { defineConfig } from 'sanity'
 import { structureTool } from 'sanity/structure'
 import { visionTool } from '@sanity/vision'
 import { media } from 'sanity-plugin-media'
-import { schemaTypes } from '../sanity/schemas/index.js'
+import { schemaTypes } from '../frontend/src/sanity/schemas/index.js'
 
-const config = defineConfig({
+export default defineConfig({
   name: 'makaleidos-cms',
-  title: 'MaKaleidos CMS',
+  title: 'MaKaleidos Gallery',
   projectId: 'k2sljkbk',
   dataset: 'production',
   plugins: [
     structureTool({
       structure: (S) =>
         S.list()
-          .title('Content')
+          .title('Gallery Management')
           .items([
             S.listItem()
-              .title('Image Assets')
-              .child(
-                S.documentTypeList('imageAsset')
-                  .title('Image Assets')
-                  .filter('_type == "imageAsset"')
-              ),
+              .title('📁 Exhibitions')
+              .child(S.documentTypeList('exhibition').title('All Exhibitions')),
             S.divider(),
-            ...S.documentTypeListItems().filter(
-              (listItem) => !['imageAsset'].includes(listItem.getId())
-            ),
+            S.listItem()
+              .title('📷 Media Library')
+              .child(S.component().component(() => null).id('media'))
           ])
     }),
     visionTool(),
@@ -33,7 +29,5 @@ const config = defineConfig({
   ],
   schema: {
     types: schemaTypes,
-  },
+  }
 })
-
-export default config

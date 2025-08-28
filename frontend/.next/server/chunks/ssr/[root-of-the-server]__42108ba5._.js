@@ -80,18 +80,8 @@ const translations = {
             interview: 'Interview',
             biography: 'Biography',
             selectedExhibition: 'Selected Exhibition',
-            exhibitionTitle: 'Digital Metamorphosis: Contemporary Visions',
-            exhibitionDescription: ' works that blur the boundaries between physical and virtual realms. This exhibition showcases how contemporary artists are redefining creative expression through technology.'
-        },
-        exhibitionCard: {
-            currentExhibition: 'Current Exhibition',
-            paintings: 'Paintings',
-            number: 'No.',
-            duration: 'Duration:',
-            durationText: 'Jan 15 - Mar 30, 2025',
-            featuredArtists: 'Featured Artists:',
-            artistsText: 'Marina Chen, Alex Rodriguez, Yuki Tanaka',
-            learnMore: 'Learn More'
+            selectedPress: 'Selected Press',
+            statement: 'Statement'
         },
         footer: {
             description: 'Contemporary art gallery reimagining the digital exhibition experience.',
@@ -159,18 +149,8 @@ const translations = {
             interview: '访谈',
             biography: '艺术家简介',
             selectedExhibition: '精选展览',
-            exhibitionTitle: '数字变形：当代视野',
-            exhibitionDescription: '深入探索数字艺术的演变，展示突破性作品，模糊物理与虚拟领域的界限。本次展览展示了当代艺术家如何通过技术重新定义创意表达。'
-        },
-        exhibitionCard: {
-            currentExhibition: '当前展览',
-            paintings: '绘画作品',
-            number: '编号',
-            duration: '展期：',
-            durationText: '2025年1月15日 - 3月30日',
-            featuredArtists: '参展艺术家：',
-            artistsText: '陈玛丽娜、亚历克斯·罗德里格斯、田中雪',
-            learnMore: '了解更多'
+            selectedPress: '精选媒体',
+            statement: '艺术家声明'
         },
         footer: {
             description: '重新构想数字展览体验的当代艺术画廊。',
@@ -242,7 +222,7 @@ function LanguageProvider({ children }) {
         children: children
     }, void 0, false, {
         fileName: "[project]/frontend/src/contexts/LanguageContext.jsx",
-        lineNumber: 198,
+        lineNumber: 178,
         columnNumber: 9
     }, this);
 }

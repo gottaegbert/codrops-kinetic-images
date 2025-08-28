@@ -367,4 +367,35 @@
     50% { transform: translateY(-3px); }
 }
 
+/* Dynamic Content Sections */
+.contentSections {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+}
+
+.contentSection {
+    margin-bottom: 4rem;
+    
+    &:last-child {
+        margin-bottom: 0;
+    }
+    
+    // Content flows naturally without section titles
+    // Let the PortableText component handle all styling
+}
+
+/* Responsive adjustments for content sections */
+@media (max-width: 768px) {
+    .contentSections {
+        padding: 2rem 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .contentSections {
+        padding: 1.5rem 0.75rem;
+    }
+}
+
 

@@ -1,6 +1,8 @@
 'use client';
 
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useHomeContent } from '@/hooks/useHomeContent';
+import ExhibitionContentRenderer from '@/components/ui/ExhibitionContentRenderer';
 import styles from './page.module.scss';
 import { View } from '@/webgl/View';
 import { OrthographicCamera, RoundedBox, useTexture } from '@react-three/drei';
@@ -348,27 +350,7 @@ function Cards({ onFirstHover, currentSpacing, viewRef, onScrollStart }) {
             };
         });
 
-    // // Debug info
-    // useEffect(() => {
-    //     if (!loading) {
-    //         console.log('=== Exhibition Debug Info ===');
-    //         console.log('Exhibition:', exhibition);
-    //         console.log('Exhibition title:', exhibition?.title || 'No current exhibition');
-    //         console.log('Exhibition images raw:', exhibition?.images);
-    //         console.log('Exhibition images count:', exhibition?.images?.length || 0);
-    //         console.log('Processed imageData:', imageData);
-    //         console.log('Has error:', !!error);
-    //         console.log('Error details:', error);
-    //         console.log('Error message:', error?.message);
-    //         console.log('Loading state:', loading);
-
-    //         // 如果有错误，显示在页面上
-    //         if (error) {
-    //             console.error('SANITY ERROR:', error);
-    //         }
-    //         console.log('=============================');
-    //     }
-    // }, [exhibition, exhibitionImages.length, loading, error, imageData]);
+   
 
     // Preload all images for better performance
     useEffect(() => {
@@ -478,7 +460,10 @@ export default function Home() {
     const viewRef = useRef();
 
     // 导入语言上下文
-    const { t } = useLanguage();
+    const { t, language } = useLanguage();
+    
+    // 获取Sanity内容
+    const { currentExhibition, loading: contentLoading } = useHomeContent();
 
     const handleFirstHover = () => {
         if (!shouldTriggerAnimation) {
@@ -558,39 +543,140 @@ export default function Home() {
                     {/* 横向滚动条 - 展览信息 */}
                     <div className={styles.infiniteScroll}>
                         <div className={styles.scrollContent}>
-                            <div className={styles.scrollItem}>{t('home.issue')}</div>
-                            <div className={styles.scrollItem}>{t('home.artist')}</div>
-                            <div className={styles.scrollItem}>{t('home.exhibition')}</div>
-                            <div className={styles.scrollItem}>{t('home.visions')}</div>
+                            <div className={styles.scrollItem}>
+                                ISSUE NO.1
+                            </div>
+                            <div className={styles.scrollItem}>
+                                {currentExhibition?.artist || 'ARTIST'}
+                            </div>
+                            <div className={styles.scrollItem}>
+                                {currentExhibition?.title || 'EXHIBITION'}
+                            </div>
+                            <div className={styles.scrollItem}>
+                                CONTEMPORARY VISIONS
+                            </div>
                             {/* Duplicate content for seamless loop */}
-                            <div className={styles.scrollItem}>{t('home.issue')}</div>
-                            <div className={styles.scrollItem}>{t('home.artist')}</div>
-                            <div className={styles.scrollItem}>{t('home.exhibition')}</div>
-                            <div className={styles.scrollItem}>{t('home.visions')}</div>
+                            <div className={styles.scrollItem}>
+                                ISSUE NO.1
+                            </div>
+                            <div className={styles.scrollItem}>
+                                {currentExhibition?.artist || 'ARTIST'}
+                            </div>
+                            <div className={styles.scrollItem}>
+                                {currentExhibition?.title || 'EXHIBITION'}
+                            </div>
+                            <div className={styles.scrollItem}>
+                                CONTEMPORARY VISIONS
+                            </div>
                         </div>
                     </div>
 
                     {/* 页面导航 */}
                     <div className={styles.pageNavigation}>
-                        <span className={styles.navLabel}>{t('home.onThisPage')}</span>
+                        <span className={styles.navLabel}>On this page:</span>
                         <div className={styles.navLinks}>
-                            <a href="#press" className={styles.navLink}>
-                                {t('home.press')}
-                            </a>
-                            <a href="#interview" className={styles.navLink}>
-                                {t('home.interview')}
-                            </a>
-                            <a href="#biography" className={styles.navLink}>
-                                {t('home.biography')}
-                            </a>
-                            <a href="#selected-exhibition" className={styles.navLink}>
-                                {t('home.selectedExhibition')}
-                            </a>
+                            {currentExhibition?.pressRelease?.[language] && (
+                                <a href="#pressRelease" className={styles.navLink}>
+                                    Press Release
+                                </a>
+                            )}
+                            {currentExhibition?.statement?.[language] && (
+                                <a href="#statement" className={styles.navLink}>
+                                    Statement
+                                </a>
+                            )}
+                            {currentExhibition?.biography?.[language] && (
+                                <a href="#biography" className={styles.navLink}>
+                                    Biography
+                                </a>
+                            )}
+                            {currentExhibition?.selectedExhibition?.[language] && (
+                                <a href="#selectedExhibition" className={styles.navLink}>
+                                    Selected Exhibitions
+                                </a>
+                            )}
+                            {currentExhibition?.selectedPress?.[language] && (
+                                <a href="#selectedPress" className={styles.navLink}>
+                                    Selected Press
+                                </a>
+                            )}
+                            {currentExhibition?.interview?.[language] && (
+                                <a href="#interview" className={styles.navLink}>
+                                    Interview
+                                </a>
+                            )}
                         </div>
                     </div>
 
-                    <h2 className={styles.sectionTitle}>{t('home.exhibitionTitle')}</h2>
-                    <p className={styles.sectionText}>{t('home.exhibitionDescription')}</p>
+                    <h2 className={styles.sectionTitle}>
+                        {currentExhibition?.title || 'Exhibition'}
+                    </h2>
+                    <p className={styles.sectionText}>
+                        {currentExhibition?.description || 'Exhibition description...'}
+                    </p>
+                </div>
+
+                {/* Dynamic Content Sections from Sanity - Ordered logically */}
+                <div className={styles.contentSections}>
+                    {/* Press Release - Introduction/Overview */}
+                    {currentExhibition?.pressRelease?.[language] && (
+                        <section id="pressRelease" className={styles.contentSection}>
+                            <ExhibitionContentRenderer 
+                                content={{[language]: currentExhibition.pressRelease[language]}} 
+                                language={language}
+                            />
+                        </section>
+                    )}
+
+                    {/* Statement - Artist's perspective */}
+                    {currentExhibition?.statement?.[language] && (
+                        <section id="statement" className={styles.contentSection}>
+                            <ExhibitionContentRenderer 
+                                content={{[language]: currentExhibition.statement[language]}} 
+                                language={language}
+                            />
+                        </section>
+                    )}
+
+                    {/* Biography - About the artist */}
+                    {currentExhibition?.biography?.[language] && (
+                        <section id="biography" className={styles.contentSection}>
+                            <ExhibitionContentRenderer 
+                                content={{[language]: currentExhibition.biography[language]}} 
+                                language={language}
+                            />
+                        </section>
+                    )}
+
+                    {/* Selected Exhibitions - Previous work context */}
+                    {currentExhibition?.selectedExhibition?.[language] && (
+                        <section id="selectedExhibition" className={styles.contentSection}>
+                            <ExhibitionContentRenderer 
+                                content={{[language]: currentExhibition.selectedExhibition[language]}} 
+                                language={language}
+                            />
+                        </section>
+                    )}
+
+                    {/* Selected Press - Media coverage */}
+                    {currentExhibition?.selectedPress?.[language] && (
+                        <section id="selectedPress" className={styles.contentSection}>
+                            <ExhibitionContentRenderer 
+                                content={{[language]: currentExhibition.selectedPress[language]}} 
+                                language={language}
+                            />
+                        </section>
+                    )}
+
+                    {/* Interview - In-depth conversation */}
+                    {currentExhibition?.interview?.[language] && (
+                        <section id="interview" className={styles.contentSection}>
+                            <ExhibitionContentRenderer 
+                                content={{[language]: currentExhibition.interview[language]}} 
+                                language={language}
+                            />
+                        </section>
+                    )}
                 </div>
             </div>
         </div>

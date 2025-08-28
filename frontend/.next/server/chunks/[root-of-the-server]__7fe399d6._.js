@@ -1,0 +1,88 @@
+module.exports = {
+
+"[project]/frontend/.next-internal/server/app/favicon.ico/route/actions.js [app-rsc] (server actions loader, ecmascript)": ((__turbopack_context__) => {
+"use strict";
+
+var { g: global, __dirname } = __turbopack_context__;
+{
+__turbopack_context__.s({});
+}}),
+"[externals]/next/dist/compiled/next-server/app-route-turbo.runtime.dev.js [external] (next/dist/compiled/next-server/app-route-turbo.runtime.dev.js, cjs)": (function(__turbopack_context__) {
+
+var { g: global, __dirname, m: module, e: exports } = __turbopack_context__;
+{
+const mod = __turbopack_context__.x("next/dist/compiled/next-server/app-route-turbo.runtime.dev.js", () => require("next/dist/compiled/next-server/app-route-turbo.runtime.dev.js"));
+
+module.exports = mod;
+}}),
+"[externals]/next/dist/compiled/@opentelemetry/api [external] (next/dist/compiled/@opentelemetry/api, cjs)": (function(__turbopack_context__) {
+
+var { g: global, __dirname, m: module, e: exports } = __turbopack_context__;
+{
+const mod = __turbopack_context__.x("next/dist/compiled/@opentelemetry/api", () => require("next/dist/compiled/@opentelemetry/api"));
+
+module.exports = mod;
+}}),
+"[externals]/next/dist/compiled/next-server/app-page-turbo.runtime.dev.js [external] (next/dist/compiled/next-server/app-page-turbo.runtime.dev.js, cjs)": (function(__turbopack_context__) {
+
+var { g: global, __dirname, m: module, e: exports } = __turbopack_context__;
+{
+const mod = __turbopack_context__.x("next/dist/compiled/next-server/app-page-turbo.runtime.dev.js", () => require("next/dist/compiled/next-server/app-page-turbo.runtime.dev.js"));
+
+module.exports = mod;
+}}),
+"[externals]/next/dist/server/app-render/work-unit-async-storage.external.js [external] (next/dist/server/app-render/work-unit-async-storage.external.js, cjs)": (function(__turbopack_context__) {
+
+var { g: global, __dirname, m: module, e: exports } = __turbopack_context__;
+{
+const mod = __turbopack_context__.x("next/dist/server/app-render/work-unit-async-storage.external.js", () => require("next/dist/server/app-render/work-unit-async-storage.external.js"));
+
+module.exports = mod;
+}}),
+"[externals]/next/dist/server/app-render/work-async-storage.external.js [external] (next/dist/server/app-render/work-async-storage.external.js, cjs)": (function(__turbopack_context__) {
+
+var { g: global, __dirname, m: module, e: exports } = __turbopack_context__;
+{
+const mod = __turbopack_context__.x("next/dist/server/app-render/work-async-storage.external.js", () => require("next/dist/server/app-render/work-async-storage.external.js"));
+
+module.exports = mod;
+}}),
+"[externals]/next/dist/server/app-render/after-task-async-storage.external.js [external] (next/dist/server/app-render/after-task-async-storage.external.js, cjs)": (function(__turbopack_context__) {
+
+var { g: global, __dirname, m: module, e: exports } = __turbopack_context__;
+{
+const mod = __turbopack_context__.x("next/dist/server/app-render/after-task-async-storage.external.js", () => require("next/dist/server/app-render/after-task-async-storage.external.js"));
+
+module.exports = mod;
+}}),
+"[project]/frontend/src/app/favicon--route-entry.js [app-rsc] (ecmascript)": ((__turbopack_context__) => {
+"use strict";
+
+var { g: global, __dirname } = __turbopack_context__;
+{
+__turbopack_context__.s({
+    "GET": (()=>GET),
+    "dynamic": (()=>dynamic)
+});
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/server.js [app-rsc] (ecmascript)");
+;
+const contentType = "image/x-icon";
+const cacheControl = "public, max-age=0, must-revalidate";
+const buffer = Buffer.from("AAABAAEAIB4AAAEAIACgDwAAFgAAACgAAAAgAAAAPAAAAAEAIAAAAAAAAA8AACMuAAAjLgAAAAAAAAAAAAD/////////////////////////////////////////////////////////////////////8fHx/7CwsP+FhYX/hYWF/7Ozs//z8/P///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////b29v+qqqr/f39//39/f/9/f3//f39//62trf/39/f/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////wMDA/39/f/9/f3//f39//39/f/9/f3//gICA/8TExP///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////+np6f+NjY3/fn5+/39/f/9/f3//f39//39/f/9+fn7/kJCQ/+zs7P//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////vr6+/35+fv9/f3//f39//39/f/9/f3//f39//39/f/9+fn7/wsLC//////////////////////////////////////////////////////////////////////////////////v7+//q6ur/2tra/9TU1P/Z2dn/5OTk/+jo6P+Wlpb/fn5+/4CAgP9/f3//f39//39/f/9/f3//gICA/35+fv+ZmZn/6enp/+Pj4//Y2Nj/1NTU/9ra2v/q6ur/+/v7///////////////////////////////////////p6en/qqqq/4qKiv+CgoL/gICA/4GBgf+Hh4f/fn5+/1VVVf9hYWH/cXFx/319ff+AgID/gICA/3x8fP9xcXH/YGBg/1ZWVv+AgID/h4eH/4GBgf+AgID/goKC/4uLi/+tra3/7Ozs////////////////////////////9/f3/6Ghof98fHz/fn5+/39/f/9/f3//f39//4CAgP9gYGD/PT09/z4+Pv9DQ0P/UVFR/2NjY/9jY2P/UVFR/0NDQ/8+Pj7/Pj4+/2JiYv+AgID/f39//39/f/9/f3//fn5+/3x8fP+lpaX/+Pj4///////////////////////h4eH/hYWF/39/f/9/f3//f39//39/f/9/f3//fn5+/1RUVP8+Pj7/Pz8//zw8PP8wMDD/JSUl/yYmJv8wMDD/PDw8/z8/P/8+Pj7/V1dX/39/f/9/f3//f39//39/f/9/f3//fn5+/4eHh//l5eX//////////////////////+Dg4P+EhIT/f39//39/f/9/f3//f39//39/f/97e3v/TExM/z09Pf80NDT/JiYm/x8fH/8fHx//Hx8f/x8fH/8mJib/NDQ0/z09Pf9OTk7/fHx8/39/f/9/f3//f39//39/f/9/f3//hoaG/+Tk5P//////////////////////8PDw/5GRkf9+fn7/f39//39/f/9/f3//gICA/3d3d/9BQUH/Kioq/yAgIP8fHx//Hx8f/x8fH/8fHx//Hx8f/x8fH/8gICD/Kioq/0NDQ/94eHj/gICA/39/f/9/f3//f39//35+fv+UlJT/8/Pz///////////////////////+/v7/tbW1/319ff9/f3//f39//39/f/9/f3//YGBg/yYmJv8eHh7/Hx8f/x8fH/8fHx//Hx8f/x8fH/8fHx//Hx8f/x8fH/8eHh7/KCgo/2NjY/9/f3//f39//39/f/9/f3//fn5+/7q6uv/////////////////////////////////o6Oj/jo6O/35+fv9/f3//fHx8/19fX/85OTn/ICAg/x8fH/8fHx//Hx8f/x8fH/8fHx//Hx8f/x8fH/8fHx//Hx8f/x8fH/8gICD/Ozs7/2FhYf99fX3/f39//35+fv+RkZH/6+vr///////////////////////////////////////Kysr/g4OD/3p6ev9ZWVn/QEBA/zU1Nf8fHx//Hx8f/x8fH/8fHx//Hx8f/x8fH/8fHx//Hx8f/x8fH/8fHx//Hx8f/yAgIP82Njb/QEBA/1paWv97e3v/hISE/87Ozv////////////////////////////////////////////v7+/+xsbH/V1dX/z8/P/8/Pz//NDQ0/x8fH/8fHx//Hx8f/x8fH/8fHx//Hx8f/x8fH/8fHx//Hx8f/x8fH/8fHx//ICAg/zU1Nf8/Pz//Pz8//1lZWf+2trb//Pz8////////////////////////////////////////////+/v7/7Gxsf9XV1f/Pz8//z8/P/80NDT/Hx8f/x8fH/8fHx//Hx8f/x8fH/8fHx//Hx8f/x8fH/8fHx//Hx8f/x8fH/8gICD/NTU1/z8/P/8/Pz//WVlZ/7a2tv/8/Pz////////////////////////////////////////////Kysr/g4OD/3p6ev9ZWVn/QEBA/zU1Nf8fHx//Hx8f/x8fH/8fHx//Hx8f/x8fH/8fHx//Hx8f/x8fH/8fHx//Hx8f/yAgIP82Njb/QEBA/1paWv97e3v/hISE/87Ozv//////////////////////////////////////6Ojo/46Ojv9+fn7/f39//3x8fP9fX1//OTk5/yAgIP8fHx//Hx8f/x8fH/8fHx//Hx8f/x8fH/8fHx//Hx8f/x8fH/8fHx//ICAg/zs7O/9hYWH/fX19/39/f/9+fn7/kZGR/+vr6/////////////////////////////7+/v+1tbX/fX19/39/f/9/f3//f39//39/f/9gYGD/JiYm/x4eHv8fHx//Hx8f/x8fH/8fHx//Hx8f/x8fH/8fHx//Hx8f/x4eHv8oKCj/Y2Nj/39/f/9/f3//f39//39/f/9+fn7/urq6////////////////////////////8PDw/5GRkf9+fn7/f39//39/f/9/f3//gICA/3d3d/9BQUH/Kioq/yAgIP8fHx//Hx8f/x8fH/8fHx//Hx8f/x8fH/8gICD/Kioq/0NDQ/94eHj/gICA/39/f/9/f3//f39//35+fv+UlJT/8/Pz///////////////////////g4OD/hISE/39/f/9/f3//f39//39/f/9/f3//e3t7/0xMTP89PT3/MzMz/yYmJv8fHx//Hx8f/x8fH/8fHx//JiYm/zQ0NP89PT3/Tk5O/3x8fP9/f3//f39//39/f/9/f3//f39//4aGhv/k5OT//////////////////////+Hh4f+FhYX/f39//39/f/9/f3//f39//39/f/9+fn7/VFRU/z4+Pv8/Pz//PDw8/zAwMP8lJSX/JiYm/zAwMP88PDz/Pz8//z4+Pv9XV1f/f39//39/f/9/f3//f39//39/f/9+fn7/h4eH/+Xl5f//////////////////////9/f3/6Ghof98fHz/fn5+/39/f/9/f3//f39//4CAgP9gYGD/PT09/z4+Pv9DQ0P/UVFR/2NjY/9iYmL/UVFR/0NDQ/8+Pj7/Pj4+/2JiYv+AgID/f39//39/f/9/f3//fn5+/3x8fP+lpaX/+Pj4////////////////////////////6enp/6qqqv+Kior/goKC/4CAgP+BgYH/h4eH/35+fv9VVVX/YGBg/3Fxcf99fX3/gICA/4CAgP98fHz/cXFx/2BgYP9WVlb/gICA/4eHh/+BgYH/gICA/4KCgv+Li4v/ra2t/+zs7P//////////////////////////////////////+/v7/+np6f/a2tr/1NTU/9nZ2f/k5OT/5+fn/5aWlv9+fn7/gICA/39/f/9/f3//f39//39/f/+AgID/fn5+/5mZmf/p6en/4+Pj/9jY2P/U1NT/2tra/+rq6v/7+/v/////////////////////////////////////////////////////////////////////////////////vr6+/35+fv9/f3//f39//39/f/9/f3//f39//39/f/9+fn7/wsLC///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////p6en/jY2N/35+fv9/f3//f39//39/f/9/f3//fn5+/5CQkP/s7Oz////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////AwMD/f39//39/f/9/f3//f39//39/f/+AgID/xMTE//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////b29v+qqqr/f39//39/f/9/f3//f39//62trf/39/f///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Hx8f+wsLD/hYWF/4WFhf+zs7P/8/Pz//////////////////////////////////////////////////////////////////////8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=", 'base64');
+if ("TURBOPACK compile-time falsy", 0) {
+    "TURBOPACK unreachable";
+}
+function GET() {
+    return new __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["NextResponse"](buffer, {
+        headers: {
+            'Content-Type': contentType,
+            'Cache-Control': cacheControl
+        }
+    });
+}
+const dynamic = 'force-static';
+}}),
+
+};
+
+//# sourceMappingURL=%5Broot-of-the-server%5D__7fe399d6._.js.map

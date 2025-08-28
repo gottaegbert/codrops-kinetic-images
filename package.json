@@ -31,5 +31,8 @@
         "next.js",
         "virtual-gallery",
         "magazine-style"
-    ]
+    ],
+    "dependencies": {
+        "fdir": "^6.5.0"
+    }
 }

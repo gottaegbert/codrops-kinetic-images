@@ -72,6 +72,179 @@ export default {
       name: 'date',
       title: 'Exhibition Date',
       type: 'date'
+    },
+    // Exhibition Card Information
+    {
+      name: 'exhibitionCard',
+      title: 'Exhibition Card Info',
+      type: 'object',
+      fields: [
+        {
+          name: 'number',
+          title: 'Exhibition Number',
+          type: 'string',
+          description: 'e.g., "202507"'
+        },
+        {
+          name: 'startDate',
+          title: 'Start Date',
+          type: 'date'
+        },
+        {
+          name: 'endDate',
+          title: 'End Date',
+          type: 'date'
+        },
+        {
+          name: 'featuredArtists',
+          title: 'Featured Artists',
+          type: 'object',
+          fields: [
+            {
+              name: 'en',
+              title: 'English',
+              type: 'string'
+            },
+            {
+              name: 'zh',
+              title: 'Chinese',
+              type: 'string'
+            }
+          ]
+        },
+        {
+          name: 'cardDescription',
+          title: 'Card Description',
+          type: 'object',
+          fields: [
+            {
+              name: 'en',
+              title: 'English',
+              type: 'text'
+            },
+            {
+              name: 'zh',
+              title: 'Chinese',
+              type: 'text'
+            }
+          ]
+        }
+      ]
+    },
+    // Exhibition Content Fields
+    {
+      name: 'pressRelease',
+      title: 'Press Release',
+      type: 'object',
+      fields: [
+        {
+          name: 'en',
+          title: 'English Content',
+          type: 'array',
+          of: [{ type: 'block' }]
+        },
+        {
+          name: 'zh',
+          title: 'Chinese Content',
+          type: 'array',
+          of: [{ type: 'block' }]
+        }
+      ]
+    },
+    {
+      name: 'biography',
+      title: 'Biography',
+      type: 'object',
+      fields: [
+        {
+          name: 'en',
+          title: 'English Content',
+          type: 'array',
+          of: [{ type: 'block' }]
+        },
+        {
+          name: 'zh',
+          title: 'Chinese Content',
+          type: 'array',
+          of: [{ type: 'block' }]
+        }
+      ]
+    },
+    {
+      name: 'statement',
+      title: 'Statement',
+      type: 'object',
+      fields: [
+        {
+          name: 'en',
+          title: 'English Content',
+          type: 'array',
+          of: [{ type: 'block' }]
+        },
+        {
+          name: 'zh',
+          title: 'Chinese Content',
+          type: 'array',
+          of: [{ type: 'block' }]
+        }
+      ]
+    },
+    {
+      name: 'selectedExhibition',
+      title: 'Selected Exhibition',
+      type: 'object',
+      fields: [
+        {
+          name: 'en',
+          title: 'English Content',
+          type: 'array',
+          of: [{ type: 'block' }]
+        },
+        {
+          name: 'zh',
+          title: 'Chinese Content',
+          type: 'array',
+          of: [{ type: 'block' }]
+        }
+      ]
+    },
+    {
+      name: 'selectedPress',
+      title: 'Selected Press',
+      type: 'object',
+      fields: [
+        {
+          name: 'en',
+          title: 'English Content',
+          type: 'array',
+          of: [{ type: 'block' }]
+        },
+        {
+          name: 'zh',
+          title: 'Chinese Content',
+          type: 'array',
+          of: [{ type: 'block' }]
+        }
+      ]
+    },
+    {
+      name: 'interview',
+      title: 'Interview',
+      type: 'object',
+      fields: [
+        {
+          name: 'en',
+          title: 'English Content',
+          type: 'array',
+          of: [{ type: 'block' }]
+        },
+        {
+          name: 'zh',
+          title: 'Chinese Content',
+          type: 'array',
+          of: [{ type: 'block' }]
+        }
+      ]
     }
   ],
   preview: {

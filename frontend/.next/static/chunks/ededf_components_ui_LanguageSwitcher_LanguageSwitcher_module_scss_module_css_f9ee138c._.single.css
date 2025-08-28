@@ -1,0 +1,36 @@
+/* [project]/frontend/src/components/ui/LanguageSwitcher/LanguageSwitcher.module.scss.module.css [app-client] (css) */
+.LanguageSwitcher-module-scss-module__0ZuW-a__languageSwitcher {
+  align-items: center;
+  gap: .5rem;
+  font-size: .9rem;
+  display: flex;
+}
+
+.LanguageSwitcher-module-scss-module__0ZuW-a__langButton {
+  color: #5a6c7d;
+  cursor: pointer;
+  background: none;
+  border: none;
+  border-radius: .25rem;
+  padding: .25rem .5rem;
+  font-size: .9rem;
+  font-weight: 400;
+  transition: all .2s;
+}
+
+.LanguageSwitcher-module-scss-module__0ZuW-a__langButton:hover {
+  color: #000;
+  background: #0000000d;
+}
+
+.LanguageSwitcher-module-scss-module__0ZuW-a__langButton.LanguageSwitcher-module-scss-module__0ZuW-a__active {
+  color: #6c9;
+  font-weight: 500;
+}
+
+.LanguageSwitcher-module-scss-module__0ZuW-a__separator {
+  color: #d1d5db;
+  font-weight: 300;
+}
+
+/*# sourceMappingURL=ededf_components_ui_LanguageSwitcher_LanguageSwitcher_module_scss_module_css_f9ee138c._.single.css.map*/

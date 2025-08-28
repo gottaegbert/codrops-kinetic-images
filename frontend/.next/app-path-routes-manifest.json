@@ -3,9 +3,10 @@
   "/favicon.ico/route": "/favicon.ico",
   "/about/page": "/about",
   "/admin/page": "/admin",
-  "/contact/page": "/contact",
   "/archive/page": "/archive",
   "/debug/page": "/debug",
+  "/contact/page": "/contact",
   "/news/page": "/news",
-  "/page": "/"
+  "/page": "/",
+  "/studio/[[...tool]]/page": "/studio/[[...tool]]"
 }

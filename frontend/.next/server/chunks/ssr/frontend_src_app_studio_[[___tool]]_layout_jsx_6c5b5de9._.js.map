@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 7, "column": 0}, "map": {"version":3,"sources":["file:///Users/hu/Documents/GitHub/codrops-kinetic-images/frontend/src/app/studio/%5B%5B...tool%5D%5D/layout.jsx"],"sourcesContent":["export async function generateStaticParams() {\n  return [\n    { tool: [] },\n    { tool: ['desk'] },\n    { tool: ['vision'] }\n  ]\n}\n\nexport default function StudioLayout({ children }) {\n  return children\n}\n"],"names":[],"mappings":";;;;AAAO,eAAe;IACpB,OAAO;QACL;YAAE,MAAM,EAAE;QAAC;QACX;YAAE,MAAM;gBAAC;aAAO;QAAC;QACjB;YAAE,MAAM;gBAAC;aAAS;QAAC;KACpB;AACH;AAEe,SAAS,aAAa,EAAE,QAAQ,EAAE;IAC/C,OAAO;AACT","debugId":null}}]
+}

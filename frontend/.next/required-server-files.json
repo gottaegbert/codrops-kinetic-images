@@ -315,6 +315,16 @@
         }
       },
       "root": "/Users/hu/Documents/GitHub/codrops-kinetic-images"
+    },
+    "_originalRewrites": {
+      "beforeFiles": [],
+      "afterFiles": [
+        {
+          "source": "/studio/:path*",
+          "destination": "/studio/:path*"
+        }
+      ],
+      "fallback": []
     }
   },
   "appDir": "/Users/hu/Documents/GitHub/codrops-kinetic-images/frontend",

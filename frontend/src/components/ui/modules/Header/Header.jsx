@@ -2,7 +2,7 @@
 
 import { useLanguage } from '@/contexts/LanguageContext';
 import Link from 'next/link';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import LanguageSwitcher from '../../LanguageSwitcher/LanguageSwitcher';
 import styles from './Header.module.scss';
@@ -25,9 +25,9 @@ function Header({ children }) {
     useEffect(() => {
         const handleScroll = () => {
             const scrollY = window.scrollY;
-            
+
             if (!userManualControl) {
-                if (scrollY <= 100) {
+                if (scrollY <= 300) {
                     // 在页面顶部，自动展开
                     setIsMenuOpen(true);
                     setHasScrolledDown(false);
@@ -40,10 +40,10 @@ function Header({ children }) {
         };
 
         window.addEventListener('scroll', handleScroll);
-        
+
         // 初始检查
         handleScroll();
-        
+
         return () => {
             window.removeEventListener('scroll', handleScroll);
         };
@@ -61,11 +61,11 @@ function Header({ children }) {
         // 用户主动控制
         setUserManualControl(true);
         setIsMenuOpen(!isMenuOpen);
-        
-        // 5秒后恢复自动控制
+
+        // 10秒后恢复自动控制
         setTimeout(() => {
             setUserManualControl(false);
-        }, 5000);
+        }, 10000);
     };
 
     const navItems = [
@@ -73,27 +73,26 @@ function Header({ children }) {
         { href: '/news', label: t('navigation.news') },
         { href: '/review', label: t('navigation.review') },
         { href: '/about', label: t('navigation.about') },
-        { href: '/contact', label: t('navigation.contact') }
+        { href: '/contact', label: t('navigation.contact') },
     ];
 
     return (
         <header className={styles.header}>
             <div className={styles.wrapper}>
+                
                 <div className={styles.logo}>
                     <Link href="/">
                         <h1 className={styles.title}>MaKaleidos</h1>
                     </Link>
                 </div>
 
-                <div 
-                    className={styles.navContainer}
-                    onMouseEnter={handleMouseEnter}
-                    onMouseLeave={handleMouseLeave}
-                >
+                <div className={styles.navContainer}>
                     {/* Menu Toggle Button */}
-                    <button 
+                    <button
                         className={`${styles.menuToggle} ${isMenuOpen ? styles.menuToggleActive : ''}`}
                         onClick={handleToggleClick}
+                        onMouseEnter={handleMouseEnter}
+                        onMouseLeave={handleMouseLeave}
                         aria-label="Click to toggle or hover to expand navigation menu"
                     >
                         <span className={styles.menuIcon}></span>
@@ -101,16 +100,18 @@ function Header({ children }) {
                         <span className={styles.menuIcon}></span>
                     </button>
 
-                    {/* Navigation Links - Inline */}
-                    <nav className={`${styles.navigation} ${isMenuOpen ? styles.navigationOpen : ''}`}>
+                    {/* Navigation Links - Individual Buttons */}
+                    <nav
+                        className={`${styles.navigation} ${isMenuOpen ? styles.navigationOpen : ''}`}
+                    >
                         {navItems.map((item, index) => (
-                            <Link 
+                            <Link
                                 key={item.href}
-                                href={item.href} 
+                                href={item.href}
                                 className={`${styles.navLink} ${pathname === item.href ? styles.navLinkActive : ''}`}
-                                style={{ 
+                                style={{
                                     '--delay': `${index * 0.08}s`,
-                                    '--reverse-delay': `${(navItems.length - 1 - index) * 0.05}s`
+                                    '--reverse-delay': `${(navItems.length - 1 - index) * 0.05}s`,
                                 }}
                                 onClick={() => {
                                     // 点击链接时收起导航
@@ -126,15 +127,15 @@ function Header({ children }) {
                             </Link>
                         ))}
                     </nav>
-
-                    {/* Controls */}
-                    <div className={`${styles.controls} ${isMenuOpen ? styles.controlsVisible : ''}`}>
-                        <LanguageSwitcher />
-                    </div>
                 </div>
+
 
                 {children}
             </div>
+                {/* Language Switcher - Separate Button on the Right */}
+                <div className={styles.languageContainer}>
+                    <LanguageSwitcher />
+                </div>
         </header>
     );
 }

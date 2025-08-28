@@ -2,6 +2,9 @@
 
 # dependencies
 /node_modules
+
+/frontend/node_modules
+/studio/node_modules
 /.pnp
 .pnp.*
 .yarn/*

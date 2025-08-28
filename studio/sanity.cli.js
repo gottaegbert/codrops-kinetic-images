@@ -6,5 +6,6 @@ export default {
   api: {
     projectId: 'k2sljkbk',
     dataset: 'production'
-  }
+  },
+  studioHost: 'makaleidos'
 }

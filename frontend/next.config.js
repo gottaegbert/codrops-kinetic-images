@@ -51,6 +51,26 @@ const nextConfig = {
         // TODO: Temporary fix, disable later
         ignoreDuringBuilds: true,
     },
+    async redirects() {
+        // Only redirect to local studio in development mode
+        if (process.env.NODE_ENV === 'development') {
+            return [
+                {
+                    source: '/studio',
+                    destination: 'http://localhost:3333',
+                    permanent: false,
+                    basePath: false
+                },
+                {
+                    source: '/studio/:path*',
+                    destination: 'http://localhost:3333/:path*',
+                    permanent: false,
+                    basePath: false
+                }
+            ];
+        }
+        return [];
+    },
 };
 
 export default nextConfig;

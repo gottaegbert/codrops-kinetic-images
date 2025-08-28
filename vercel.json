@@ -2,5 +2,17 @@
   "buildCommand": "npm run build --workspace=frontend",
   "outputDirectory": "frontend/out",
   "installCommand": "npm install",
-  "framework": null
+  "framework": null,
+  "redirects": [
+    {
+      "source": "/studio",
+      "destination": "https://makaleidos.sanity.studio",
+      "permanent": true
+    },
+    {
+      "source": "/studio/(.*)",
+      "destination": "https://makaleidos.sanity.studio/$1",
+      "permanent": true
+    }
+  ]
 }

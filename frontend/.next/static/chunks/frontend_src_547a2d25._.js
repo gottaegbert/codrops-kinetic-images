@@ -969,7 +969,7 @@ function Card({ index, position, onPointerOver, onPointerOut, hovered, active, i
             ref: ref,
             rotation: [
                 0,
-                -Math.PI / 2,
+                -Math.PI / 4,
                 0
             ],
             onPointerOver: (e)=>(e.stopPropagation(), onPointerOver(index)),
@@ -1054,9 +1054,9 @@ function CameraController({ triggerAnimation, onProgressChange }) {
                 0
             ];
             const endPos = [
-                -40,
-                15,
-                18
+                -0,
+                20,
+                40
             ];
             // 使用三角函数创建更自然的曲线运动
             const curveProgress = Math.sin(progress * Math.PI * 0.5);
@@ -1869,6 +1869,24 @@ function Home() {
                                 lineNumber: 623,
                                 columnNumber: 25
                             }, this),
+                            currentExhibition?.interview?.[language] && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
+                                id: "interview",
+                                className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$app$2f$page$2e$module$2e$scss$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].contentSection,
+                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$components$2f$ui$2f$ExhibitionContentRenderer$2f$ExhibitionContentRenderer$2e$jsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                    content: {
+                                        [language]: currentExhibition.interview[language]
+                                    },
+                                    language: language
+                                }, void 0, false, {
+                                    fileName: "[project]/frontend/src/app/page.jsx",
+                                    lineNumber: 636,
+                                    columnNumber: 29
+                                }, this)
+                            }, void 0, false, {
+                                fileName: "[project]/frontend/src/app/page.jsx",
+                                lineNumber: 635,
+                                columnNumber: 25
+                            }, this),
                             currentExhibition?.statement?.[language] && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
                                 id: "statement",
                                 className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$app$2f$page$2e$module$2e$scss$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].contentSection,
@@ -1879,12 +1897,12 @@ function Home() {
                                     language: language
                                 }, void 0, false, {
                                     fileName: "[project]/frontend/src/app/page.jsx",
-                                    lineNumber: 634,
+                                    lineNumber: 645,
                                     columnNumber: 29
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/frontend/src/app/page.jsx",
-                                lineNumber: 633,
+                                lineNumber: 644,
                                 columnNumber: 25
                             }, this),
                             currentExhibition?.biography?.[language] && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
@@ -1897,12 +1915,12 @@ function Home() {
                                     language: language
                                 }, void 0, false, {
                                     fileName: "[project]/frontend/src/app/page.jsx",
-                                    lineNumber: 644,
+                                    lineNumber: 655,
                                     columnNumber: 29
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/frontend/src/app/page.jsx",
-                                lineNumber: 643,
+                                lineNumber: 654,
                                 columnNumber: 25
                             }, this),
                             currentExhibition?.selectedExhibition?.[language] && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
@@ -1915,12 +1933,12 @@ function Home() {
                                     language: language
                                 }, void 0, false, {
                                     fileName: "[project]/frontend/src/app/page.jsx",
-                                    lineNumber: 654,
+                                    lineNumber: 665,
                                     columnNumber: 29
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/frontend/src/app/page.jsx",
-                                lineNumber: 653,
+                                lineNumber: 664,
                                 columnNumber: 25
                             }, this),
                             currentExhibition?.selectedPress?.[language] && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
@@ -1933,30 +1951,12 @@ function Home() {
                                     language: language
                                 }, void 0, false, {
                                     fileName: "[project]/frontend/src/app/page.jsx",
-                                    lineNumber: 664,
+                                    lineNumber: 675,
                                     columnNumber: 29
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/frontend/src/app/page.jsx",
-                                lineNumber: 663,
-                                columnNumber: 25
-                            }, this),
-                            currentExhibition?.interview?.[language] && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
-                                id: "interview",
-                                className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$app$2f$page$2e$module$2e$scss$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].contentSection,
-                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$components$2f$ui$2f$ExhibitionContentRenderer$2f$ExhibitionContentRenderer$2e$jsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                                    content: {
-                                        [language]: currentExhibition.interview[language]
-                                    },
-                                    language: language
-                                }, void 0, false, {
-                                    fileName: "[project]/frontend/src/app/page.jsx",
-                                    lineNumber: 674,
-                                    columnNumber: 29
-                                }, this)
-                            }, void 0, false, {
-                                fileName: "[project]/frontend/src/app/page.jsx",
-                                lineNumber: 673,
+                                lineNumber: 674,
                                 columnNumber: 25
                             }, this)
                         ]

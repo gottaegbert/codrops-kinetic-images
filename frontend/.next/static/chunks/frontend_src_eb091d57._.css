@@ -77,9 +77,9 @@ img {
 
 :root {
   --color-text: #1a202c;
-  --color-background: #cacaca;
-  --color-green: #71f0b0;
-  --color-green-hover: #57eca1;
+  --color-background: #fdfdfb;
+  --color-green: #8ea7ac;
+  --color-green-hover: #b7cdd2;
   --font-primary: "Helvetica Neue", Helvetica, Arial, sans-serif;
   --card-bg-light: #c4edffd9;
   --card-bg-medium: #c4edffbf;
@@ -93,7 +93,7 @@ img {
   --shadow-floating: 0 12px 50px #00000026;
   --border-soft: 1px solid #ffffff4d;
   --border-medium: 1px solid #ffffff80;
-  --border-accent: 1px solid #6c93;
+  --border-accent: 1px solid #8ea7ac33;
   --radius-small: .75rem;
   --radius-medium: 1rem;
   --radius-large: 1.5rem;

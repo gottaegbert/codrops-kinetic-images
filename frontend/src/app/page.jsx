@@ -5,7 +5,7 @@ import { useHomeContent } from '@/hooks/useHomeContent';
 import ExhibitionContentRenderer from '@/components/ui/ExhibitionContentRenderer';
 import styles from './page.module.scss';
 import { View } from '@/webgl/View';
-import { OrthographicCamera, RoundedBox, useTexture } from '@react-three/drei';
+import { OrthographicCamera, useTexture } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
 import { useRef, useState, useEffect } from 'react';
 import { easing } from 'maath';
@@ -79,7 +79,7 @@ function Card({
         <group position={position}>
             <mesh
                 ref={ref}
-                rotation={[0, -Math.PI / 2, 0]}
+                rotation={[0, -Math.PI / 4, 0]}
                 onPointerOver={(e) => (e.stopPropagation(), onPointerOver(index))}
                 onPointerOut={(e) => (e.stopPropagation(), onPointerOut())}
             >
@@ -138,7 +138,7 @@ function CameraController({ triggerAnimation, onProgressChange }) {
 
         // 创建平滑的相机路径
         const startPos = [-30, 0, 0];
-        const endPos = [-40, 15, 18];
+        const endPos = [-0, 20, 40];
 
         // 使用三角函数创建更自然的曲线运动
         const curveProgress = Math.sin(progress * Math.PI * 0.5);
@@ -628,8 +628,19 @@ export default function Home() {
                         </section>
                     )}
 
-                    {/* Statement - Artist's perspective */}
-                    {currentExhibition?.statement?.[language] && (
+                 
+
+                    {/* Interview - In-depth conversation */}
+                    {currentExhibition?.interview?.[language] && (
+                        <section id="interview" className={styles.contentSection}>
+                            <ExhibitionContentRenderer 
+                                content={{[language]: currentExhibition.interview[language]}} 
+                                language={language}
+                            />
+                        </section>
+                    )}
+                       {/* Statement - Artist's perspective */}
+                       {currentExhibition?.statement?.[language] && (
                         <section id="statement" className={styles.contentSection}>
                             <ExhibitionContentRenderer 
                                 content={{[language]: currentExhibition.statement[language]}} 
@@ -663,16 +674,6 @@ export default function Home() {
                         <section id="selectedPress" className={styles.contentSection}>
                             <ExhibitionContentRenderer 
                                 content={{[language]: currentExhibition.selectedPress[language]}} 
-                                language={language}
-                            />
-                        </section>
-                    )}
-
-                    {/* Interview - In-depth conversation */}
-                    {currentExhibition?.interview?.[language] && (
-                        <section id="interview" className={styles.contentSection}>
-                            <ExhibitionContentRenderer 
-                                content={{[language]: currentExhibition.interview[language]}} 
                                 language={language}
                             />
                         </section>

@@ -2,9 +2,9 @@
 
 :root {
     --color-text: #1a202c;
-    --color-background: #cacaca;
-    --color-green: #71f0b0;
-    --color-green-hover: #57eca1;
+    --color-background: #fdfdfb;
+    --color-green: #8ea7ac;
+    --color-green-hover: hsl(191, 23%, 77%);
     
     /* 字体配置 */
     --font-primary: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -29,7 +29,7 @@
     /* 边框 */
     --border-soft: 1px solid rgba(255, 255, 255, 0.3);
     --border-medium: 1px solid rgba(255, 255, 255, 0.5);
-    --border-accent: 1px solid rgba(102, 204, 153, 0.2);
+    --border-accent: 1px solid #8ea7ac33;
 
     /* 圆角 */
     --radius-small: 0.75rem;

@@ -152,8 +152,8 @@ export default {
       ]
     },
     {
-      name: 'biography',
-      title: 'Biography',
+      name: 'interview',
+      title: 'Interview',
       type: 'object',
       fields: [
         {
@@ -173,6 +173,25 @@ export default {
     {
       name: 'statement',
       title: 'Statement',
+      type: 'object',
+      fields: [
+        {
+          name: 'en',
+          title: 'English Content',
+          type: 'array',
+          of: [{ type: 'block' }]
+        },
+        {
+          name: 'zh',
+          title: 'Chinese Content',
+          type: 'array',
+          of: [{ type: 'block' }]
+        }
+      ]
+    },
+    {
+      name: 'biography',
+      title: 'Biography',
       type: 'object',
       fields: [
         {
@@ -227,25 +246,7 @@ export default {
         }
       ]
     },
-    {
-      name: 'interview',
-      title: 'Interview',
-      type: 'object',
-      fields: [
-        {
-          name: 'en',
-          title: 'English Content',
-          type: 'array',
-          of: [{ type: 'block' }]
-        },
-        {
-          name: 'zh',
-          title: 'Chinese Content',
-          type: 'array',
-          of: [{ type: 'block' }]
-        }
-      ]
-    }
+  
   ],
   preview: {
     select: {

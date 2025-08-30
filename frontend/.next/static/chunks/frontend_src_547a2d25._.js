@@ -118,7 +118,25 @@ const currentExhibitionQuery = `*[_type == "exhibition" && isCurrent == true][0]
   statement,
   selectedExhibition,
   selectedPress,
-  interview
+  interview,
+  artistResume {
+    en {
+      asset->{
+        _id,
+        url,
+        originalFilename,
+        size
+      }
+    },
+    zh {
+      asset->{
+        _id,
+        url,
+        originalFilename,
+        size
+      }
+    }
+  }
 }`;
 const siteTranslationsQuery = `*[_type == "siteTranslations" && isActive == true] {
   _id,
@@ -782,6 +800,24 @@ const CURRENT_EXHIBITION_QUERY = `
       alt,
       title,
       hotspot
+    },
+    artistResume {
+      en {
+        asset->{
+          _id,
+          url,
+          originalFilename,
+          size
+        }
+      },
+      zh {
+        asset->{
+          _id,
+          url,
+          originalFilename,
+          size
+        }
+      }
     }
   }
 `;

@@ -3,6 +3,7 @@
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useHomeContent } from '@/hooks/useHomeContent';
 import ExhibitionContentRenderer from '@/components/ui/ExhibitionContentRenderer';
+import PDFDownload from '@/components/ui/PDFDownload/PDFDownload';
 import styles from './page.module.scss';
 import { View } from '@/webgl/View';
 import { OrthographicCamera, useTexture } from '@react-three/drei';
@@ -614,6 +615,14 @@ export default function Home() {
                     <p className={styles.sectionText}>
                         {currentExhibition?.description || 'Exhibition description...'}
                     </p>
+
+                    {/* Artist Resume PDF Download */}
+                    {currentExhibition?.artistResume && (
+                        <PDFDownload 
+                            artistResume={currentExhibition.artistResume}
+                            artistName={currentExhibition.artist}
+                        />
+                    )}
                 </div>
 
                 {/* Dynamic Content Sections from Sanity - Ordered logically */}

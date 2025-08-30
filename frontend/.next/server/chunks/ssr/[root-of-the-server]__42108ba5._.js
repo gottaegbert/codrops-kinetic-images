@@ -83,6 +83,11 @@ const translations = {
             selectedPress: 'Selected Press',
             statement: 'Statement'
         },
+        exhibition: {
+            artistResume: 'Artist Resume',
+            download: 'Download',
+            resumeLanguageNote: 'Available in alternate language'
+        },
         footer: {
             description: 'Contemporary art gallery reimagining the digital exhibition experience.',
             gallery: 'Gallery',
@@ -151,6 +156,11 @@ const translations = {
             selectedExhibition: '精选展览',
             selectedPress: '精选媒体',
             statement: '艺术家声明'
+        },
+        exhibition: {
+            artistResume: '艺术家简历',
+            download: '下载',
+            resumeLanguageNote: '提供其他语言版本'
         },
         footer: {
             description: '重新构想数字展览体验的当代艺术画廊。',
@@ -222,7 +232,7 @@ function LanguageProvider({ children }) {
         children: children
     }, void 0, false, {
         fileName: "[project]/frontend/src/contexts/LanguageContext.jsx",
-        lineNumber: 178,
+        lineNumber: 188,
         columnNumber: 9
     }, this);
 }

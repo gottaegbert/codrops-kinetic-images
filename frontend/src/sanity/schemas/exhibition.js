@@ -246,6 +246,33 @@ export default {
         }
       ]
     },
+    // Artist Resume PDF
+    {
+      name: 'artistResume',
+      title: 'Artist Resume (PDF)',
+      type: 'object',
+      fields: [
+        {
+          name: 'en',
+          title: 'English Resume',
+          type: 'file',
+          options: {
+            accept: '.pdf'
+          },
+          description: 'Upload artist resume in PDF format (English)'
+        },
+        {
+          name: 'zh',
+          title: 'Chinese Resume',
+          type: 'file',
+          options: {
+            accept: '.pdf'
+          },
+          description: 'Upload artist resume in PDF format (Chinese)'
+        }
+      ],
+      description: 'Upload artist resume PDFs for download on the homepage'
+    },
   
   ],
   preview: {

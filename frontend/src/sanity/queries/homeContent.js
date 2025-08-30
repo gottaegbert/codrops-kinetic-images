@@ -60,7 +60,25 @@ export const currentExhibitionQuery = `*[_type == "exhibition" && isCurrent == t
   statement,
   selectedExhibition,
   selectedPress,
-  interview
+  interview,
+  artistResume {
+    en {
+      asset->{
+        _id,
+        url,
+        originalFilename,
+        size
+      }
+    },
+    zh {
+      asset->{
+        _id,
+        url,
+        originalFilename,
+        size
+      }
+    }
+  }
 }`
 
 export const siteTranslationsQuery = `*[_type == "siteTranslations" && isActive == true] {

@@ -23,6 +23,24 @@ export const CURRENT_EXHIBITION_QUERY = `
       alt,
       title,
       hotspot
+    },
+    artistResume {
+      en {
+        asset->{
+          _id,
+          url,
+          originalFilename,
+          size
+        }
+      },
+      zh {
+        asset->{
+          _id,
+          url,
+          originalFilename,
+          size
+        }
+      }
     }
   }
 `

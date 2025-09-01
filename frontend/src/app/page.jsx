@@ -698,14 +698,15 @@ export default function Home() {
                     {/* 横向滚动条 - 展览信息 */}
                     <div className={styles.infiniteScroll}>
                         <div className={styles.scrollContent}>
-                            <div className={styles.scrollItem}>ISSUE NO.1</div>
+                            <div className={styles.scrollItem}>
+                            {currentExhibition?.number || '1'}
+                            </div>
                             <div className={styles.scrollItem}>
                                 {currentExhibition?.artist || 'ARTIST'}
                             </div>
                             <div className={styles.scrollItem}>
                                 {currentExhibition?.title || 'EXHIBITION'}
                             </div>
-                            <div className={styles.scrollItem}>CONTEMPORARY VISIONS</div>
                             {/* Duplicate content for seamless loop */}
                             <div className={styles.scrollItem}>ISSUE NO.1</div>
                             <div className={styles.scrollItem}>
@@ -714,7 +715,6 @@ export default function Home() {
                             <div className={styles.scrollItem}>
                                 {currentExhibition?.title || 'EXHIBITION'}
                             </div>
-                            <div className={styles.scrollItem}>CONTEMPORARY VISIONS</div>
                         </div>
                     </div>
 
@@ -758,17 +758,8 @@ export default function Home() {
                     <h2 className={styles.sectionTitle}>
                         {currentExhibition?.title || 'Exhibition'}
                     </h2>
-                    <p className={styles.sectionText}>
-                        {currentExhibition?.description || 'Exhibition description...'}
-                    </p>
+        
 
-                    {/* Artist Resume PDF Download */}
-                    {currentExhibition?.artistResume && (
-                        <PDFDownload
-                            artistResume={currentExhibition.artistResume}
-                            artistName={currentExhibition.artist}
-                        />
-                    )}
                 </div>
 
                 {/* Dynamic Content Sections from Sanity - Ordered logically */}
@@ -801,7 +792,15 @@ export default function Home() {
                             />
                         </section>
                     )}
-
+                    
+      
+                                  {/* Artist Resume PDF Download */}
+                                  {currentExhibition?.artistResume && (
+                        <PDFDownload
+                            artistResume={currentExhibition.artistResume}
+                            artistName={currentExhibition.artist}
+                        />
+                    )}
                     {/* Biography - About the artist */}
                     {currentExhibition?.biography?.[language] && (
                         <section id="biography" className={styles.contentSection}>

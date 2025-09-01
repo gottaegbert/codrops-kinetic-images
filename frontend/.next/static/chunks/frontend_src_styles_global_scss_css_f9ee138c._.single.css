@@ -78,9 +78,9 @@ img {
 :root {
   --color-text: #1a202c;
   --color-background: #fdfdfb;
-  --color-green: #8ea7ac;
-  --color-green-hover: #b7cdd2;
-  --font-primary: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --color-green: #75c1c4;
+  --color-green-hover: #b0c8cf;
+  --font-primary: "IBM Plex Mono", "Nunito", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --card-bg-light: #c4edffd9;
   --card-bg-medium: #c4edffbf;
   --card-bg-heavy: #c4edfff2;

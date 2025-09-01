@@ -150,27 +150,24 @@
     margin: 2rem 0;
     position: relative;
     background: var(--color-green);
-    border-radius: 1.2rem;
-  
 }
 
 .scrollContent {
-    display: inline-block;
-    animation: scroll 20s linear infinite;
+    display: inline-flex;
+    animation: scroll 30s linear infinite;
     white-space: nowrap;
+    width: fit-content;
 }
 
 .scrollItem {
     display: inline-block;
-    padding: 1rem 2rem;
+    padding: 1.5rem 8rem;
     margin: 0 1rem;
-    background: rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
     font-size: 5rem;
     font-weight: 500;
-    color: #000000;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    flex-shrink: 0;
 
     // &:hover {
     //     background: rgba(102, 204, 153, 0.12);
@@ -188,7 +185,7 @@
         transform: translateX(0);
     }
     100% {
-        transform: translateX(-100%);
+        transform: translateX(-50%);
     }
 }
 

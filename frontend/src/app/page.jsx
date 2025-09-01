@@ -4,7 +4,9 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { useHomeContent } from '@/hooks/useHomeContent';
 import ExhibitionContentRenderer from '@/components/ui/ExhibitionContentRenderer';
 import PDFDownload from '@/components/ui/PDFDownload/PDFDownload';
+import ImageViewer from '@/components/ui/ImageViewer/ImageViewer';
 import styles from './page.module.scss';
+import exhibitionStyles from '@/components/ui/ExhibitionCard/ExhibitionCard.module.scss';
 import { View } from '@/webgl/View';
 import { OrthographicCamera, useTexture } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
@@ -17,13 +19,118 @@ import { getOptimizedImageUrl } from '@/sanity/client';
 
 const COUNT = 10;
 const INITIAL_SPACING = 0.05; // Initial spacing between cards
-const FINAL_SPACING = 0.8; // Final spacing between cards
+const FINAL_SPACING = 1.0; // Final spacing between cards
+
+// Current Exhibition Button Component
+function CurrentExhibitionButton() {
+    const [isExpanded, setIsExpanded] = useState(false);
+    const { language } = useLanguage();
+    const { currentExhibition } = useHomeContent();
+
+    const formatDateRange = (startDate, endDate) => {
+        if (!startDate || !endDate) return '';
+        
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+        
+        const options = { 
+            month: 'short', 
+            day: 'numeric',
+            year: start.getFullYear() !== end.getFullYear() ? 'numeric' : undefined
+        };
+        
+        const startStr = start.toLocaleDateString('en-US', options);
+        const endStr = end.toLocaleDateString('en-US', options);
+        
+        return `${startStr} - ${endStr}, ${end.getFullYear()}`;
+    };
+
+    const handleToggle = () => {
+        setIsExpanded(!isExpanded);
+    };
+
+    const handleLearnMoreClick = () => {
+        const contentSection = document.querySelector('[data-content-section]');
+        if (contentSection) {
+            contentSection.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start',
+            });
+        }
+        setIsExpanded(false);
+    };
+
+    return (
+        <div className={exhibitionStyles.currentExhibitionContainer}>
+            <button 
+                className={`${exhibitionStyles.currentExhibitionButton} ${isExpanded ? exhibitionStyles.expanded : ''}`}
+                onClick={handleToggle}
+            >
+                <span className={exhibitionStyles.buttonText}>Current exhibition</span>
+            
+                <svg 
+                    className={`${exhibitionStyles.expandIcon} ${isExpanded ? exhibitionStyles.rotated : ''}`} 
+                    viewBox="0 0 24 24" 
+                    fill="none"
+                >
+                    <path
+                        d="M6 9l6 6 6-6"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                    />
+                </svg>
+            </button>
+
+            {isExpanded && (
+                <div className={exhibitionStyles.exhibitionDetails}>
+                    <div className={exhibitionStyles.exhibitionContent}>
+                        <div className={exhibitionStyles.exhibitionNumber}>
+                            <span className={exhibitionStyles.label}>Issue No.</span>
+                            <span className={exhibitionStyles.number}>
+                                {currentExhibition?.exhibitionCard?.number || '1'}
+                            </span>
+                        </div>
+
+                        <h4 className={exhibitionStyles.exhibitionName}>
+                            {currentExhibition?.title || 'The Harmonizing Gaze'}
+                        </h4>
+
+                        <div className={exhibitionStyles.details}>
+                            <div className={exhibitionStyles.timeInfo}>
+                                <span>
+                                    {formatDateRange(
+                                        currentExhibition?.exhibitionCard?.startDate, 
+                                        currentExhibition?.exhibitionCard?.endDate
+                                    ) || 'Sep.4 - Oct. 10 2025'}
+                                </span>
+                            </div>
+
+                            <div className={exhibitionStyles.artistInfo}>
+                                <span>
+                                    {currentExhibition?.exhibitionCard?.featuredArtists?.[language] || 
+                                     currentExhibition?.artist || 'Francesco Zanatta'}
+                                </span>
+                            </div>
+                        </div>
+
+                        <button className={exhibitionStyles.exploreButton} onClick={handleLearnMoreClick}>
+                            <span>Explore</span>
+                        </button>
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+}
 
 function Card({
     index,
     position,
     onPointerOver,
     onPointerOut,
+    onClick,
     hovered,
     active,
     imageUrl,
@@ -45,14 +152,14 @@ function Card({
     texture.generateMipmaps = false;
     texture.minFilter = THREE.LinearFilter;
     texture.magFilter = THREE.LinearFilter;
-    
+
     // Calculate aspect ratio from image dimensions
     const aspectRatio = imageDimensions ? imageDimensions.width / imageDimensions.height : 1;
-    
+
     // Set a base size and scale according to aspect ratio
-    const baseSize = 1.2; // Increase base size for better visibility
+    const baseSize = 1.4; // Increase base size for better visibility
     let cardWidth, cardHeight;
-    
+
     if (aspectRatio >= 1) {
         // Landscape image
         cardWidth = baseSize;
@@ -67,7 +174,7 @@ function Card({
         const f = hovered ? 1.25 : active ? 1.25 : 1;
         const targetOpacity = hovered ? 1.0 : 0.85; // Increase opacity on hover
 
-        easing.damp3(ref.current.position, [0, 0, hovered ? 0.9 : 0], 0.2, delta);
+        easing.damp3(ref.current.position, [0, 0, hovered ? -0.9 : 0], 0.2, delta);
         easing.damp3(ref.current.scale, [f, f, f], 0.15, delta);
 
         // Smooth opacity transition
@@ -81,8 +188,17 @@ function Card({
             <mesh
                 ref={ref}
                 rotation={[0, -Math.PI / 4, 0]}
-                onPointerOver={(e) => (e.stopPropagation(), onPointerOver(index))}
-                onPointerOut={(e) => (e.stopPropagation(), onPointerOut())}
+                onPointerOver={(e) => {
+                    e.stopPropagation();
+                    document.body.style.cursor = 'pointer';
+                    onPointerOver(index);
+                }}
+                onPointerOut={(e) => {
+                    e.stopPropagation();
+                    document.body.style.cursor = 'default';
+                    onPointerOut();
+                }}
+                onClick={(e) => (e.stopPropagation(), onClick && onClick(index))}
             >
                 <planeGeometry args={[cardWidth, cardHeight]} />
                 <meshPhysicalMaterial
@@ -167,18 +283,18 @@ function CameraController({ triggerAnimation, onProgressChange }) {
     );
 }
 
-function Cards({ onFirstHover, currentSpacing, viewRef, onScrollStart }) {
+function Cards({ onFirstHover, currentSpacing, viewRef, onScrollStart, onCardClick }) {
     const [hovered, hover] = useState(null);
     const [imagesLoaded, setImagesLoaded] = useState(false);
-    
+
     // Fetch current exhibition first
     const { exhibition, loading, error } = useCurrentExhibition();
-    
+
     // Calculate dynamic count based on available images
     const exhibitionImages = exhibition?.images || [];
-    const validImages = exhibitionImages.filter(img => img?.asset);
+    const validImages = exhibitionImages.filter((img) => img?.asset);
     const dynamicCount = validImages.length;
-    
+
     // 初始位置设为最左边（显示第一张卡片）
     const [scrollOffset, setScrollOffset] = useState(() => {
         if (dynamicCount === 0) return 0;
@@ -209,7 +325,7 @@ function Cards({ onFirstHover, currentSpacing, viewRef, onScrollStart }) {
             setScrollOffset(0);
             return;
         }
-        
+
         const totalWidth = dynamicCount * currentSpacing;
         const newMaxScrollLeft = totalWidth / 2 - currentSpacing;
 
@@ -334,7 +450,7 @@ function Cards({ onFirstHover, currentSpacing, viewRef, onScrollStart }) {
 
     // Prepare image data from current exhibition - only use available Sanity images
     const imageData = exhibitionImages
-        .filter(sanityImage => sanityImage?.asset) // Only include images with assets
+        .filter((sanityImage) => sanityImage?.asset) // Only include images with assets
         .map((sanityImage, index) => {
             const dimensions = sanityImage.asset.metadata?.dimensions;
             return {
@@ -351,15 +467,13 @@ function Cards({ onFirstHover, currentSpacing, viewRef, onScrollStart }) {
             };
         });
 
-   
-
     // Preload all images for better performance
     useEffect(() => {
         if (imageData.length > 0) {
             setImagesLoaded(false);
             let loadedCount = 0;
             const totalImages = imageData.length;
-            
+
             imageData.forEach((imageInfo) => {
                 if (imageInfo.url) {
                     const img = new Image();
@@ -378,7 +492,7 @@ function Cards({ onFirstHover, currentSpacing, viewRef, onScrollStart }) {
                     img.src = imageInfo.url;
                 }
             });
-            
+
             // Set loaded if no images to load
             if (totalImages === 0) {
                 setImagesLoaded(true);
@@ -432,7 +546,7 @@ function Cards({ onFirstHover, currentSpacing, viewRef, onScrollStart }) {
             {imageData.map((imageInfo, index) => {
                 // Linear stacking using dynamic spacing based on actual image count
                 const xOffset = index * dynamicSpacing - (actualCount * dynamicSpacing) / 2;
-                const yOffset = 0;
+                const yOffset = -1; // 向下移动2个单位
                 const zOffset = 0;
 
                 return (
@@ -442,6 +556,7 @@ function Cards({ onFirstHover, currentSpacing, viewRef, onScrollStart }) {
                         position={[xOffset, yOffset, zOffset]}
                         onPointerOver={handleCardHover}
                         onPointerOut={() => hover(null)}
+                        onClick={onCardClick}
                         hovered={hovered === index}
                         active={hovered !== null}
                         imageUrl={imageInfo.url}
@@ -458,13 +573,33 @@ export default function Home() {
     const [shouldTriggerAnimation, setShouldTriggerAnimation] = useState(false);
     const [animationProgress, setAnimationProgress] = useState(0);
     const [showScrollHint, setShowScrollHint] = useState(true);
+    const [imageViewerOpen, setImageViewerOpen] = useState(false);
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const viewRef = useRef();
 
     // 导入语言上下文
     const { t, language } = useLanguage();
-    
+
     // 获取Sanity内容
     const { currentExhibition, loading: contentLoading } = useHomeContent();
+
+    // 获取当前展览数据用于图片查看器
+    const { exhibition } = useCurrentExhibition();
+
+    // 准备图片查看器的图片数据
+    const viewerImages =
+        exhibition?.images
+            ?.filter((img) => img?.asset)
+            ?.map((sanityImage, index) => ({
+                url: getOptimizedImageUrl(sanityImage, {
+                    width: 1920, // 更高分辨率用于查看器
+                    quality: 95,
+                    format: 'webp',
+                    fit: 'max',
+                }),
+                alt: sanityImage.alt || `${exhibition?.title || 'Gallery'} image ${index + 1}`,
+                title: sanityImage.title || `Image ${index + 1}`,
+            })) || [];
 
     const handleFirstHover = () => {
         if (!shouldTriggerAnimation) {
@@ -482,6 +617,23 @@ export default function Home() {
         }
     };
 
+    const handleCardClick = (index) => {
+        setCurrentImageIndex(index);
+        setImageViewerOpen(true);
+    };
+
+    const handleCloseImageViewer = () => {
+        setImageViewerOpen(false);
+    };
+
+    const handleNextImage = (index) => {
+        setCurrentImageIndex(index);
+    };
+
+    const handlePrevImage = (index) => {
+        setCurrentImageIndex(index);
+    };
+
     // 自动隐藏滚动提示
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -497,7 +649,8 @@ export default function Home() {
     return (
         <div className={styles.page}>
             <div className={styles.heroSection}>
-                <ExhibitionCard />
+                {/* Current Exhibition Button - positioned at center */}
+                <CurrentExhibitionButton />
                 {/* Show loading state while fetching Sanity images */}
                 <View ref={viewRef} className={styles.view}>
                     <CameraController
@@ -512,6 +665,7 @@ export default function Home() {
                         currentSpacing={currentSpacing}
                         viewRef={viewRef}
                         onScrollStart={handleScrollStart}
+                        onCardClick={handleCardClick}
                     />
                 </View>
 
@@ -544,31 +698,23 @@ export default function Home() {
                     {/* 横向滚动条 - 展览信息 */}
                     <div className={styles.infiniteScroll}>
                         <div className={styles.scrollContent}>
-                            <div className={styles.scrollItem}>
-                                ISSUE NO.1
-                            </div>
+                            <div className={styles.scrollItem}>ISSUE NO.1</div>
                             <div className={styles.scrollItem}>
                                 {currentExhibition?.artist || 'ARTIST'}
                             </div>
                             <div className={styles.scrollItem}>
                                 {currentExhibition?.title || 'EXHIBITION'}
                             </div>
-                            <div className={styles.scrollItem}>
-                                CONTEMPORARY VISIONS
-                            </div>
+                            <div className={styles.scrollItem}>CONTEMPORARY VISIONS</div>
                             {/* Duplicate content for seamless loop */}
-                            <div className={styles.scrollItem}>
-                                ISSUE NO.1
-                            </div>
+                            <div className={styles.scrollItem}>ISSUE NO.1</div>
                             <div className={styles.scrollItem}>
                                 {currentExhibition?.artist || 'ARTIST'}
                             </div>
                             <div className={styles.scrollItem}>
                                 {currentExhibition?.title || 'EXHIBITION'}
                             </div>
-                            <div className={styles.scrollItem}>
-                                CONTEMPORARY VISIONS
-                            </div>
+                            <div className={styles.scrollItem}>CONTEMPORARY VISIONS</div>
                         </div>
                     </div>
 
@@ -618,7 +764,7 @@ export default function Home() {
 
                     {/* Artist Resume PDF Download */}
                     {currentExhibition?.artistResume && (
-                        <PDFDownload 
+                        <PDFDownload
                             artistResume={currentExhibition.artistResume}
                             artistName={currentExhibition.artist}
                         />
@@ -630,29 +776,27 @@ export default function Home() {
                     {/* Press Release - Introduction/Overview */}
                     {currentExhibition?.pressRelease?.[language] && (
                         <section id="pressRelease" className={styles.contentSection}>
-                            <ExhibitionContentRenderer 
-                                content={{[language]: currentExhibition.pressRelease[language]}} 
+                            <ExhibitionContentRenderer
+                                content={{ [language]: currentExhibition.pressRelease[language] }}
                                 language={language}
                             />
                         </section>
                     )}
-
-                 
 
                     {/* Interview - In-depth conversation */}
                     {currentExhibition?.interview?.[language] && (
                         <section id="interview" className={styles.contentSection}>
-                            <ExhibitionContentRenderer 
-                                content={{[language]: currentExhibition.interview[language]}} 
+                            <ExhibitionContentRenderer
+                                content={{ [language]: currentExhibition.interview[language] }}
                                 language={language}
                             />
                         </section>
                     )}
-                       {/* Statement - Artist's perspective */}
-                       {currentExhibition?.statement?.[language] && (
+                    {/* Statement - Artist's perspective */}
+                    {currentExhibition?.statement?.[language] && (
                         <section id="statement" className={styles.contentSection}>
-                            <ExhibitionContentRenderer 
-                                content={{[language]: currentExhibition.statement[language]}} 
+                            <ExhibitionContentRenderer
+                                content={{ [language]: currentExhibition.statement[language] }}
                                 language={language}
                             />
                         </section>
@@ -661,8 +805,8 @@ export default function Home() {
                     {/* Biography - About the artist */}
                     {currentExhibition?.biography?.[language] && (
                         <section id="biography" className={styles.contentSection}>
-                            <ExhibitionContentRenderer 
-                                content={{[language]: currentExhibition.biography[language]}} 
+                            <ExhibitionContentRenderer
+                                content={{ [language]: currentExhibition.biography[language] }}
                                 language={language}
                             />
                         </section>
@@ -671,8 +815,10 @@ export default function Home() {
                     {/* Selected Exhibitions - Previous work context */}
                     {currentExhibition?.selectedExhibition?.[language] && (
                         <section id="selectedExhibition" className={styles.contentSection}>
-                            <ExhibitionContentRenderer 
-                                content={{[language]: currentExhibition.selectedExhibition[language]}} 
+                            <ExhibitionContentRenderer
+                                content={{
+                                    [language]: currentExhibition.selectedExhibition[language],
+                                }}
                                 language={language}
                             />
                         </section>
@@ -681,14 +827,24 @@ export default function Home() {
                     {/* Selected Press - Media coverage */}
                     {currentExhibition?.selectedPress?.[language] && (
                         <section id="selectedPress" className={styles.contentSection}>
-                            <ExhibitionContentRenderer 
-                                content={{[language]: currentExhibition.selectedPress[language]}} 
+                            <ExhibitionContentRenderer
+                                content={{ [language]: currentExhibition.selectedPress[language] }}
                                 language={language}
                             />
                         </section>
                     )}
                 </div>
             </div>
+
+            {/* 图片查看器 */}
+            <ImageViewer
+                images={viewerImages}
+                currentIndex={currentImageIndex}
+                isOpen={imageViewerOpen}
+                onClose={handleCloseImageViewer}
+                onNext={handleNextImage}
+                onPrev={handlePrevImage}
+            />
         </div>
     );
 }

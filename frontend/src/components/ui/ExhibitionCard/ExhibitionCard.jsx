@@ -48,52 +48,36 @@ export default function ExhibitionCard({ mobile = false }) {
 
             <div className={styles.content}>
                 <div className={styles.exhibitionNumber}>
-                    <span className={styles.label}>No.</span>
+                    <span className={styles.label}>Issue No.</span>
                     <span className={styles.number}>
-                        {currentExhibition?.exhibitionCard?.number || '000000'}
+                        {currentExhibition?.exhibitionCard?.number || '1'}
                     </span>
                 </div>
 
                 <h4 className={styles.exhibitionName}>
-                    {currentExhibition?.title || 'Exhibition Title'}
+                    {currentExhibition?.title || 'The Harmonizing Gaze'}
                 </h4>
 
                 <div className={styles.details}>
                     <div className={styles.timeInfo}>
-                        <span className={styles.label}>Duration:</span>
                         <span>
                             {formatDateRange(
                                 currentExhibition?.exhibitionCard?.startDate, 
                                 currentExhibition?.exhibitionCard?.endDate
-                            ) || 'Date TBD'}
+                            ) || 'Sep.4 - Oct. 10 2025'}
                         </span>
                     </div>
 
                     <div className={styles.artistInfo}>
-                        <span className={styles.label}>Featured Artists:</span>
                         <span>
                             {currentExhibition?.exhibitionCard?.featuredArtists?.[language] || 
-                             currentExhibition?.artist || 'Artist Name'}
+                             currentExhibition?.artist || 'Francesco Zanatta'}
                         </span>
                     </div>
                 </div>
 
-                <p className={styles.description}>
-                    {currentExhibition?.exhibitionCard?.cardDescription?.[language] || 
-                     currentExhibition?.description || 'Exhibition description...'}
-                </p>
-
-                <button className={styles.learnMore} onClick={handleLearnMoreClick}>
-                    <span>Learn More</span>
-                    <svg className={styles.arrow} viewBox="0 0 24 24" fill="none">
-                        <path
-                            d="M7 10l5 5 5-5"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                        />
-                    </svg>
+                <button className={styles.exploreButton} onClick={handleLearnMoreClick}>
+                    <span>Explore</span>
                 </button>
             </div>
         </div>

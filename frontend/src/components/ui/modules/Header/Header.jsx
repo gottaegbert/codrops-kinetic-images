@@ -12,6 +12,7 @@ function Header({ children }) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [userManualControl, setUserManualControl] = useState(false);
     const [hasScrolledDown, setHasScrolledDown] = useState(false);
+    const [isHeaderVisible, setIsHeaderVisible] = useState(false);
     const pathname = usePathname();
 
     // Keep navigation open when navigating to other pages
@@ -20,6 +21,10 @@ function Header({ children }) {
         setIsMenuOpen(true);
         setUserManualControl(true);
         setHasScrolledDown(false);
+        
+        // 检查当前滚动位置决定是否显示header
+        const currentScroll = window.scrollY;
+        setIsHeaderVisible(currentScroll >= window.innerHeight);
 
         // 3秒后恢复自动控制
         const timer = setTimeout(() => {
@@ -33,14 +38,18 @@ function Header({ children }) {
     useEffect(() => {
         const handleScroll = () => {
             const scrollY = window.scrollY;
+            const viewportHeight = window.innerHeight;
 
-            if (!userManualControl) {
-                if (scrollY <= 300) {
-                    // 在页面顶部，自动展开
+            // 控制header的显示/隐藏（基于100vh）
+            setIsHeaderVisible(scrollY >= viewportHeight);
+
+            if (!userManualControl && scrollY >= viewportHeight) {
+                if (scrollY <= viewportHeight + 300) {
+                    // 刚滚动过100vh时，自动展开菜单
                     setIsMenuOpen(true);
                     setHasScrolledDown(false);
-                } else if (scrollY > 100 && !hasScrolledDown) {
-                    // 首次向下滚动超过100px，收起一次
+                } else if (scrollY > viewportHeight + 100 && !hasScrolledDown) {
+                    // 继续向下滚动超过100vh+100px时，收起一次
                     setIsMenuOpen(false);
                     setHasScrolledDown(true);
                 }
@@ -87,7 +96,7 @@ function Header({ children }) {
 
 
     return (
-        <header className={styles.header}>
+        <header className={`${styles.header} ${isHeaderVisible ? styles.headerVisible : styles.headerHidden}`}>
             <div className={styles.wrapper}>
                 <div className={styles.logo}>
                     <Link href="/">
@@ -104,9 +113,10 @@ function Header({ children }) {
                         onMouseLeave={handleMouseLeave}
                         aria-label="Click to toggle or hover to expand navigation menu"
                     >
+                  
+                        {/* <span className={styles.menuIcon}></span>
                         <span className={styles.menuIcon}></span>
-                        <span className={styles.menuIcon}></span>
-                        <span className={styles.menuIcon}></span>
+                        <span className={styles.menuIcon}></span> */}
                     </button>
 
                     {/* Navigation Links - Individual Buttons */}

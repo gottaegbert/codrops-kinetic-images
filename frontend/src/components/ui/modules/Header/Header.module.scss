@@ -1,39 +1,26 @@
 @import '../../../../styles/card-system.scss';
 
 .header {
-    position: fixed;
+    position: absolute;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     top: 0rem;
-    z-index: 1000;
+    left: 0;
+    z-index: 10;
     padding: 0.75rem 0.75rem;
     width: 100vw;
-    opacity: 0;
-    transform: translateY(-100%);
-    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    pointer-events: none;
-
-    &.headerVisible {
-        opacity: 1;
-        transform: translateY(0);
-        pointer-events: auto;
-    }
-
-    &.headerHidden {
-        opacity: 0;
-        transform: translateY(-100%);
-        pointer-events: none;
-    }
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
 }
 
 .wrapper {
     display: flex;
-    align-items: center;
-    gap: 2rem;
+    flex-direction: column;
+    gap: 1rem;
     position: relative;
     width: fit-content;
-    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     white-space: nowrap;
 }
 
@@ -45,177 +32,229 @@
 }
 
 .title {
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: 500;
     margin: 0;
-    padding: 0.2rem 0.5rem;
     background: rgba(255, 255, 255, 0.1);
     border: 2px solid rgba(255, 255, 255, 0.2);
     cursor: pointer;
     letter-spacing: -0.02em;
     color: #000000;
     transition: color 0.3s ease;
-   
 }
 
-// Navigation Container
-.navContainer {
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-    position: relative;
-}
-
-
-// Menu Toggle Button - Bartender Style
+// Menu Toggle Button
 .menuToggle {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    width: 3rem;
-    height: 3rem;
-
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 2rem;
+    padding: 0 1rem 0 0.5rem;
+    background: transparent;
+    border: 1px solid var(--color-green);
+    color: #000;
     cursor: pointer;
-    padding: 0.3rem;
-    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    backdrop-filter: blur(10px);
-    flex-shrink: 0;
-    
+    transition: all 0.3s ease;
+    font-size: 0.75rem;
+    font-weight: 300;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    min-width: fit-content;
+    white-space: nowrap;
+    gap: 0.5rem;
+
+    &:hover {
+        color: var(--color-green);
+        border-color: var(--color-green);
+        box-shadow: 0 4px 16px rgba(117, 193, 196, 0.3);
+    }
+
     &.menuToggleActive {
-        background: rgba(102, 204, 153, 0.2);
-        border-color: rgba(102, 204, 153, 0.4);
-        transform: scale(1.05);
-      
+        color: var(--color-green);
+        border-color: var(--color-green);
+        box-shadow: 0 4px 16px rgba(117, 193, 196, 0.3);
+        font-weight: 500;
     }
 }
 
 .menuText {
-    font-size: 0.75rem;
-    font-weight: 300;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+    font-size: inherit;
+    font-weight: inherit;
+    text-transform: inherit;
+    letter-spacing: 0.15em;
 }
 
-// .menuIcon {
-//     width: 100%;
-//     height: 2px;
-//     background: #000;
-//     border-radius: 1px;
-//     transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-//     transform-origin: center;
-// }
+.expandIcon {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
 
-// Navigation - Horizontal Inline with Individual Buttons
+    &.rotated {
+        transform: rotate(180deg);
+    }
+}
+
+// Navigation - Toggleable
 .navigation {
     display: flex;
-    align-items: center;
+    flex-direction: column;
     gap: 1rem;
-    width: 0;
+    width: fit-content;
     opacity: 0;
-    transform: translateX(-15px) scaleX(0.3);
-    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     white-space: nowrap;
     visibility: hidden;
     overflow: hidden;
     flex-shrink: 0;
-    transform-origin: left center;
     position: relative;
-    
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform-origin: top left;
+
     &.navigationOpen {
-        width: fit-content;
         opacity: 1;
-        transform: translateX(0) scaleX(1);
+        transform: translateY(0) scaleY(1);
         visibility: visible;
         overflow: visible;
     }
+
+    // 当菜单关闭时，使用平滑的收起动画
+    &:not(.navigationOpen) {
+        transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
 }
-
-
 
 .navLink {
     display: inline-flex;
     align-items: center;
+
     justify-content: center;
-    height: 3rem;
-    padding: 0 1rem;
-    text-decoration: none;
+    height: 2rem;
+    padding: 0 0.75rem;
     color: #000;
     font-weight: 300;
     font-size: 0.75rem;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    transition: all 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(10px);
+    letter-spacing: 0.15em;
+    background: transparent;
+    border: 1px solid var(--color-green);
     opacity: 0;
-    transform: translateX(-40px) scaleX(0.2) scaleY(0.8);
-    transition-delay: var(--reverse-delay, 0s);
+    transform: translateY(-10px) translateX(0) scaleY(0.8);
     flex-shrink: 0;
     position: relative;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     min-width: fit-content;
-    transform-origin: left center;
-    
-    // 展开状态
+
+    // 两阶段动画：先出现，后滑动
+    transition:
+        opacity 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94) var(--delay, 0s),
+        transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94) var(--delay, 0s);
+
     .navigationOpen & {
         opacity: 1;
-        transform: translateX(0) scaleX(1) scaleY(1);
-        transition-delay: var(--delay, 0s);
+        transform: translateY(0) translateX(0) scaleY(1);
+
+        // 等待所有菜单项显示完毕后再开始滑动
+        animation: slideToPosition 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) var(--slide-delay, 0.35s)
+            forwards;
     }
-    
-    // 收起状态 - 确保有反向动画
+
+    // 收起动画：先从右向左收回，再消失
     .navigation:not(.navigationOpen) & {
-        opacity: 0;
-        transform: translateX(-40px) scaleX(0.2) scaleY(0.8);
-        transition-delay: var(--reverse-delay, 0s);
+        animation: slideBackAndFade 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94)
+            var(--close-delay, 0s) forwards;
     }
-    
+
     &:hover {
-        background: rgba(102, 204, 153, 0.15);
-        border-color: rgba(102, 204, 153, 0.3);
-        transform: translateX(0) scale(1.05);
-        box-shadow: 0 4px 16px rgba(102, 204, 153, 0.3);
+        color: var(--color-green);
+        border-color: var(--color-green);
+        transform: translateY(0) translateX(var(--offset, 0)) scale(1.05);
+        box-shadow: 0 4px 16px rgba(117, 193, 196, 0.3);
     }
-    
+
     &.navLinkActive {
-        background: rgba(102, 204, 153, 0.3);
-        border-color: rgba(102, 204, 153, 0.6);
-        color: #66cc99;
+        background: transparent;
+        border-color: var(--color-green);
+        color: var(--color-green);
         font-weight: 600;
-        box-shadow: 0 8px 24px rgba(102, 204, 153, 0.5);
-        transform: translateX(0) scale(1.08);
+        box-shadow: 0 8px 24px rgba(117, 193, 196, 0.5);
         position: relative;
-        
-        // 添加底部边框效果
-        &::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80%;
-            height: 3px;
-            background: linear-gradient(90deg, #66cc99, #4ade80);
-            border-radius: 1.5px;
-            box-shadow: 0 2px 8px rgba(102, 204, 153, 0.6);
+        opacity: 1 !important;
+
+        // 确保在菜单打开时保持激活状态
+        .navigationOpen & {
+            opacity: 1;
+            animation: slideToPositionActive 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)
+                var(--slide-delay, 0.35s) forwards;
         }
-        
+
+        // 激活状态的收起动画
+        .navigation:not(.navigationOpen) & {
+            animation: slideBackAndFadeActive 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94)
+                var(--close-delay, 0s) forwards;
+        }
+
         // 增强hover效果
         &:hover {
-            background: rgba(102, 204, 153, 0.35);
-            border-color: rgba(102, 204, 153, 0.7);
-            transform: translateX(0) scale(1.1);
-            box-shadow: 0 10px 30px rgba(102, 204, 153, 0.6);
+            background: transparent;
+            border-color: var(--color-green);
+            color: var(--color-green);
+            transform: translateY(0) translateX(var(--offset, 0)) scale(1.1);
+            box-shadow: 0 10px 30px rgba(117, 193, 196, 0.6);
         }
     }
 }
 
+@keyframes slideToPosition {
+    from {
+        transform: translateY(0) translateX(0) scaleY(1);
+    }
+    to {
+        transform: translateY(0) translateX(var(--offset, 0)) scaleY(1);
+    }
+}
+
+@keyframes slideToPositionActive {
+    from {
+        transform: translateY(0) translateX(0) scaleY(1) scale(1);
+    }
+    to {
+        transform: translateY(0) translateX(var(--offset, 0)) scaleY(1) scale(1.08);
+    }
+}
+
+@keyframes slideBackAndFade {
+    from {
+        opacity: 1;
+        transform: translateY(0) translateX(var(--offset, 0)) scaleY(1);
+    }
+    50% {
+        opacity: 0.5;
+        transform: translateY(0) translateX(0) scaleY(1);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-10px) translateX(0) scaleY(0.8);
+    }
+}
+
+@keyframes slideBackAndFadeActive {
+    from {
+        opacity: 1;
+        transform: translateY(0) translateX(var(--offset, 0)) scaleY(1) scale(1.08);
+    }
+    50% {
+        opacity: 0.5;
+        transform: translateY(0) translateX(0) scaleY(1) scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-10px) translateX(0) scaleY(0.8);
+    }
+}
 
 // Language Container - Separate on the Right
 .languageContainer {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     margin-left: auto;
     flex-shrink: 0;
 }
@@ -241,27 +280,16 @@
         font-size: 1.2rem;
     }
 
-    .navContainer {
-        position: relative;
-        order: 2;
-    }
-
     .languageContainer {
         order: 3;
         margin-left: auto;
     }
 
-    .menuToggle {
-        width: 1.6rem;
-        height: 1.6rem;
-        padding: 0.25rem;
-    }
-
     .navigation {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
+        position: relative;
+        top: auto;
+        left: auto;
+        right: auto;
         margin-top: 0.5rem;
         background: rgba(255, 255, 255, 0.12);
         backdrop-filter: blur(20px) saturate(180%);
@@ -272,18 +300,9 @@
         gap: 0.3rem;
         width: auto;
         max-width: none;
-        transform: translateX(0) scaleY(0.3);
-        transform-origin: top center;
+        transform: translateX(0) scaleY(1);
         box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
-        
-        &.navigationOpen {
-            width: auto;
-            transform: translateX(0) scaleY(1);
-            margin-right: 0;
-        }
     }
-    
-
 
     .navLink {
         width: 100%;
@@ -291,22 +310,27 @@
         padding: 0 0.7rem;
         font-size: 0.85rem;
         letter-spacing: 0.04em;
-        transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        justify-content: flex-start;
-        transform: translateY(-20px) scaleX(0.9);
-        
-        .navigationOpen & {
-            transform: translateY(0) scaleX(1);
+        transition: all 0.3s ease;
+        justify-content: center;
+        transform: translateY(0) translateX(0) scaleX(1) !important;
+
+        &:hover {
+            transform: translateY(0) translateX(0) scale(1.05) !important;
         }
-        
+
         &.navLinkActive {
-            background: rgba(102, 204, 153, 0.3);
-            border-color: rgba(102, 204, 153, 0.6);
-            color: #66cc99;
+            background: transparent;
+            border-color: var(--color-green);
+            color: var(--color-green);
             font-weight: 600;
-            box-shadow: 0 4px 16px rgba(102, 204, 153, 0.5);
+            box-shadow: 0 4px 16px rgba(117, 193, 196, 0.5);
             position: relative;
-            
+            transform: translateY(0) translateX(0) scale(1.08) !important;
+
+            &:hover {
+                transform: translateY(0) translateX(0) scale(1.1) !important;
+            }
+
             // 移动端左侧边框效果
             &::before {
                 content: '';
@@ -316,14 +340,12 @@
                 transform: translateY(-50%);
                 width: 3px;
                 height: 60%;
-                background: linear-gradient(180deg, #66cc99, #4ade80);
+                background: linear-gradient(180deg, var(--color-green), var(--color-green-hover));
                 border-radius: 0 1.5px 1.5px 0;
-                box-shadow: 2px 0 8px rgba(102, 204, 153, 0.6);
+                box-shadow: 2px 0 8px rgba(117, 193, 196, 0.6);
             }
         }
     }
-
-
 }
 
 @media (max-width: 480px) {
@@ -344,17 +366,9 @@
         font-size: 1.1rem;
     }
 
-    .menuToggle {
-        width: 1.5rem;
-        height: 1.5rem;
-    }
-
     .navigation {
         margin-top: 0.3rem;
-        
-        &.navigationOpen {
-            width: auto;
-        }
+        width: auto;
     }
 
     .navLink {
@@ -362,6 +376,6 @@
         padding: 0 0.6rem;
         font-size: 0.8rem;
         letter-spacing: 0.03em;
-        transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        transition: all 0.3s ease;
     }
 }

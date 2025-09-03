@@ -370,20 +370,23 @@ __turbopack_context__.v({
   "card-light": "Header-module-scss-module__HW1Erq__card-light",
   "card-overlay": "Header-module-scss-module__HW1Erq__card-overlay",
   "cardFloat": "Header-module-scss-module__HW1Erq__cardFloat",
+  "expandIcon": "Header-module-scss-module__HW1Erq__expandIcon",
   "glass-effect": "Header-module-scss-module__HW1Erq__glass-effect",
   "header": "Header-module-scss-module__HW1Erq__header",
-  "headerHidden": "Header-module-scss-module__HW1Erq__headerHidden",
-  "headerVisible": "Header-module-scss-module__HW1Erq__headerVisible",
   "languageContainer": "Header-module-scss-module__HW1Erq__languageContainer",
   "logo": "Header-module-scss-module__HW1Erq__logo",
   "menuText": "Header-module-scss-module__HW1Erq__menuText",
   "menuToggle": "Header-module-scss-module__HW1Erq__menuToggle",
   "menuToggleActive": "Header-module-scss-module__HW1Erq__menuToggleActive",
-  "navContainer": "Header-module-scss-module__HW1Erq__navContainer",
   "navLink": "Header-module-scss-module__HW1Erq__navLink",
   "navLinkActive": "Header-module-scss-module__HW1Erq__navLinkActive",
   "navigation": "Header-module-scss-module__HW1Erq__navigation",
   "navigationOpen": "Header-module-scss-module__HW1Erq__navigationOpen",
+  "rotated": "Header-module-scss-module__HW1Erq__rotated",
+  "slideBackAndFade": "Header-module-scss-module__HW1Erq__slideBackAndFade",
+  "slideBackAndFadeActive": "Header-module-scss-module__HW1Erq__slideBackAndFadeActive",
+  "slideToPosition": "Header-module-scss-module__HW1Erq__slideToPosition",
+  "slideToPositionActive": "Header-module-scss-module__HW1Erq__slideToPositionActive",
   "title": "Header-module-scss-module__HW1Erq__title",
   "wrapper": "Header-module-scss-module__HW1Erq__wrapper",
 });
@@ -414,70 +417,12 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$component
 function Header({ children }) {
     const { t } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$contexts$2f$LanguageContext$2e$jsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useLanguage"])();
     const [isMenuOpen, setIsMenuOpen] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
-    const [userManualControl, setUserManualControl] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
-    const [hasScrolledDown, setHasScrolledDown] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
-    const [isHeaderVisible, setIsHeaderVisible] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
     const pathname = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["usePathname"])();
-    // Keep navigation open when navigating to other pages
-    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
-        // 导航到新页面时保持展开状态
-        setIsMenuOpen(true);
-        setUserManualControl(true);
-        setHasScrolledDown(false);
-        // 检查当前滚动位置决定是否显示header
-        const currentScroll = window.scrollY;
-        setIsHeaderVisible(currentScroll >= window.innerHeight);
-        // 3秒后恢复自动控制
-        const timer = setTimeout(()=>{
-            setUserManualControl(false);
-        }, 3000);
-        return ()=>clearTimeout(timer);
-    }, [
-        pathname
-    ]);
-    // 滚动监听
-    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
-        const handleScroll = ()=>{
-            const scrollY = window.scrollY;
-            const viewportHeight = window.innerHeight;
-            // 控制header的显示/隐藏（基于100vh）
-            setIsHeaderVisible(scrollY >= viewportHeight);
-            if (!userManualControl && scrollY >= viewportHeight) {
-                if (scrollY <= viewportHeight + 300) {
-                    // 刚滚动过100vh时，自动展开菜单
-                    setIsMenuOpen(true);
-                    setHasScrolledDown(false);
-                } else if (scrollY > viewportHeight + 100 && !hasScrolledDown) {
-                    // 继续向下滚动超过100vh+100px时，收起一次
-                    setIsMenuOpen(false);
-                    setHasScrolledDown(true);
-                }
-            }
-        };
-        window.addEventListener('scroll', handleScroll);
-        // 初始检查
-        handleScroll();
-        return ()=>{
-            window.removeEventListener('scroll', handleScroll);
-        };
-    }, [
-        userManualControl,
-        hasScrolledDown
-    ]);
-    const handleMouseEnter = ()=>{
-        setIsMenuOpen(true);
-    };
-    const handleMouseLeave = ()=>{
-    // 鼠标离开时不自动收起，让滚动控制
-    };
-    const handleToggleClick = ()=>{
-        // 用户主动控制
-        setUserManualControl(true);
+    const handleToggleMenu = ()=>{
         setIsMenuOpen(!isMenuOpen);
-        // 10秒后恢复自动控制
-        setTimeout(()=>{
-            setUserManualControl(false);
-        }, 10000);
+    };
+    const handleNavClick = ()=>{
+        setIsMenuOpen(false);
     };
     const navItems = [
         {
@@ -502,7 +447,7 @@ function Header({ children }) {
         }
     ];
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("header", {
-        className: `${__TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$components$2f$ui$2f$modules$2f$Header$2f$Header$2e$module$2e$scss$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].header} ${isHeaderVisible ? __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$components$2f$ui$2f$modules$2f$Header$2f$Header$2e$module$2e$scss$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].headerVisible : __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$components$2f$ui$2f$modules$2f$Header$2f$Header$2e$module$2e$scss$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].headerHidden}`,
+        className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$components$2f$ui$2f$modules$2f$Header$2f$Header$2e$module$2e$scss$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].header,
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$components$2f$ui$2f$modules$2f$Header$2f$Header$2e$module$2e$scss$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].wrapper,
@@ -516,82 +461,105 @@ function Header({ children }) {
                                 children: "MaKaleidos"
                             }, void 0, false, {
                                 fileName: "[project]/frontend/src/components/ui/modules/Header/Header.jsx",
-                                lineNumber: 103,
+                                lineNumber: 36,
                                 columnNumber: 25
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/frontend/src/components/ui/modules/Header/Header.jsx",
-                            lineNumber: 102,
+                            lineNumber: 35,
                             columnNumber: 21
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/frontend/src/components/ui/modules/Header/Header.jsx",
-                        lineNumber: 101,
+                        lineNumber: 34,
                         columnNumber: 17
                     }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$components$2f$ui$2f$modules$2f$Header$2f$Header$2e$module$2e$scss$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].navContainer,
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                        className: `${__TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$components$2f$ui$2f$modules$2f$Header$2f$Header$2e$module$2e$scss$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].menuToggle} ${isMenuOpen ? __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$components$2f$ui$2f$modules$2f$Header$2f$Header$2e$module$2e$scss$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].menuToggleActive : ''}`,
+                        onClick: handleToggleMenu,
+                        "aria-label": "Toggle navigation menu",
                         children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                className: `${__TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$components$2f$ui$2f$modules$2f$Header$2f$Header$2e$module$2e$scss$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].menuToggle} ${isMenuOpen ? __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$components$2f$ui$2f$modules$2f$Header$2f$Header$2e$module$2e$scss$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].menuToggleActive : ''}`,
-                                onClick: handleToggleClick,
-                                onMouseEnter: handleMouseEnter,
-                                onMouseLeave: handleMouseLeave,
-                                "aria-label": "Click to toggle or hover to expand navigation menu"
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$components$2f$ui$2f$modules$2f$Header$2f$Header$2e$module$2e$scss$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].menuText,
+                                children: "menu"
                             }, void 0, false, {
                                 fileName: "[project]/frontend/src/components/ui/modules/Header/Header.jsx",
-                                lineNumber: 109,
+                                lineNumber: 46,
                                 columnNumber: 21
                             }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("nav", {
-                                className: `${__TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$components$2f$ui$2f$modules$2f$Header$2f$Header$2e$module$2e$scss$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].navigation} ${isMenuOpen ? __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$components$2f$ui$2f$modules$2f$Header$2f$Header$2e$module$2e$scss$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].navigationOpen : ''}`,
-                                children: navItems.map((item, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
-                                        href: item.href,
-                                        className: `${__TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$components$2f$ui$2f$modules$2f$Header$2f$Header$2e$module$2e$scss$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].navLink} ${pathname === item.href ? __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$components$2f$ui$2f$modules$2f$Header$2f$Header$2e$module$2e$scss$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].navLinkActive : ''}`,
-                                        style: {
-                                            '--delay': `${index * 0.08}s`,
-                                            '--reverse-delay': `${(navItems.length - 1 - index) * 0.05}s`
-                                        },
-                                        children: item.label
-                                    }, item.href, false, {
-                                        fileName: "[project]/frontend/src/components/ui/modules/Header/Header.jsx",
-                                        lineNumber: 127,
-                                        columnNumber: 29
-                                    }, this))
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
+                                className: `${__TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$components$2f$ui$2f$modules$2f$Header$2f$Header$2e$module$2e$scss$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].expandIcon} ${isMenuOpen ? __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$components$2f$ui$2f$modules$2f$Header$2f$Header$2e$module$2e$scss$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].rotated : ''}`,
+                                viewBox: "0 0 24 24",
+                                fill: "none",
+                                stroke: "currentColor",
+                                strokeWidth: "2",
+                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("polyline", {
+                                    points: "6,9 12,15 18,9"
+                                }, void 0, false, {
+                                    fileName: "[project]/frontend/src/components/ui/modules/Header/Header.jsx",
+                                    lineNumber: 54,
+                                    columnNumber: 25
+                                }, this)
                             }, void 0, false, {
                                 fileName: "[project]/frontend/src/components/ui/modules/Header/Header.jsx",
-                                lineNumber: 123,
+                                lineNumber: 47,
                                 columnNumber: 21
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/frontend/src/components/ui/modules/Header/Header.jsx",
-                        lineNumber: 107,
+                        lineNumber: 41,
+                        columnNumber: 17
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("nav", {
+                        className: `${__TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$components$2f$ui$2f$modules$2f$Header$2f$Header$2e$module$2e$scss$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].navigation} ${isMenuOpen ? __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$components$2f$ui$2f$modules$2f$Header$2f$Header$2e$module$2e$scss$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].navigationOpen : ''}`,
+                        children: navItems.map((item, index)=>{
+                            const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
+                            return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
+                                href: item.href,
+                                className: `${__TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$components$2f$ui$2f$modules$2f$Header$2f$Header$2e$module$2e$scss$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].navLink} ${isActive ? __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$components$2f$ui$2f$modules$2f$Header$2f$Header$2e$module$2e$scss$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].navLinkActive : ''}`,
+                                style: {
+                                    '--delay': `${index * 0.06}s`,
+                                    '--offset': `${index * 1.6}rem`,
+                                    '--slide-delay': `${0.35 + index * 0.06}s`,
+                                    '--close-delay': `${(4 - index) * 0.06}s`
+                                },
+                                onClick: handleNavClick,
+                                children: item.label
+                            }, item.href, false, {
+                                fileName: "[project]/frontend/src/components/ui/modules/Header/Header.jsx",
+                                lineNumber: 64,
+                                columnNumber: 29
+                            }, this);
+                        })
+                    }, void 0, false, {
+                        fileName: "[project]/frontend/src/components/ui/modules/Header/Header.jsx",
+                        lineNumber: 59,
                         columnNumber: 17
                     }, this),
                     children
                 ]
             }, void 0, true, {
                 fileName: "[project]/frontend/src/components/ui/modules/Header/Header.jsx",
-                lineNumber: 100,
+                lineNumber: 33,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$components$2f$ui$2f$modules$2f$Header$2f$Header$2e$module$2e$scss$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].languageContainer,
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$components$2f$ui$2f$LanguageSwitcher$2f$LanguageSwitcher$2e$jsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                     fileName: "[project]/frontend/src/components/ui/modules/Header/Header.jsx",
-                    lineNumber: 146,
+                    lineNumber: 86,
                     columnNumber: 17
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/frontend/src/components/ui/modules/Header/Header.jsx",
-                lineNumber: 145,
+                lineNumber: 85,
                 columnNumber: 13
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/frontend/src/components/ui/modules/Header/Header.jsx",
-        lineNumber: 99,
+        lineNumber: 32,
         columnNumber: 9
     }, this);
 }

@@ -418,7 +418,7 @@ function Cards({ onFirstHover, currentSpacing, viewRef, onScrollStart, onCardCli
                 if (onScrollStart) {
                     onScrollStart();
                 }
-            }
+            } 
         };
 
         const handleTouchEnd = () => {

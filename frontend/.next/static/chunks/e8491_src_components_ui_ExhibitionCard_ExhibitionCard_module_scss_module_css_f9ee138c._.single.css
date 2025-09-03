@@ -182,7 +182,8 @@
 }
 
 .ExhibitionCard-module-scss-module__u3AODW__buttonText {
-  letter-spacing: -.01em;
+  text-transform: uppercase;
+  letter-spacing: .15em;
   font-weight: 300;
 }
 

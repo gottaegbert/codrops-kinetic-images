@@ -84,10 +84,10 @@
 }
 
 .exhibitionItem:first-child .status {
-    color: #66cc99;
+    color: var(--color-green);
     
     &:before {
-        background: #66cc99;
+        background: var(--color-green);
     }
 }
 

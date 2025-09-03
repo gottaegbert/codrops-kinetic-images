@@ -383,10 +383,6 @@ __turbopack_context__.v({
   "navigation": "Header-module-scss-module__HW1Erq__navigation",
   "navigationOpen": "Header-module-scss-module__HW1Erq__navigationOpen",
   "rotated": "Header-module-scss-module__HW1Erq__rotated",
-  "slideBackAndFade": "Header-module-scss-module__HW1Erq__slideBackAndFade",
-  "slideBackAndFadeActive": "Header-module-scss-module__HW1Erq__slideBackAndFadeActive",
-  "slideToPosition": "Header-module-scss-module__HW1Erq__slideToPosition",
-  "slideToPositionActive": "Header-module-scss-module__HW1Erq__slideToPositionActive",
   "title": "Header-module-scss-module__HW1Erq__title",
   "wrapper": "Header-module-scss-module__HW1Erq__wrapper",
 });
@@ -520,12 +516,6 @@ function Header({ children }) {
                             return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
                                 href: item.href,
                                 className: `${__TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$components$2f$ui$2f$modules$2f$Header$2f$Header$2e$module$2e$scss$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].navLink} ${isActive ? __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$components$2f$ui$2f$modules$2f$Header$2f$Header$2e$module$2e$scss$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].navLinkActive : ''}`,
-                                style: {
-                                    '--delay': `${index * 0.06}s`,
-                                    '--offset': `${index * 1.6}rem`,
-                                    '--slide-delay': `${0.35 + index * 0.06}s`,
-                                    '--close-delay': `${(4 - index) * 0.06}s`
-                                },
                                 onClick: handleNavClick,
                                 children: item.label
                             }, item.href, false, {
@@ -550,12 +540,12 @@ function Header({ children }) {
                 className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$components$2f$ui$2f$modules$2f$Header$2f$Header$2e$module$2e$scss$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].languageContainer,
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$components$2f$ui$2f$LanguageSwitcher$2f$LanguageSwitcher$2e$jsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                     fileName: "[project]/frontend/src/components/ui/modules/Header/Header.jsx",
-                    lineNumber: 86,
+                    lineNumber: 80,
                     columnNumber: 17
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/frontend/src/components/ui/modules/Header/Header.jsx",
-                lineNumber: 85,
+                lineNumber: 79,
                 columnNumber: 13
             }, this)
         ]

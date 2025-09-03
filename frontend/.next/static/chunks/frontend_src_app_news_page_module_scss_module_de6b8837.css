@@ -84,11 +84,11 @@
 }
 
 .page-module-scss-module__7dfTxG__exhibitionItem:first-child .page-module-scss-module__7dfTxG__status {
-  color: #6c9;
+  color: var(--color-green);
 }
 
 .page-module-scss-module__7dfTxG__exhibitionItem:first-child .page-module-scss-module__7dfTxG__status:before {
-  background: #6c9;
+  background: var(--color-green);
 }
 
 .page-module-scss-module__7dfTxG__exhibitionTitle {

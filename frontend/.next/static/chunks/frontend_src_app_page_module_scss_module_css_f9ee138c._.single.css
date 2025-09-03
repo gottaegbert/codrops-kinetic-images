@@ -263,6 +263,8 @@
 
 .page-module-scss-module__moF6Tq__infiniteScroll {
   white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: .15em;
   background: var(--color-green);
   margin: 2rem 0;
   position: relative;
@@ -310,13 +312,15 @@
 .page-module-scss-module__moF6Tq__navLabel {
   color: #5a6c7d;
   text-transform: uppercase;
-  letter-spacing: .1em;
+  letter-spacing: .15em;
   white-space: nowrap;
   font-size: .9rem;
   font-weight: 600;
 }
 
 .page-module-scss-module__moF6Tq__navLinks {
+  text-transform: uppercase;
+  letter-spacing: .15em;
   flex-wrap: wrap;
   align-items: center;
   gap: 2rem;
@@ -334,23 +338,7 @@
 }
 
 .page-module-scss-module__moF6Tq__navLink:hover {
-  color: #6c9;
-  transform: translateY(-1px);
-}
-
-.page-module-scss-module__moF6Tq__navLink:after {
-  content: "";
-  background: #6c9;
-  width: 0;
-  height: 2px;
-  transition: width .3s;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-}
-
-.page-module-scss-module__moF6Tq__navLink:hover:after {
-  width: 100%;
+  color: var(--color-green);
 }
 
 @media (width <= 768px) {

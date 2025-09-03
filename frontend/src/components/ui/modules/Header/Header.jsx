@@ -65,12 +65,6 @@ function Header({ children }) {
                                 key={item.href}
                                 href={item.href}
                                 className={`${styles.navLink} ${isActive ? styles.navLinkActive : ''}`}
-                                style={{
-                                    '--delay': `${index * 0.06}s`,
-                                    '--offset': `${index * 1.6}rem`,
-                                    '--slide-delay': `${0.35 + index * 0.06}s`,
-                                    '--close-delay': `${(4 - index) * 0.06}s`,
-                                }}
                                 onClick={handleNavClick}
                             >
                                 {item.label}

@@ -314,21 +314,22 @@ function CameraController({ triggerAnimation, onProgressChange }) {
         // 通知父组件进度变化，用于更新spacing
         onProgressChange(progress);
 
-        // Screen-size responsive camera paths
+        // Screen-size responsive camera paths - 调整以看到底部的卡片
         let startPos, endPos;
         switch (screenSize) {
             case 'mobile':
-                startPos = [-15, 0, 0];
-                endPos = [0, 10, 20];
+                // 移动端：相机位置更高，向下看底部的卡片
+                startPos = [-15, 5, 0];
+                endPos = [0, 15, 25];
                 break;
             case 'medium':
                 // 13-inch MacBook and similar screens
-                startPos = [-20, 0, 0];
-                endPos = [0, 15, 25];
+                startPos = [-20, 3, 0];
+                endPos = [0, 18, 30];
                 break;
             case 'laptop':
-                startPos = [-25, 0, 0];
-                endPos = [0, 18, 35];
+                startPos = [-25, 2, 0];
+                endPos = [0, 20, 35];
                 break;
             default: // desktop
                 startPos = [-30, 0, 0];
@@ -345,25 +346,39 @@ function CameraController({ triggerAnimation, onProgressChange }) {
             startPos[2] + (endPos[2] - startPos[2]) * curveProgress
         );
 
-        // 让相机始终看向卡片中心
-        cameraRef.current.lookAt(0, 0, 0);
+        // 让相机看向不同屏幕尺寸下的卡片位置
+        let lookAtTarget;
+        switch (screenSize) {
+            case 'mobile':
+                lookAtTarget = [0, -2.5, 0]; // 看向底部的卡片
+                break;
+            case 'medium':
+                lookAtTarget = [0, -1.5, 0];
+                break;
+            case 'laptop':
+                lookAtTarget = [0, -1, 0];
+                break;
+            default: // desktop
+                lookAtTarget = [0, 0, 0];
+        }
+        cameraRef.current.lookAt(...lookAtTarget);
     });
 
     // Screen-size responsive zoom and initial position
     let zoom, initialPosition;
     switch (screenSize) {
         case 'mobile':
-            zoom = 180;
-            initialPosition = [-20, 0, 0];
+            zoom = 160; // 稍微拉远一点以看到底部卡片
+            initialPosition = [-20, 5, 0]; // 相机位置更高
             break;
         case 'medium':
             // 13-inch MacBook optimization
-            zoom = 220;
-            initialPosition = [-25, 0, 0];
+            zoom = 200;
+            initialPosition = [-25, 3, 0];
             break;
         case 'laptop':
             zoom = 240;
-            initialPosition = [-35, 0, 0];
+            initialPosition = [-35, 2, 0];
             break;
         default: // desktop
             zoom = 260;
@@ -668,18 +683,20 @@ function Cards({ onFirstHover, currentSpacing, viewRef, onScrollStart, onCardCli
             {imageData.map((imageInfo, index) => {
                 // Linear stacking using dynamic spacing based on actual image count
                 const xOffset = index * dynamicSpacing - (actualCount * dynamicSpacing) / 2;
-                // Screen-size responsive Y positioning
+                // Screen-size responsive Y positioning - 小尺寸固定在底部
                 let yOffset;
                 switch (screenSize) {
                     case 'mobile':
-                        yOffset = 0;
+                        // 移动端：固定在屏幕底部20px位置
+                        // 使用负值让卡片在视野下方，通过相机角度看到
+                        yOffset = -3;
                         break;
                     case 'medium':
-                        // 13-inch MacBook - move cards down less to avoid exhibition button
-                        yOffset = -0.5;
+                        // 13-inch MacBook - 稍微下移但不要太极端
+                        yOffset = -2;
                         break;
                     case 'laptop':
-                        yOffset = -0.8;
+                        yOffset = -1.5;
                         break;
                     default: // desktop
                         yOffset = -1;

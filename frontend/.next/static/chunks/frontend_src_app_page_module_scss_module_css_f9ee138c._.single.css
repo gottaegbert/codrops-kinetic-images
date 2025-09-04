@@ -11,6 +11,7 @@
 }
 
 .page-module-scss-module__moF6Tq__view {
+  z-index: 10;
   width: 100%;
   height: 100%;
   position: sticky;
@@ -184,15 +185,15 @@
 
 .page-module-scss-module__moF6Tq__introTitle {
   letter-spacing: -.02em;
-  margin-bottom: 1rem;
-  font-size: 2.5rem;
+  margin-bottom: clamp(.5rem, 2vw, 1rem);
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
   font-weight: 400;
 }
 
 .page-module-scss-module__moF6Tq__introSubtitle {
   color: #666;
-  margin-bottom: 2rem;
-  font-size: 1.2rem;
+  margin-bottom: clamp(1rem, 3vw, 2rem);
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
   line-height: 1.6;
 }
 
@@ -250,14 +251,14 @@
 .page-module-scss-module__moF6Tq__sectionTitle {
   color: #000;
   letter-spacing: -.02em;
-  margin-bottom: 1.5rem;
-  font-size: 2.5rem;
+  margin-bottom: clamp(1rem, 3vw, 1.5rem);
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
   font-weight: 400;
 }
 
 .page-module-scss-module__moF6Tq__sectionText {
   color: #2c3e50;
-  font-size: 1.2rem;
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
   line-height: 1.6;
 }
 
@@ -281,9 +282,9 @@
 .page-module-scss-module__moF6Tq__scrollItem {
   backdrop-filter: blur(8px);
   flex-shrink: 0;
-  margin: 0 1rem;
-  padding: 1.5rem 8rem;
-  font-size: 5rem;
+  margin: 0 clamp(.5rem, 2vw, 1rem);
+  padding: clamp(.8rem, 3vw, 1.5rem) clamp(1.5rem, 8vw, 8rem);
+  font-size: clamp(2rem, 8vw, 5rem);
   font-weight: 500;
   transition: all .4s cubic-bezier(.4, 0, .2, 1);
   display: inline-block;
@@ -303,9 +304,9 @@
   border-top: 1px solid #5a6c7d33;
   border-bottom: 1px solid #5a6c7d33;
   align-items: center;
-  gap: 2rem;
-  margin: 0 0 2rem;
-  padding: .5rem 2rem;
+  gap: clamp(1rem, 3vw, 2rem);
+  margin: 0 0 clamp(1rem, 3vw, 2rem);
+  padding: clamp(.25rem, 1vw, .5rem) clamp(1rem, 3vw, 2rem);
   display: flex;
 }
 
@@ -314,7 +315,7 @@
   text-transform: uppercase;
   letter-spacing: .15em;
   white-space: nowrap;
-  font-size: .9rem;
+  font-size: clamp(.75rem, 1.8vw, .9rem);
   font-weight: 600;
 }
 
@@ -323,14 +324,14 @@
   letter-spacing: .15em;
   flex-wrap: wrap;
   align-items: center;
-  gap: 2rem;
+  gap: clamp(1rem, 3vw, 2rem);
   display: flex;
 }
 
 .page-module-scss-module__moF6Tq__navLink {
   color: #000;
-  padding: .5rem 0;
-  font-size: 1rem;
+  padding: clamp(.25rem, 1vw, .5rem) 0;
+  font-size: clamp(.85rem, 2vw, 1rem);
   font-weight: 500;
   text-decoration: none;
   transition: all .3s;
@@ -352,6 +353,7 @@
   }
 
   .page-module-scss-module__moF6Tq__view {
+    z-index: 10;
     height: 100%;
     position: relative;
     overflow: visible;
@@ -372,6 +374,7 @@
   }
 
   .page-module-scss-module__moF6Tq__view {
+    z-index: 10;
     flex: 1;
     height: 100%;
     position: relative;
@@ -383,24 +386,8 @@
     padding: 1.5rem;
   }
 
-  .page-module-scss-module__moF6Tq__introTitle {
-    font-size: 2rem;
-  }
-
-  .page-module-scss-module__moF6Tq__introSubtitle {
-    font-size: 1rem;
-  }
-
   .page-module-scss-module__moF6Tq__content {
-    padding: 3rem 1rem;
-  }
-
-  .page-module-scss-module__moF6Tq__sectionTitle {
-    font-size: 2rem;
-  }
-
-  .page-module-scss-module__moF6Tq__sectionText {
-    font-size: 1rem;
+    padding: clamp(2rem, 5vw, 3rem) clamp(.5rem, 2vw, 1rem);
   }
 
   .page-module-scss-module__moF6Tq__infiniteScroll {
@@ -413,26 +400,19 @@
 
   .page-module-scss-module__moF6Tq__scrollItem {
     color: #000;
-    margin: 0 .5rem;
-    padding: .8rem 1.5rem;
-    font-size: 1rem;
   }
 
   .page-module-scss-module__moF6Tq__pageNavigation {
     flex-direction: column;
     align-items: flex-start;
-    gap: 1rem;
-    margin: 2rem 0 1.5rem;
-    padding: 1rem 0;
+    gap: clamp(.75rem, 2vw, 1rem);
+    margin: clamp(1.5rem, 4vw, 2rem) 0 clamp(1rem, 3vw, 1.5rem);
+    padding: clamp(.75rem, 2vw, 1rem) 0;
   }
 
   .page-module-scss-module__moF6Tq__navLinks {
-    gap: 1rem;
+    gap: clamp(.75rem, 2vw, 1rem);
     width: 100%;
-  }
-
-  .page-module-scss-module__moF6Tq__navLink {
-    font-size: .9rem;
   }
 }
 
@@ -491,26 +471,20 @@
 .page-module-scss-module__moF6Tq__contentSections {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 4rem 2rem;
+  padding: clamp(2rem, 6vw, 4rem) clamp(1rem, 4vw, 2rem);
 }
 
 .page-module-scss-module__moF6Tq__contentSection {
-  margin-bottom: 4rem;
+  margin-bottom: clamp(2rem, 6vw, 4rem);
 }
 
 .page-module-scss-module__moF6Tq__contentSection:last-child {
   margin-bottom: 0;
 }
 
-@media (width <= 768px) {
-  .page-module-scss-module__moF6Tq__contentSections {
-    padding: 2rem 1rem;
-  }
-}
-
 @media (width <= 480px) {
   .page-module-scss-module__moF6Tq__contentSections {
-    padding: 1.5rem .75rem;
+    padding: clamp(1.5rem, 4vw, 2rem) clamp(.75rem, 2vw, 1rem);
   }
 }
 

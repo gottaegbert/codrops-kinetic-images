@@ -365,7 +365,7 @@ a.active {
 }
 
 .Header-module-scss-module__HW1Erq__header {
-  z-index: 10;
+  z-index: 12;
   opacity: 1;
   pointer-events: auto;
   flex-direction: row;
@@ -395,10 +395,8 @@ a.active {
 
 .Header-module-scss-module__HW1Erq__title {
   cursor: pointer;
-  letter-spacing: -.02em;
   color: #000;
   background: #ffffff1a;
-  border: 2px solid #fff3;
   margin: 0;
   font-size: 1.5rem;
   font-weight: 500;
@@ -406,19 +404,16 @@ a.active {
 }
 
 .Header-module-scss-module__HW1Erq__menuToggle {
-  border: 1px solid var(--color-green);
   color: #000;
   cursor: pointer;
   text-transform: uppercase;
   letter-spacing: .15em;
   white-space: nowrap;
   background: none;
-  justify-content: center;
   align-items: center;
-  gap: .5rem;
   min-width: fit-content;
   height: 2rem;
-  padding: 0 .75rem;
+  padding-top: 1.5rem;
   font-size: .75rem;
   font-weight: 300;
   transition: all .3s;
@@ -427,15 +422,11 @@ a.active {
 
 .Header-module-scss-module__HW1Erq__menuToggle:hover {
   color: var(--color-green);
-  border-color: var(--color-green);
-  box-shadow: 0 4px 16px #75c1c44d;
 }
 
 .Header-module-scss-module__HW1Erq__menuToggle.Header-module-scss-module__HW1Erq__menuToggleActive {
   color: var(--color-green);
-  border-color: var(--color-green);
   font-weight: 500;
-  box-shadow: 0 4px 16px #75c1c44d;
 }
 
 .Header-module-scss-module__HW1Erq__menuText {
@@ -462,11 +453,9 @@ a.active {
   visibility: hidden;
   flex-direction: column;
   flex-shrink: 0;
-  gap: 1rem;
   transition: all .3s;
   display: flex;
   position: relative;
-  transform: translateY(-20px);
 }
 
 .Header-module-scss-module__HW1Erq__navigation.Header-module-scss-module__HW1Erq__navigationOpen {
@@ -479,14 +468,12 @@ a.active {
   color: #000;
   text-transform: uppercase;
   letter-spacing: .15em;
-  border: 1px solid var(--color-green);
   background: none;
   flex-shrink: 0;
-  justify-content: center;
   align-items: center;
   min-width: fit-content;
   height: 2rem;
-  padding: 0 .75rem;
+  padding: 0 0;
   font-size: .75rem;
   font-weight: 300;
   transition: all .3s;
@@ -496,26 +483,20 @@ a.active {
 
 .Header-module-scss-module__HW1Erq__navLink:hover {
   color: var(--color-green);
-  border-color: var(--color-green);
   transform: scale(1.05);
-  box-shadow: 0 4px 16px #75c1c44d;
 }
 
 .Header-module-scss-module__HW1Erq__navLink.Header-module-scss-module__HW1Erq__navLinkActive {
-  border-color: var(--color-green);
   color: var(--color-green);
   background: none;
   font-weight: 600;
   position: relative;
-  box-shadow: 0 8px 24px #75c1c480;
 }
 
 .Header-module-scss-module__HW1Erq__navLink.Header-module-scss-module__HW1Erq__navLinkActive:hover {
-  border-color: var(--color-green);
   color: var(--color-green);
   background: none;
   transform: scale(1.1);
-  box-shadow: 0 10px 30px #75c1c499;
 }
 
 .Header-module-scss-module__HW1Erq__languageContainer {

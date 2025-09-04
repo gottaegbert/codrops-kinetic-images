@@ -1,0 +1,9 @@
+{
+    "recommendations": [
+        "bradlc.vscode-tailwindcss",
+        "zignd.html-css-class-completion",
+        "ms-vscode.vscode-typescript-next",
+        "styled-components.vscode-styled-components"
+    ]
+}
+

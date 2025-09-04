@@ -1,4 +1,13 @@
 {
-    "css-modules.languages": ["javascript", "jsx"],
-    "css-modules.camelCase": true
+    "css.validate": true,
+    "scss.validate": true,
+    "css.completion.completePropertyWithSemicolon": true,
+    "css.completion.triggerPropertyValueCompletion": true,
+    "emmet.includeLanguages": {
+        "javascript": "javascriptreact",
+        "typescript": "typescriptreact"
+    },
+    "typescript.preferences.includePackageJsonAutoImports": "auto",
+    "typescript.suggest.autoImports": true,
+    "css.lint.unknownAtRules": "ignore"
 }

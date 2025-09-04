@@ -184,6 +184,7 @@
 .ExhibitionCard-module-scss-module__u3AODW__buttonText {
   text-transform: uppercase;
   letter-spacing: .15em;
+  font-size: small;
   font-weight: 300;
 }
 
@@ -326,7 +327,7 @@
   cursor: pointer;
   letter-spacing: .02em;
   background: none;
-  border: 1px solid #d1d5db;
+  border-bottom: 1px solid #d1d5db;
   justify-content: center;
   align-items: center;
   margin-top: .75rem;
@@ -360,6 +361,26 @@
   }
 }
 
+@media (width <= 1024px) and (width >= 769px), (height <= 768px) and (width >= 769px) {
+  .ExhibitionCard-module-scss-module__u3AODW__currentExhibitionContainer {
+    width: 85%;
+    max-width: 400px;
+    top: 15vh;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .ExhibitionCard-module-scss-module__u3AODW__currentExhibitionButton {
+    padding: 1rem 1.75rem;
+    font-size: 1rem;
+  }
+
+  .ExhibitionCard-module-scss-module__u3AODW__exhibitionDetails {
+    width: 100%;
+    max-width: 400px;
+  }
+}
+
 @media (width <= 768px) {
   .ExhibitionCard-module-scss-module__u3AODW__exhibitionCard {
     display: none;
@@ -368,7 +389,7 @@
   .ExhibitionCard-module-scss-module__u3AODW__currentExhibitionContainer {
     width: 90%;
     max-width: 350px;
-    top: 25vh;
+    top: 20vh;
     left: 50%;
     transform: translateX(-50%);
   }
@@ -474,7 +495,7 @@
     cursor: pointer;
     letter-spacing: .02em;
     background: none;
-    border: 1px solid #d1d5db;
+    border-bottom: 1px solid #d1d5db;
     justify-content: center;
     align-items: center;
     margin-top: .75rem;

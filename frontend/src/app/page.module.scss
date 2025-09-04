@@ -147,7 +147,7 @@
 .infiniteScroll {
     overflow: hidden;
     white-space: nowrap;
-    margin: 2rem 0;
+    margin: 0rem 0;
     text-transform: uppercase;
     letter-spacing: 0.15em;
     position: relative;
@@ -195,8 +195,8 @@
     display: flex;
     align-items: center;
     gap: 2rem;
-    margin: 3rem 0 2rem 0;
-    padding: 1.5rem 2rem;
+    margin: 0rem 0 2rem 0;
+    padding: 0.5rem 2rem;
     border-top: 1px solid rgba(90, 108, 125, 0.2);
     border-bottom: 1px solid rgba(90, 108, 125, 0.2);
 }
@@ -248,23 +248,43 @@
     // }
 }
 
+// Medium screens (13-inch MacBook, tablets in landscape)
+@media (max-width: 1024px) and (min-width: 769px), (max-height: 768px) and (min-width: 769px) {
+    .page {
+        padding-top: 80px; /* Less padding for medium screens */
+    }
+
+    .heroSection {
+        height: calc(100vh - 80px);
+        min-height: 600px; /* Ensure adequate space for 3D cards */
+    }
+
+    .view {
+        height: 100%;
+        position: relative;
+        overflow: visible;
+    }
+}
+
 @media (max-width: 768px) {
     .page {
-        padding-top: 140px; /* Account for wrapped mobile header */
+        padding-top: 100px; /* Reduced padding for more space */
         // min-height: 200vh; /* Allow page to be taller than viewport to enable scrolling */
     }
 
     .heroSection {
-        height: calc(100vh - 140px);
+        height: calc(100vh - 100px); /* More space for 3D cards */
         display: flex;
         flex-direction: column;
         position: relative;
+        min-height: 500px; /* Ensure minimum height for cards */
     }
 
     .view {
         height: 100%;
         flex: 1;
         position: relative;
+        overflow: visible; /* Allow cards to be visible even if they extend beyond bounds */
     }
 
     .intro {
@@ -333,7 +353,7 @@
     @media (max-width: 768px) {
         display: flex;
         position: absolute;
-        bottom: 2rem;
+        bottom: 1rem; /* Adjusted for better positioning */
         left: 50%;
         transform: translateX(-50%);
         align-items: center;

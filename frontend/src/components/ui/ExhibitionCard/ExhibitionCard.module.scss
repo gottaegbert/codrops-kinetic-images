@@ -50,6 +50,7 @@
 
 .buttonText {
     font-weight: 300;
+    font-size: small;
     text-transform: uppercase;
     letter-spacing: 0.15em;
 }
@@ -208,7 +209,7 @@
     justify-content: center;
     background: transparent;
     color: #374151;
-    border: 1px solid #d1d5db;
+    border-bottom:1px solid #d1d5db;
     padding: 0.5rem 1rem;
     font-size: 0.75rem;
     font-weight: 300;
@@ -242,6 +243,27 @@
     }
 }
 
+// Medium screens (13-inch MacBook, tablets in landscape)
+@media (max-width: 1024px) and (min-width: 769px), (max-height: 768px) and (min-width: 769px) {
+    .currentExhibitionContainer {
+        top: 15vh; /* Higher positioning for medium screens to avoid blocking cards */
+        left: 50%;
+        transform: translateX(-50%);
+        width: 85%;
+        max-width: 400px;
+    }
+    
+    .currentExhibitionButton {
+        padding: 1rem 1.75rem;
+        font-size: 1rem;
+    }
+    
+    .exhibitionDetails {
+        width: 100%;
+        max-width: 400px;
+    }
+}
+
 @media (max-width: 768px) {
     .exhibitionCard {
         display: none;
@@ -249,7 +271,7 @@
     
     // 当前展览按钮的移动端样式
     .currentExhibitionContainer {
-        top: 25vh;
+        top: 20vh; /* Adjusted for better positioning with more space */
         left: 50%;
         transform: translateX(-50%);
         width: 90%;
@@ -358,7 +380,7 @@
             justify-content: center;
             background: transparent;
             color: #374151;
-            border: 1px solid #d1d5db;
+            border-bottom: 1px solid #d1d5db;
             padding: 0.6rem 1.2rem;
             font-size: 0.8rem;
             font-weight: 300;

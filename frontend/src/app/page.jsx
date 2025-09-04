@@ -138,6 +138,29 @@ function Card({
 }) {
     const ref = useRef();
     const materialRef = useRef();
+    const [screenSize, setScreenSize] = useState('desktop');
+
+    // Check screen size with multiple breakpoints
+    useEffect(() => {
+        const checkScreenSize = () => {
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            
+            if (width <= 768) {
+                setScreenSize('mobile');
+            } else if (width <= 1024 || height <= 768) {
+                setScreenSize('medium');
+            } else if (width <= 1440) {
+                setScreenSize('laptop');
+            } else {
+                setScreenSize('desktop');
+            }
+        };
+        
+        checkScreenSize();
+        window.addEventListener('resize', checkScreenSize);
+        return () => window.removeEventListener('resize', checkScreenSize);
+    }, []);
 
     // Only use Sanity images, no fallback
     if (!imageUrl) {
@@ -156,8 +179,22 @@ function Card({
     // Calculate aspect ratio from image dimensions
     const aspectRatio = imageDimensions ? imageDimensions.width / imageDimensions.height : 1;
 
-    // Set a base size and scale according to aspect ratio
-    const baseSize = 1.4; // Increase base size for better visibility
+    // Screen-size responsive base size
+    let baseSize;
+    switch (screenSize) {
+        case 'mobile':
+            baseSize = 1.8;
+            break;
+        case 'medium':
+            // 13-inch MacBook - smaller cards to fit better
+            baseSize = 1.2;
+            break;
+        case 'laptop':
+            baseSize = 1.3;
+            break;
+        default: // desktop
+            baseSize = 1.4;
+    }
     let cardWidth, cardHeight;
 
     if (aspectRatio >= 1) {
@@ -225,6 +262,30 @@ function CameraController({ triggerAnimation, onProgressChange }) {
     const [startTime] = useState(Date.now());
     const [animationTriggered, setAnimationTriggered] = useState(false);
     const [animationStartTime, setAnimationStartTime] = useState(null);
+    const [screenSize, setScreenSize] = useState('desktop');
+
+    // Check screen size with multiple breakpoints
+    useEffect(() => {
+        const checkScreenSize = () => {
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            
+            if (width <= 768) {
+                setScreenSize('mobile');
+            } else if (width <= 1024 || height <= 768) {
+                // Medium screens like 13-inch MacBook (1440x900) or tablets
+                setScreenSize('medium');
+            } else if (width <= 1440) {
+                setScreenSize('laptop');
+            } else {
+                setScreenSize('desktop');
+            }
+        };
+        
+        checkScreenSize();
+        window.addEventListener('resize', checkScreenSize);
+        return () => window.removeEventListener('resize', checkScreenSize);
+    }, []);
 
     useFrame(() => {
         if (!cameraRef.current) return;
@@ -253,9 +314,26 @@ function CameraController({ triggerAnimation, onProgressChange }) {
         // 通知父组件进度变化，用于更新spacing
         onProgressChange(progress);
 
-        // 创建平滑的相机路径
-        const startPos = [-30, 0, 0];
-        const endPos = [-0, 20, 40];
+        // Screen-size responsive camera paths
+        let startPos, endPos;
+        switch (screenSize) {
+            case 'mobile':
+                startPos = [-15, 0, 0];
+                endPos = [0, 10, 20];
+                break;
+            case 'medium':
+                // 13-inch MacBook and similar screens
+                startPos = [-20, 0, 0];
+                endPos = [0, 15, 25];
+                break;
+            case 'laptop':
+                startPos = [-25, 0, 0];
+                endPos = [0, 18, 35];
+                break;
+            default: // desktop
+                startPos = [-30, 0, 0];
+                endPos = [0, 20, 40];
+        }
 
         // 使用三角函数创建更自然的曲线运动
         const curveProgress = Math.sin(progress * Math.PI * 0.5);
@@ -271,12 +349,33 @@ function CameraController({ triggerAnimation, onProgressChange }) {
         cameraRef.current.lookAt(0, 0, 0);
     });
 
+    // Screen-size responsive zoom and initial position
+    let zoom, initialPosition;
+    switch (screenSize) {
+        case 'mobile':
+            zoom = 180;
+            initialPosition = [-20, 0, 0];
+            break;
+        case 'medium':
+            // 13-inch MacBook optimization
+            zoom = 220;
+            initialPosition = [-25, 0, 0];
+            break;
+        case 'laptop':
+            zoom = 240;
+            initialPosition = [-35, 0, 0];
+            break;
+        default: // desktop
+            zoom = 260;
+            initialPosition = [-40, 0, 0];
+    }
+
     return (
         <OrthographicCamera
             ref={cameraRef}
             makeDefault
-            zoom={260}
-            position={[-40, 0, 0]}
+            zoom={zoom}
+            position={initialPosition}
             near={0.01}
             far={100000}
         />
@@ -286,6 +385,29 @@ function CameraController({ triggerAnimation, onProgressChange }) {
 function Cards({ onFirstHover, currentSpacing, viewRef, onScrollStart, onCardClick }) {
     const [hovered, hover] = useState(null);
     const [imagesLoaded, setImagesLoaded] = useState(false);
+    const [screenSize, setScreenSize] = useState('desktop');
+
+    // Check screen size with multiple breakpoints
+    useEffect(() => {
+        const checkScreenSize = () => {
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            
+            if (width <= 768) {
+                setScreenSize('mobile');
+            } else if (width <= 1024 || height <= 768) {
+                setScreenSize('medium');
+            } else if (width <= 1440) {
+                setScreenSize('laptop');
+            } else {
+                setScreenSize('desktop');
+            }
+        };
+        
+        checkScreenSize();
+        window.addEventListener('resize', checkScreenSize);
+        return () => window.removeEventListener('resize', checkScreenSize);
+    }, []);
 
     // Fetch current exhibition first
     const { exhibition, loading, error } = useCurrentExhibition();
@@ -546,7 +668,22 @@ function Cards({ onFirstHover, currentSpacing, viewRef, onScrollStart, onCardCli
             {imageData.map((imageInfo, index) => {
                 // Linear stacking using dynamic spacing based on actual image count
                 const xOffset = index * dynamicSpacing - (actualCount * dynamicSpacing) / 2;
-                const yOffset = -1; // 向下移动2个单位
+                // Screen-size responsive Y positioning
+                let yOffset;
+                switch (screenSize) {
+                    case 'mobile':
+                        yOffset = 0;
+                        break;
+                    case 'medium':
+                        // 13-inch MacBook - move cards down less to avoid exhibition button
+                        yOffset = -0.5;
+                        break;
+                    case 'laptop':
+                        yOffset = -0.8;
+                        break;
+                    default: // desktop
+                        yOffset = -1;
+                }
                 const zOffset = 0;
 
                 return (

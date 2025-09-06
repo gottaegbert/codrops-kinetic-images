@@ -64,6 +64,44 @@ export default {
       description: 'Upload up to 10 images for this exhibition'
     },
     {
+      name: 'detailImages',
+      title: 'Detail Images',
+      type: 'array',
+      of: [{
+        type: 'image',
+        options: {
+          hotspot: true,
+          metadata: ['blurhash', 'lqip', 'palette']
+        },
+        fields: [
+          {
+            name: 'description',
+            title: 'Detail Description',
+            type: 'text',
+            rows: 2,
+            description: 'Description of this specific detail（网页会显示）'
+          },
+          {
+            name: 'alt',
+            title: 'Alt Text',
+            type: 'string',
+            description: 'Describe the detail image for accessibility'
+          },
+          {
+            name: 'title',
+            title: 'Detail Title',
+            type: 'string',
+            description: 'Optional title for this detail image'
+          }
+         
+        ]
+      }],
+      options: {
+        layout: 'grid'
+      },
+      description: 'Upload up to 10 detail images for this exhibition'
+    },
+    {
       name: 'artist',
       title: 'Artist',
       type: 'string'

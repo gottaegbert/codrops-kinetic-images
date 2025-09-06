@@ -50,7 +50,23 @@ export const CURRENT_EXHIBITION_QUERY = `
       description,
       order,
       featured,
-      tags
+      tags,
+      detailImages[] {
+        asset->{
+          _id,
+          url,
+          metadata {
+            dimensions,
+            lqip,
+            blurhash,
+            palette
+          }
+        },
+        alt,
+        title,
+        description,
+        hotspot
+      }
     }
   }
 `
@@ -106,7 +122,23 @@ export const EXHIBITION_BY_SLUG_QUERY = `
       description,
       order,
       featured,
-      tags
+      tags,
+      detailImages[] {
+        asset->{
+          _id,
+          url,
+          metadata {
+            dimensions,
+            lqip,
+            blurhash,
+            palette
+          }
+        },
+        alt,
+        title,
+        description,
+        hotspot
+      }
     }
   }
 `
@@ -167,6 +199,22 @@ export const EXHIBITION_IMAGES_QUERY = `
     order,
     featured,
     tags,
+    detailImages[] {
+      asset->{
+        _id,
+        url,
+        metadata {
+          dimensions,
+          lqip,
+          blurhash,
+          palette
+        }
+      },
+      alt,
+      title,
+      description,
+      hotspot
+    },
     exhibition-> {
       title,
       slug
@@ -195,6 +243,22 @@ export const FEATURED_IMAGES_QUERY = `
     },
     artworkTitle,
     description,
+    detailImages[] {
+      asset->{
+        _id,
+        url,
+        metadata {
+          dimensions,
+          lqip,
+          blurhash,
+          palette
+        }
+      },
+      alt,
+      title,
+      description,
+      hotspot
+    },
     exhibition-> {
       title,
       slug,

@@ -8,7 +8,18 @@ export const homePageQuery = `*[_type == "homePageContent"][0] {
     artist,
     date,
     isCurrent,
-    images[] {
+  images[] {
+    asset->{
+      _id,
+      url,
+      metadata {
+        dimensions,
+        lqip
+      }
+    },
+    alt,
+    title,
+    detailImages[] {
       asset->{
         _id,
         url,
@@ -18,9 +29,11 @@ export const homePageQuery = `*[_type == "homePageContent"][0] {
         }
       },
       alt,
-      title
-    },
-    exhibitionCard,
+      title,
+      description
+    }
+  },
+  exhibitionCard,
     pressRelease,
     biography,
     statement,
@@ -52,7 +65,20 @@ export const currentExhibitionQuery = `*[_type == "exhibition" && isCurrent == t
       }
     },
     alt,
-    title
+    title,
+    detailImages[] {
+      asset->{
+        _id,
+        url,
+        metadata {
+          dimensions,
+          lqip
+        }
+      },
+      alt,
+      title,
+      description
+    }
   },
   exhibitionCard,
   pressRelease,

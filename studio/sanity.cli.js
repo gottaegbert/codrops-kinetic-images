@@ -7,5 +7,9 @@ export default {
     projectId: 'k2sljkbk',
     dataset: 'production'
   },
-  studioHost: 'makaleidos'
+  studioHost: 'makaleidos',
+  server: {
+    host: '0.0.0.0',
+    port: 3333
+  }
 }

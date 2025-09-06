@@ -91,6 +91,43 @@ export default {
       type: 'boolean',
       description: 'Mark as featured for special display',
       initialValue: false
+    },
+    {
+      name: 'detailImages',
+      title: 'Detail Images',
+      type: 'array',
+      of: [{
+        type: 'image',
+        options: {
+          hotspot: true,
+          metadata: ['blurhash', 'lqip', 'palette']
+        },
+        fields: [
+          {
+            name: 'alt',
+            title: 'Alt Text',
+            type: 'string',
+            description: 'Describe the detail image for accessibility'
+          },
+          {
+            name: 'title',
+            title: 'Detail Title',
+            type: 'string',
+            description: 'Optional title for this detail image'
+          },
+          {
+            name: 'description',
+            title: 'Detail Description',
+            type: 'text',
+            rows: 2,
+            description: 'Description of this specific detail'
+          }
+        ]
+      }],
+      options: {
+        layout: 'grid'
+      },
+      description: 'Upload up to 10 detail images for this artwork'
     }
   ],
   preview: {
@@ -99,13 +136,15 @@ export default {
       media: 'image',
       exhibition: 'exhibition.title',
       order: 'order',
-      featured: 'featured'
+      featured: 'featured',
+      detailCount: 'detailImages'
     },
     prepare(selection) {
-      const { title, media, exhibition, order, featured } = selection
+      const { title, media, exhibition, order, featured, detailCount } = selection
+      const detailImagesCount = detailCount ? detailCount.length : 0
       return {
         title: title,
-        subtitle: `${exhibition || 'No exhibition'} • Order: ${order}${featured ? ' • ⭐' : ''}`,
+        subtitle: `${exhibition || 'No exhibition'} • Order: ${order}${featured ? ' • ⭐' : ''}${detailImagesCount > 0 ? ` • ${detailImagesCount} details` : ''}`,
         media: media
       }
     }

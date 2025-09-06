@@ -5,7 +5,6 @@ import { useHomeContent } from '@/hooks/useHomeContent';
 import ExhibitionContentRenderer from '@/components/ui/ExhibitionContentRenderer';
 import PDFDownload from '@/components/ui/PDFDownload/PDFDownload';
 import ImageViewer from '@/components/ui/ImageViewer/ImageViewer';
-import ArtworkDetailViewer from '@/components/ui/ArtworkDetailViewer/ArtworkDetailViewer';
 import styles from './page.module.scss';
 import exhibitionStyles from '@/components/ui/ExhibitionCard/ExhibitionCard.module.scss';
 import { View } from '@/webgl/View';
@@ -730,8 +729,6 @@ export default function Home() {
     const [showScrollHint, setShowScrollHint] = useState(true);
     const [imageViewerOpen, setImageViewerOpen] = useState(false);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
-    const [detailViewerOpen, setDetailViewerOpen] = useState(false);
-    const [currentArtworkData, setCurrentArtworkData] = useState(null);
     const viewRef = useRef();
 
     // 导入语言上下文
@@ -744,19 +741,22 @@ export default function Home() {
     const { exhibition } = useCurrentExhibition();
 
     // 准备图片查看器的图片数据
-    const viewerImages =
-        exhibition?.images
-            ?.filter((img) => img?.asset)
-            ?.map((sanityImage, index) => ({
-                url: getOptimizedImageUrl(sanityImage, {
-                    width: 1920, // 更高分辨率用于查看器
-                    quality: 95,
-                    format: 'webp',
-                    fit: 'max',
-                }),
-                alt: sanityImage.alt || `${exhibition?.title || 'Gallery'} image ${index + 1}`,
-                title: sanityImage.title || `Image ${index + 1}`,
-            })) || [];
+    const exhibitionImages = exhibition?.images || [];
+    const validImages = exhibitionImages.filter((img) => img?.asset);
+
+    const viewerImages = validImages.map((sanityImage, index) => ({
+        url: getOptimizedImageUrl(sanityImage, {
+            width: 1920, // 更高分辨率用于查看器
+            quality: 95,
+            format: 'webp',
+            fit: 'max',
+        }),
+        alt: sanityImage.alt || `${exhibition?.title || 'Gallery'} image ${index + 1}`,
+        title: sanityImage.title || `Image ${index + 1}`,
+        detailImages: sanityImage.detailImages || [],
+        artworkTitle: sanityImage.artworkTitle || sanityImage.title || `Artwork ${index + 1}`,
+        artworkDescription: sanityImage.description || ''
+    }));
 
     const handleFirstHover = () => {
         if (!shouldTriggerAnimation) {
@@ -775,33 +775,14 @@ export default function Home() {
     };
 
     const handleCardClick = (index) => {
-        const exhibitionImages = exhibition?.images || [];
-        const validImages = exhibitionImages.filter((img) => img?.asset);
-        const clickedImage = validImages[index];
-
-        if (clickedImage?.detailImages && clickedImage.detailImages.length > 0) {
-            // 如果有细节图，打开细节图查看器
-            setCurrentArtworkData({
-                detailImages: clickedImage.detailImages,
-                artworkTitle: clickedImage.artworkTitle || clickedImage.title || `Artwork ${index + 1}`,
-                artworkDescription: clickedImage.description || ''
-            });
-            setDetailViewerOpen(true);
-        } else {
-            // 如果没有细节图，打开普通图片查看器
-            setCurrentImageIndex(index);
-            setImageViewerOpen(true);
-        }
+        setCurrentImageIndex(index);
+        setImageViewerOpen(true);
     };
 
     const handleCloseImageViewer = () => {
         setImageViewerOpen(false);
     };
 
-    const handleCloseDetailViewer = () => {
-        setDetailViewerOpen(false);
-        setCurrentArtworkData(null);
-    };
 
     const handleNextImage = (index) => {
         setCurrentImageIndex(index);
@@ -1020,16 +1001,15 @@ export default function Home() {
                 onClose={handleCloseImageViewer}
                 onNext={handleNextImage}
                 onPrev={handlePrevImage}
+                detailImages={
+                    exhibition?.detailImages && exhibition.detailImages[currentImageIndex]?.asset
+                        ? [exhibition.detailImages[currentImageIndex]]
+                        : []
+                }
+                artworkTitle={viewerImages[currentImageIndex]?.artworkTitle || ''}
+                artworkDescription={viewerImages[currentImageIndex]?.artworkDescription || ''}
             />
 
-            {/* 艺术品细节图查看器 */}
-            <ArtworkDetailViewer
-                detailImages={currentArtworkData?.detailImages || []}
-                isOpen={detailViewerOpen}
-                onClose={handleCloseDetailViewer}
-                artworkTitle={currentArtworkData?.artworkTitle || ''}
-                artworkDescription={currentArtworkData?.artworkDescription || ''}
-            />
         </div>
     );
 }

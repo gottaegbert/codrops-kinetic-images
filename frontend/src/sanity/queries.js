@@ -24,6 +24,22 @@ export const CURRENT_EXHIBITION_QUERY = `
       title,
       hotspot
     },
+    detailImages[] {
+      asset->{
+        _id,
+        url,
+        metadata {
+          dimensions,
+          lqip,
+          blurhash,
+          palette
+        }
+      },
+      alt,
+      title,
+      description,
+      hotspot
+    },
     artistResume {
       en {
         asset->{

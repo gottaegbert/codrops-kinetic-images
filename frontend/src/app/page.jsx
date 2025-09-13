@@ -885,6 +885,11 @@ export default function Home() {
                                     Press Release
                                 </a>
                             )}
+                            {(currentExhibition?.interview?.introduction?.[language] || currentExhibition?.interview?.content?.[language]) && (
+                                <a href="#interview" className={styles.navLink}>
+                                    Interview
+                                </a>
+                            )}
                             {currentExhibition?.statement?.[language] && (
                                 <a href="#statement" className={styles.navLink}>
                                     Statement
@@ -905,11 +910,12 @@ export default function Home() {
                                     Selected Press
                                 </a>
                             )}
-                            {currentExhibition?.interview?.[language] && (
-                                <a href="#interview" className={styles.navLink}>
-                                    Interview
+                            {currentExhibition?.artistResume && (
+                                <a href="#artistResume" className={styles.navLink}>
+                                    CV
                                 </a>
                             )}
+                         
                         </div>
                     </div>
 
@@ -925,39 +931,125 @@ export default function Home() {
                     {/* Press Release - Introduction/Overview */}
                     {currentExhibition?.pressRelease?.[language] && (
                         <section id="pressRelease" className={styles.contentSection}>
-                            <ExhibitionContentRenderer
-                                content={{ [language]: currentExhibition.pressRelease[language] }}
-                                language={language}
-                            />
+                            {currentExhibition?.pressRelease?.featuredImage ? (
+                                <div className={styles.pressReleaseLayout}>
+                                    <div className={styles.pressReleaseImage}>
+                                        <img
+                                            src={getOptimizedImageUrl(currentExhibition.pressRelease.featuredImage, {
+                                                height: 1080,
+                                                quality: 90,
+                                                fit: 'max',
+                                            })}
+                                            alt={currentExhibition.pressRelease.featuredImage.alt || 'Press Release Featured Image'}
+                                            className={styles.featuredImage}
+                                        />
+                                    </div>
+                                    <div className={styles.pressReleaseContent}>
+                                        <ExhibitionContentRenderer
+                                            content={{ [language]: currentExhibition.pressRelease[language] }}
+                                            language={language}
+                                        />
+                                    </div>
+                                </div>
+                            ) : (
+                                <ExhibitionContentRenderer
+                                    content={{ [language]: currentExhibition.pressRelease[language] }}
+                                    language={language}
+                                />
+                            )}
                         </section>
                     )}
 
+                    {/* Separator between Press Release and Interview */}
+                    {currentExhibition?.pressRelease?.[language] && (currentExhibition?.interview?.introduction?.[language] || currentExhibition?.interview?.content?.[language]) && (
+                        <hr className={styles.sectionSeparator} />
+                    )}
+
                     {/* Interview - In-depth conversation */}
-                    {currentExhibition?.interview?.[language] && (
+                    {(currentExhibition?.interview?.introduction?.[language] || currentExhibition?.interview?.content?.[language]) && (
                         <section id="interview" className={styles.contentSection}>
-                            <ExhibitionContentRenderer
-                                content={{ [language]: currentExhibition.interview[language] }}
-                                language={language}
-                            />
+                            <div className={styles.interviewLayout}>
+                                <div className={styles.interviewHeader}>
+                                    {t('home.interview') || 'Interview'}
+                                </div>
+                                
+                                {currentExhibition?.interview?.title?.[language] && (
+                                    <h2 className={styles.sectionTitle}>
+                                        {currentExhibition.interview.title[language]}
+                                    </h2>
+                                )}
+                                
+                                {currentExhibition?.interview?.featuredImage && (
+                                    <div className={styles.interviewImage}>
+                                        <img
+                                            src={getOptimizedImageUrl(currentExhibition.interview.featuredImage, {
+                                                height: 1080,
+                                                quality: 90,
+                                                fit: 'max',
+                                            })}
+                                            alt={currentExhibition.interview.featuredImage.alt || 'Interview Featured Image'}
+                                            className={styles.featuredImage}
+                                        />
+                                    </div>
+                                )}
+                                
+                                {/* Full width introduction */}
+                                {currentExhibition?.interview?.introduction?.[language] && (
+                                    <div className={styles.interviewIntroduction}>
+                                        <ExhibitionContentRenderer
+                                            content={{ [language]: currentExhibition.interview.introduction[language] }}
+                                            language={language}
+                                        />
+                                    </div>
+                                )}
+                                
+                                {/* Left aligned main content */}
+                                {currentExhibition?.interview?.content?.[language] && (
+                                    <div className={styles.interviewMainContent}>
+                                        <ExhibitionContentRenderer
+                                            content={{ [language]: currentExhibition.interview.content[language] }}
+                                            language={language}
+                                        />
+                                    </div>
+                                )}
+                            </div>
                         </section>
                     )}
                     {/* Statement - Artist's perspective */}
                     {currentExhibition?.statement?.[language] && (
                         <section id="statement" className={styles.contentSection}>
-                            <ExhibitionContentRenderer
-                                content={{ [language]: currentExhibition.statement[language] }}
-                                language={language}
-                            />
+                            <div className={styles.statementLayout}>
+                                {currentExhibition?.statement?.featuredImage && (
+                                    <div className={styles.statementImage}>
+                                        <img
+                                            src={getOptimizedImageUrl(currentExhibition.statement.featuredImage, {
+                                                height: 1080,
+                                                quality: 90,
+                                                fit: 'max',
+                                            })}
+                                            alt={currentExhibition.statement.featuredImage.alt || 'Statement Featured Image'}
+                                        />
+                                    </div>
+                                )}
+                                <div className={styles.statementContent}>
+                                    <ExhibitionContentRenderer
+                                        content={{ [language]: currentExhibition.statement[language] }}
+                                        language={language}
+                                    />
+                                </div>
+                            </div>
                         </section>
                     )}
                     
       
                                   {/* Artist Resume PDF Download */}
                                   {currentExhibition?.artistResume && (
-                        <PDFDownload
-                            artistResume={currentExhibition.artistResume}
-                            artistName={currentExhibition.artist}
-                        />
+                        <section id="artistResume" className={styles.contentSection}>
+                            <PDFDownload
+                                artistResume={currentExhibition.artistResume}
+                                artistName={currentExhibition.artist}
+                            />
+                        </section>
                     )}
                     {/* Biography - About the artist */}
                     {currentExhibition?.biography?.[language] && (

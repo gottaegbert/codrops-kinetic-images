@@ -176,6 +176,29 @@ export default {
       type: 'object',
       fields: [
         {
+          name: 'featuredImage',
+          title: 'Featured Image',
+          type: 'image',
+          options: {
+            hotspot: true,
+            metadata: ['blurhash', 'lqip', 'palette']
+          },
+          fields: [
+            {
+              name: 'alt',
+              title: 'Alt Text',
+              type: 'string',
+              description: 'Describe the image for accessibility'
+            },
+            {
+              name: 'title',
+              title: 'Image Title',
+              type: 'string'
+            }
+          ],
+          description: 'Large featured image to display with press release content'
+        },
+        {
           name: 'en',
           title: 'English Content',
           type: 'array',
@@ -195,16 +218,86 @@ export default {
       type: 'object',
       fields: [
         {
-          name: 'en',
-          title: 'English Content',
-          type: 'array',
-          of: [{ type: 'block' }]
+          name: 'title',
+          title: 'Interview Title',
+          type: 'object',
+          fields: [
+            {
+              name: 'en',
+              title: 'English Title',
+              type: 'string'
+            },
+            {
+              name: 'zh',
+              title: 'Chinese Title',
+              type: 'string'
+            }
+          ]
         },
         {
-          name: 'zh',
-          title: 'Chinese Content',
-          type: 'array',
-          of: [{ type: 'block' }]
+          name: 'featuredImage',
+          title: 'Featured Image',
+          type: 'image',
+          options: {
+            hotspot: true,
+            metadata: ['blurhash', 'lqip', 'palette']
+          },
+          fields: [
+            {
+              name: 'alt',
+              title: 'Alt Text',
+              type: 'string',
+              description: 'Describe the image for accessibility'
+            },
+            {
+              name: 'title',
+              title: 'Image Title',
+              type: 'string'
+            }
+          ],
+          description: 'Featured image to display with interview content'
+        },
+        {
+          name: 'introduction',
+          title: 'Introduction (Full Width)',
+          type: 'object',
+          fields: [
+            {
+              name: 'en',
+              title: 'English Introduction',
+              type: 'array',
+              of: [{ type: 'block' }],
+              description: 'Introduction paragraph that will be displayed full width'
+            },
+            {
+              name: 'zh',
+              title: 'Chinese Introduction',
+              type: 'array',
+              of: [{ type: 'block' }],
+              description: 'Introduction paragraph that will be displayed full width'
+            }
+          ]
+        },
+        {
+          name: 'content',
+          title: 'Main Content (Left Aligned)',
+          type: 'object',
+          fields: [
+            {
+              name: 'en',
+              title: 'English Content',
+              type: 'array',
+              of: [{ type: 'block' }],
+              description: 'Main interview content that will be left aligned'
+            },
+            {
+              name: 'zh',
+              title: 'Chinese Content',
+              type: 'array',
+              of: [{ type: 'block' }],
+              description: 'Main interview content that will be left aligned'
+            }
+          ]
         }
       ]
     },
@@ -213,6 +306,23 @@ export default {
       title: 'Statement',
       type: 'object',
       fields: [
+        {
+          name: 'featuredImage',
+          title: 'Featured Image',
+          type: 'image',
+          options: {
+            hotspot: true,
+            metadata: ['blurhash', 'lqip', 'palette']
+          },
+          fields: [
+            {
+              name: 'alt',
+              title: 'Alt Text',
+              type: 'string',
+              description: 'Important for SEO and accessibility'
+            }
+          ]
+        },
         {
           name: 'en',
           title: 'English Content',

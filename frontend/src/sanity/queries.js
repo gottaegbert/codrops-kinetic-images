@@ -40,6 +40,70 @@ export const CURRENT_EXHIBITION_QUERY = `
       description,
       hotspot
     },
+    pressRelease {
+      featuredImage {
+        asset->{
+          _id,
+          url,
+          metadata {
+            dimensions,
+            lqip,
+            blurhash,
+            palette
+          }
+        },
+        alt,
+        title,
+        hotspot
+      },
+      en,
+      zh
+    },
+    interview {
+      title {
+        en,
+        zh
+      },
+      featuredImage {
+        asset->{
+          _id,
+          url,
+          metadata {
+            dimensions,
+            lqip,
+            blurhash,
+            palette
+          }
+        },
+        alt,
+        title,
+        hotspot
+      },
+      introduction {
+        en,
+        zh
+      },
+      content {
+        en,
+        zh
+      }
+    },
+    statement {
+      en,
+      zh
+    },
+    biography {
+      en,
+      zh
+    },
+    selectedExhibition {
+      en,
+      zh
+    },
+    selectedPress {
+      en,
+      zh
+    },
     artistResume {
       en {
         asset->{

@@ -17,7 +17,7 @@
 
 // 当前展览按钮容器样式 (从页面文件移动过来)
 .currentExhibitionContainer {
-    position: fixed; /* 固定定位，与header平齐 */
+    position: absolute; /* 绝对定位，与header平齐 */
     top: 1rem; /* 与header同样的顶部距离 */
     left: 50%; /* 水平居中 */
     transform: translateX(-50%); /* 精确居中 */

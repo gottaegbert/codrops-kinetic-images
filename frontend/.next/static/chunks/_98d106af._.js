@@ -50,11 +50,12 @@ const translations = {
             biography: 'Biography',
             selectedExhibition: 'Selected Exhibition',
             selectedPress: 'Selected Press',
-            statement: 'Statement'
+            statement: 'Artist\'s Statement'
         },
         exhibition: {
             artistResume: 'Artist Resume',
             download: 'Download',
+            downloadArtistCV: 'download artist CV',
             resumeLanguageNote: 'Available in alternate language'
         },
         footer: {
@@ -129,6 +130,7 @@ const translations = {
         exhibition: {
             artistResume: '艺术家简历',
             download: '下载',
+            downloadArtistCV: '下载艺术家 CV',
             resumeLanguageNote: '提供其他语言版本'
         },
         footer: {
@@ -204,7 +206,7 @@ function LanguageProvider({ children }) {
         children: children
     }, void 0, false, {
         fileName: "[project]/frontend/src/contexts/LanguageContext.jsx",
-        lineNumber: 188,
+        lineNumber: 190,
         columnNumber: 9
     }, this);
 }

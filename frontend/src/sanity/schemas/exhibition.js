@@ -307,6 +307,23 @@ export default {
       type: 'object',
       fields: [
         {
+          name: 'title',
+          title: 'Statement Title',
+          type: 'object',
+          fields: [
+            {
+              name: 'en',
+              title: 'English Title',
+              type: 'string'
+            },
+            {
+              name: 'zh',
+              title: 'Chinese Title',
+              type: 'string'
+            }
+          ]
+        },
+        {
           name: 'featuredImage',
           title: 'Featured Image',
           type: 'image',

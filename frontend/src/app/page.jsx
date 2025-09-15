@@ -892,7 +892,7 @@ export default function Home() {
                             )}
                             {currentExhibition?.statement?.[language] && (
                                 <a href="#statement" className={styles.navLink}>
-                                    Statement
+                                    Artist's Statement
                                 </a>
                             )}
                             {currentExhibition?.biography?.[language] && (
@@ -978,6 +978,8 @@ export default function Home() {
                                         {currentExhibition.interview.title[language]}
                                     </h2>
                                 )}
+
+                          
                                 
                                 {currentExhibition?.interview?.featuredImage && (
                                     <div className={styles.interviewImage}>
@@ -1015,6 +1017,11 @@ export default function Home() {
                             </div>
                         </section>
                     )}
+                      {/* Separator between Press Release and Interview */}
+                      {currentExhibition?.pressRelease?.[language] && (currentExhibition?.interview?.introduction?.[language] || currentExhibition?.interview?.content?.[language]) && (
+                        <hr className={styles.sectionSeparator} />
+                    )}
+
                     {/* Statement - Artist's perspective */}
                     {currentExhibition?.statement?.[language] && (
                         <section id="statement" className={styles.contentSection}>
@@ -1031,26 +1038,33 @@ export default function Home() {
                                         />
                                     </div>
                                 )}
+                                   
+                                  
+                    
                                 <div className={styles.statementContent}>
+                                    <h2 className={styles.sectionTitle}>
+                                        {currentExhibition?.statement?.title?.[language]
+                                            ? currentExhibition.statement.title[language]
+                                            : (t('home.statement') || "Artist's Statement")}
+                                    </h2>
                                     <ExhibitionContentRenderer
                                         content={{ [language]: currentExhibition.statement[language] }}
                                         language={language}
                                     />
+                                    {currentExhibition?.artistResume && (
+                                        <div id="artistResume" className={styles.cvLinkWrapper}>
+                                            <PDFDownload
+                                                artistResume={currentExhibition.artistResume}
+                                                artistName={currentExhibition.artist}
+                                            />
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </section>
                     )}
                     
       
-                                  {/* Artist Resume PDF Download */}
-                                  {currentExhibition?.artistResume && (
-                        <section id="artistResume" className={styles.contentSection}>
-                            <PDFDownload
-                                artistResume={currentExhibition.artistResume}
-                                artistName={currentExhibition.artist}
-                            />
-                        </section>
-                    )}
                     {/* Biography - About the artist */}
                     {currentExhibition?.biography?.[language] && (
                         <section id="biography" className={styles.contentSection}>

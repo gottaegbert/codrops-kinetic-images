@@ -1,5 +1,14 @@
 .pdfDownload {
-  margin: 2rem 0;
+  margin-top: 1rem;
+  display: flex;
+  justify-content: flex-end;
+  
+  .singleLineLink {
+    font-weight: 700;
+    color: inherit;
+    cursor: pointer;
+    text-transform:uppercase;
+  }
   
   .downloadCard {
     display: flex;
@@ -92,7 +101,7 @@
 // Mobile responsive
 @media (max-width: 768px) {
   .pdfDownload {
-    margin: 1.5rem 0;
+    margin-top: 1rem;
     
     .downloadCard {
       padding: 1rem;

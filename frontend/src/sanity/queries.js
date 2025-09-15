@@ -89,6 +89,25 @@ export const CURRENT_EXHIBITION_QUERY = `
       }
     },
     statement {
+      title {
+        en,
+        zh
+      },
+      featuredImage {
+        asset->{
+          _id,
+          url,
+          metadata {
+            dimensions,
+            lqip,
+            blurhash,
+            palette
+          }
+        },
+        alt,
+        title,
+        hotspot
+      },
       en,
       zh
     },

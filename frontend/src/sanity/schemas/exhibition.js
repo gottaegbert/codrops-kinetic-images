@@ -298,6 +298,26 @@ export default {
               description: 'Main interview content that will be left aligned'
             }
           ]
+        },
+        {
+          name: 'chat',
+          title: 'Chat (Small Text, Left Aligned)',
+          type: 'object',
+          description: 'Small chat-style note below the interview content, aligned to the left',
+          fields: [
+            {
+              name: 'en',
+              title: 'English Chat',
+              type: 'array',
+              of: [{ type: 'block' }]
+            },
+            {
+              name: 'zh',
+              title: 'Chinese Chat',
+              type: 'array',
+              of: [{ type: 'block' }]
+            }
+          ]
         }
       ]
     },

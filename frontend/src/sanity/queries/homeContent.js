@@ -86,7 +86,13 @@ export const currentExhibitionQuery = `*[_type == "exhibition" && isCurrent == t
   statement,
   selectedExhibition,
   selectedPress,
-  interview,
+  interview {
+    title { en, zh },
+    featuredImage,
+    introduction { en, zh },
+    content { en, zh },
+    chat { en, zh }
+  },
   artistResume {
     en {
       asset->{

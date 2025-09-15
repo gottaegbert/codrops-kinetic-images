@@ -147,7 +147,6 @@
 .infiniteScroll {
     overflow: hidden;
     white-space: nowrap;
-    margin: 0rem 0;
     text-transform: uppercase;
     letter-spacing: 0.15em;
     position: relative;
@@ -163,7 +162,7 @@
 
 .scrollItem {
     display: inline-block;
-    padding: clamp(0.8rem, 3vw, 1.5rem) clamp(1.5rem, 8vw, 8rem);
+    padding: clamp(0.5rem, 3vw, 1rem) clamp(1.5rem, 8vw, 8rem);
     margin: 0 clamp(0.5rem, 2vw, 1rem);
     backdrop-filter: blur(8px);
     font-size: clamp(2rem, 8vw, 5rem);
@@ -413,7 +412,7 @@
 .featuredImage {
     width: 100%;
     height: auto;
-    max-width: 80%;
+    max-width: 72%;
     object-fit: contain;
     transform-origin: center;
 }
@@ -421,7 +420,7 @@
 .pressReleaseContent {
     display: flex;
     flex-direction: column;
-    width: 60%;
+    width: 55%;
     justify-content: flex-start;
     text-align: left;
     padding-left: 0;
@@ -515,7 +514,7 @@
 
 /* Left aligned main content section */
 .interviewMainContent {
-    width: 50%;
+    width: 48%;
     text-align: left;
     
     :global(.content) {
@@ -537,6 +536,27 @@
     }
 }
 
+/* Small left-aligned chat text below interview */
+.interviewChatSmall {
+    width: 38%;
+    text-align: left;
+    margin-top: clamp(0.5rem, 1.5vw, 1rem);
+
+    /* Target raw tags from PortableText to avoid module hash mismatches */
+    p {
+        font-size: clamp(0.6rem, 1.2vw, 0.75rem);
+        line-height: 1.45;
+        color: #9ca3af;
+        margin-bottom: clamp(0.5rem, 1.4vw, 0.75rem);
+        text-align: justify;              /* 两端对齐 */
+        text-justify: inter-ideograph;    /* 中文优化对齐 */
+        text-align-last: left;            /* 最后一行左对齐 */
+        word-break: break-word;
+        overflow-wrap: anywhere;
+        white-space: normal;
+    }
+}
+
 // Responsive adjustments for press release layout
 @media (max-width: 768px) {
     .pressReleaseImage {
@@ -551,6 +571,9 @@
     .interviewMainContent {
         width: 100%;
     }
+    .interviewChatSmall {
+        width: 100%;
+    }
 }
 
 /* Statement Layout - Left Photo, Right Text */
@@ -562,8 +585,8 @@
 }
 
 .statementImage {
-    flex: 0 0 40%;
-    max-width: 40%;
+    flex: 0 0 38%;
+    max-width: 38%;
     
     img {
         width: 100%;
@@ -631,6 +654,3 @@
         padding: clamp(1.5rem, 4vw, 2rem) clamp(0.75rem, 2vw, 1rem);
     }
 }
-
-
-

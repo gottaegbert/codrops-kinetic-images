@@ -86,6 +86,10 @@ export const CURRENT_EXHIBITION_QUERY = `
       content {
         en,
         zh
+      },
+      chat {
+        en,
+        zh
       }
     },
     statement {

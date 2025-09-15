@@ -265,7 +265,6 @@
   text-transform: uppercase;
   letter-spacing: .15em;
   background: var(--color-green);
-  margin: 0 0;
   position: relative;
   overflow: hidden;
 }
@@ -281,7 +280,7 @@
   backdrop-filter: blur(8px);
   flex-shrink: 0;
   margin: 0 clamp(.5rem, 2vw, 1rem);
-  padding: clamp(.8rem, 3vw, 1.5rem) clamp(1.5rem, 8vw, 8rem);
+  padding: clamp(.5rem, 3vw, 1rem) clamp(1.5rem, 8vw, 8rem);
   font-size: clamp(2rem, 8vw, 5rem);
   font-weight: 500;
   transition: all .4s cubic-bezier(.4, 0, .2, 1);
@@ -508,7 +507,7 @@
   object-fit: contain;
   transform-origin: center;
   width: 100%;
-  max-width: 80%;
+  max-width: 72%;
   height: auto;
 }
 
@@ -516,7 +515,7 @@
   text-align: left;
   flex-direction: column;
   justify-content: flex-start;
-  width: 60%;
+  width: 55%;
   padding-left: 0;
   display: flex;
 }
@@ -603,7 +602,7 @@
 
 .page-module-scss-module__moF6Tq__interviewMainContent {
   text-align: left;
-  width: 50%;
+  width: 48%;
 }
 
 .page-module-scss-module__moF6Tq__interviewMainContent .content {
@@ -623,6 +622,25 @@
   line-height: 1.7;
 }
 
+.page-module-scss-module__moF6Tq__interviewChatSmall {
+  text-align: left;
+  width: 38%;
+  margin-top: clamp(.5rem, 1.5vw, 1rem);
+}
+
+.page-module-scss-module__moF6Tq__interviewChatSmall p {
+  color: #9ca3af;
+  text-align: justify;
+  text-justify: inter-ideograph;
+  text-align-last: left;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  white-space: normal;
+  margin-bottom: clamp(.5rem, 1.4vw, .75rem);
+  font-size: clamp(.6rem, 1.2vw, .75rem);
+  line-height: 1.45;
+}
+
 @media (width <= 768px) {
   .page-module-scss-module__moF6Tq__pressReleaseImage {
     height: 250px;
@@ -632,7 +650,7 @@
     font-size: clamp(2.5rem, 6vw, 3rem);
   }
 
-  .page-module-scss-module__moF6Tq__interviewMainContent {
+  .page-module-scss-module__moF6Tq__interviewMainContent, .page-module-scss-module__moF6Tq__interviewChatSmall {
     width: 100%;
   }
 }
@@ -645,8 +663,8 @@
 }
 
 .page-module-scss-module__moF6Tq__statementImage {
-  flex: 0 0 40%;
-  max-width: 40%;
+  flex: 0 0 38%;
+  max-width: 38%;
 }
 
 .page-module-scss-module__moF6Tq__statementImage img {

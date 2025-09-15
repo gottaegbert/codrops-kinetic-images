@@ -1014,6 +1014,16 @@ export default function Home() {
                                         />
                                     </div>
                                 )}
+
+                                {/* Small left-aligned chat text for interview */}
+                                {currentExhibition?.interview?.chat?.[language] && (
+                                    <div className={styles.interviewChatSmall}>
+                                        <ExhibitionContentRenderer
+                                            content={{ [language]: currentExhibition.interview.chat[language] }}
+                                            language={language}
+                                        />
+                                    </div>
+                                )}
                             </div>
                         </section>
                     )}

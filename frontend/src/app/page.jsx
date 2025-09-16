@@ -890,7 +890,7 @@ export default function Home() {
                         <div className={styles.navLinks}>
                             {currentExhibition?.pressRelease?.[language] && (
                                 <a href="#pressRelease" className={styles.navLink}>
-                                    Press Release
+                                    {t('home.pressRelease') || 'Press Release'}
                                 </a>
                             )}
                             {(currentExhibition?.interview?.introduction?.[language] || currentExhibition?.interview?.content?.[language]) && (
@@ -927,10 +927,10 @@ export default function Home() {
                         </div>
                     </div>
 
-                    <h2 className={styles.sectionTitle}>
+                    {/* <h2 className={styles.sectionTitle}>
                         {currentExhibition?.title || 'Exhibition'}
                     </h2>
-        
+         */}
 
                 </div>
 

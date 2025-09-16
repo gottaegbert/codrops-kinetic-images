@@ -853,26 +853,34 @@ export default function Home() {
             <div className={styles.content} data-content-section>
                 <ExhibitionCard mobile={true} />
                 <div className={styles.section}>
-                    {/* 横向滚动条 - 展览信息 */}
+                    {/* 横向滚动条 - 展览信息（从 CMS 渲染三条内容） */}
                     <div className={styles.infiniteScroll}>
                         <div className={styles.scrollContent}>
-                            <div className={styles.scrollItem}>
-                            {currentExhibition?.number || '1'}
-                            </div>
-                            <div className={styles.scrollItem}>
-                                {currentExhibition?.artist || 'ARTIST'}
-                            </div>
-                            <div className={styles.scrollItem}>
-                                {currentExhibition?.title || 'EXHIBITION'}
-                            </div>
-                            {/* Duplicate content for seamless loop */}
-                            <div className={styles.scrollItem}>ISSUE NO.1</div>
-                            <div className={styles.scrollItem}>
-                                {currentExhibition?.artist || 'ARTIST'}
-                            </div>
-                            <div className={styles.scrollItem}>
-                                {currentExhibition?.title || 'EXHIBITION'}
-                            </div>
+                            {(() => {
+                                // Prefer explicit CMS-provided scrollbar items; fallback to derived fields
+                                const cmsItems = currentExhibition?.scrollbar?.items
+                                    ?.map((it) => it?.[language])
+                                    ?.filter(Boolean);
+                                const fallbackItems = [
+                                    currentExhibition?.exhibitionCard?.number || 'ISSUE #1',
+                                    currentExhibition?.artist || 'ARTIST',
+                                    currentExhibition?.title || 'EXHIBITION',
+                                ];
+                                const items = (cmsItems && cmsItems.length === 3)
+                                    ? cmsItems
+                                    : fallbackItems;
+                                // Render two cycles for seamless loop
+                                return [0, 1].flatMap((loop) =>
+                                    items.map((text, idx) => (
+                                        <div
+                                            key={`scroll-${loop}-${idx}`}
+                                            className={`${styles.scrollItem} ${idx === 2 ? styles.scrollItemItalic : ''}`}
+                                        >
+                                            {text}
+                                        </div>
+                                    ))
+                                );
+                            })()}
                         </div>
                     </div>
 
@@ -892,7 +900,7 @@ export default function Home() {
                             )}
                             {currentExhibition?.statement?.[language] && (
                                 <a href="#statement" className={styles.navLink}>
-                                    Artist's Statement
+                                    Artist Statement
                                 </a>
                             )}
                             {currentExhibition?.biography?.[language] && (

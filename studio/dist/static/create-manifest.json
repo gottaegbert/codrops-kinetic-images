@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "createdAt": "2025-09-13T15:04:57.119Z",
+  "createdAt": "2025-09-15T22:21:49.786Z",
   "workspaces": [
     {
       "name": "makaleidos-cms",
@@ -12,7 +12,7 @@
       "mediaLibrary": {
         "enabled": false
       },
-      "schema": "f5fa964a.create-schema.json",
+      "schema": "8af21e86.create-schema.json",
       "tools": "21d8e365.create-tools.json"
     }
   ]

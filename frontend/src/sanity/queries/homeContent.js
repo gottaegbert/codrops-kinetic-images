@@ -39,7 +39,10 @@ export const homePageQuery = `*[_type == "homePageContent"][0] {
     statement,
     selectedExhibition,
     selectedPress,
-    interview
+    interview,
+    scrollbar {
+      items[]{ en, zh }
+    }
   },
   heroSection,
   contentNavigation,
@@ -92,6 +95,9 @@ export const currentExhibitionQuery = `*[_type == "exhibition" && isCurrent == t
     introduction { en, zh },
     content { en, zh },
     chat { en, zh }
+  },
+  scrollbar {
+    items[]{ en, zh }
   },
   artistResume {
     en {

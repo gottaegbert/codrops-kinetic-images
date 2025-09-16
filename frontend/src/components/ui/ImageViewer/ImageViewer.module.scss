@@ -168,6 +168,14 @@
     max-width: 80%;
 }
 
+.infoWrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    text-align: center;
+}
+
 .infoButton,
 .backButton {
     display: flex;

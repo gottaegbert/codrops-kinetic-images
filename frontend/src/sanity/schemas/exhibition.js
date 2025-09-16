@@ -111,6 +111,30 @@ export default {
       title: 'Exhibition Date',
       type: 'date'
     },
+    // Horizontal scroll banner (three short texts)
+    {
+      name: 'scrollbar',
+      title: 'Scroll Banner',
+      type: 'object',
+      description: 'Three short texts displayed in the horizontal scrolling banner',
+      fields: [
+        {
+          name: 'items',
+          title: 'Items (exactly 3)',
+          type: 'array',
+          of: [
+            {
+              type: 'object',
+              fields: [
+                { name: 'en', title: 'English', type: 'string' },
+                { name: 'zh', title: 'Chinese', type: 'string' }
+              ]
+            }
+          ],
+          validation: Rule => Rule.min(3).max(3)
+        }
+      ]
+    },
     // Exhibition Card Information
     {
       name: 'exhibitionCard',

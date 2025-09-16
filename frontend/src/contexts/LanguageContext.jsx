@@ -29,7 +29,7 @@ const translations = {
             title: 'MaKaleidos',
             scrollHint: 'Scroll Navigating',
             issue: 'ISSUE NO.1',
-            artist: 'FRANCESCO CLEMENTE',
+            artist: 'FRANCESCO ZANATTA',
             exhibition: 'DIGITAL METAMORPHOSIS',
             visions: 'CONTEMPORARY VISIONS',
             onThisPage: 'On this page:',
@@ -38,12 +38,12 @@ const translations = {
             biography: 'Biography',
             selectedExhibition: 'Selected Exhibition',
             selectedPress: 'Selected Press',
-            statement: 'Artist\'s Statement'
+            statement: 'Artist Statement'
         },
         exhibition: {
             artistResume: 'Artist Resume',
             download: 'Download',
-            downloadArtistCV: 'download artist CV',
+            downloadArtistCV: 'Download artist CV',
             resumeLanguageNote: 'Available in alternate language'
         },
         footer: {

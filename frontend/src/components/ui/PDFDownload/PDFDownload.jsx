@@ -15,7 +15,7 @@ export default function PDFDownload({ artistResume, artistName }) {
   if (!resumeToShow?.asset) return null;
 
   const fileName = resumeToShow.asset.originalFilename || `${artistName || 'Artist'}_CV.pdf`;
-  const linkText = t('exhibition.downloadArtistCV') || 'download artist CV';
+  const linkText = t('exhibition.downloadArtistCV') || 'Download artist CV';
 
   return (
     <div className={styles.pdfDownload}>

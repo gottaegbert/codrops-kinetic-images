@@ -127,6 +127,11 @@ Exhibition (展览)
 - 合理设置显示顺序
 - 标记重要作品为 Featured
 
+### 滚动条内容（Scroll Banner）
+- 在 Exhibition 文档中新增了 `Scroll Banner` 字段。
+- 进入当前展览，找到 `Scroll Banner` → `Items`，填写三条短文本（支持中英）。
+- 首页横向滚动条将优先显示这三条内容；若未填写，将回退为「期号、艺术家、展览标题」。
+
 ### 展览规划
 - 一次只设置一个 "Current" 展览
 - 提前创建 "Upcoming" 展览

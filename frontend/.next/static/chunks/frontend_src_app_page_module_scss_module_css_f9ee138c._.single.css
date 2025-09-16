@@ -280,11 +280,15 @@
   backdrop-filter: blur(8px);
   flex-shrink: 0;
   margin: 0 clamp(.5rem, 2vw, 1rem);
-  padding: clamp(.5rem, 3vw, 1rem) clamp(1.5rem, 8vw, 8rem);
+  padding: 0 clamp(1.5rem, 8vw, 8rem);
   font-size: clamp(2rem, 8vw, 5rem);
   font-weight: 500;
   transition: all .4s cubic-bezier(.4, 0, .2, 1);
   display: inline-block;
+}
+
+.page-module-scss-module__moF6Tq__scrollItemItalic {
+  font-style: italic;
 }
 
 @keyframes page-module-scss-module__moF6Tq__scroll {

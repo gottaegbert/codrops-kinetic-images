@@ -34,7 +34,12 @@ export const homePageQuery = `*[_type == "homePageContent"][0] {
     }
   },
   exhibitionCard,
-    pressRelease,
+    pressRelease {
+      title { en, zh },
+      featuredImage,
+      en,
+      zh
+    },
     biography,
     statement,
     selectedExhibition,
@@ -84,7 +89,12 @@ export const currentExhibitionQuery = `*[_type == "exhibition" && isCurrent == t
     }
   },
   exhibitionCard,
-  pressRelease,
+  pressRelease {
+    title { en, zh },
+    featuredImage,
+    en,
+    zh
+  },
   biography,
   statement,
   selectedExhibition,

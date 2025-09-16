@@ -1,0 +1,42 @@
+.splash {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    background: var(--color-background);
+    z-index: 9999;
+    display: grid;
+    place-items: center;
+    transition: opacity 0.45s ease, visibility 0.45s ease;
+    opacity: 1;
+    visibility: visible;
+}
+
+.fadeOut {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.center {
+    display: grid;
+    place-items: center;
+    width: 100%;
+}
+
+.title {
+    margin: 0;
+    padding: 0 6vw;
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    color: var(--color-green);
+    user-select: none;
+    -webkit-user-select: none;
+    font-weight: 800;
+}
+
+.title span {
+    display: block;
+    font-size: clamp(48px, 13vw, 220px);
+}
+

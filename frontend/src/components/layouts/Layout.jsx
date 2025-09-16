@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Header, Footer } from '@/components/ui/modules';
 import Link from 'next/link';
+import Splash from '@/components/ui/modules/Splash/Splash';
 
 const Scene = dynamic(() => import('@/webgl/Scene'), { ssr: false });
 
@@ -26,6 +27,7 @@ export function Layout({ children }) {
           
             }}
         >
+            {pathname === '/' && <Splash />}
             <Header>
                 {/* <div
                     style={{

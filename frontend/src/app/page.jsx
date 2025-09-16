@@ -939,6 +939,9 @@ export default function Home() {
                     {/* Press Release - Introduction/Overview */}
                     {currentExhibition?.pressRelease?.[language] && (
                         <section id="pressRelease" className={styles.contentSection}>
+                              <div className={styles.interviewHeader}>
+                                    {t('home.pressRelease') || 'Press Release'}
+                                </div>
                             {currentExhibition?.pressRelease?.featuredImage ? (
                                 <div className={styles.pressReleaseLayout}>
                                     <div className={styles.pressReleaseImage}>
@@ -953,6 +956,11 @@ export default function Home() {
                                         />
                                     </div>
                                     <div className={styles.pressReleaseContent}>
+                                        {currentExhibition?.pressRelease?.title?.[language] && (
+                                            <h2 className={styles.sectionTitle}>
+                                                {currentExhibition.pressRelease.title[language]}
+                                            </h2>
+                                        )}
                                         <ExhibitionContentRenderer
                                             content={{ [language]: currentExhibition.pressRelease[language] }}
                                             language={language}
@@ -960,10 +968,17 @@ export default function Home() {
                                     </div>
                                 </div>
                             ) : (
-                                <ExhibitionContentRenderer
-                                    content={{ [language]: currentExhibition.pressRelease[language] }}
-                                    language={language}
-                                />
+                                <div>
+                                    {currentExhibition?.pressRelease?.title?.[language] && (
+                                        <h2 className={styles.sectionTitle}>
+                                            {currentExhibition.pressRelease.title[language]}
+                                        </h2>
+                                    )}
+                                    <ExhibitionContentRenderer
+                                        content={{ [language]: currentExhibition.pressRelease[language] }}
+                                        language={language}
+                                    />
+                                </div>
                             )}
                         </section>
                     )}

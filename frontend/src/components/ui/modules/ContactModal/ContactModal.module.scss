@@ -1,0 +1,93 @@
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(218, 218, 218, 0.65);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 4000;
+    padding: 2rem;
+}
+
+.modal {
+    position: relative;
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.closeButton {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    line-height: 1;
+    color: #0f172a;
+    cursor: pointer;
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.title {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: 400;
+    color: #0f172a;
+}
+
+.subtitle {
+    margin: 0;
+    font-size: 1rem;
+    color: #475569;
+}
+
+.body {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.infoBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+
+    h3 {
+        margin: 0;
+        font-size: 0.9rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #0f172a;
+    }
+
+    a,
+    p {
+        margin: 0;
+        font-size: 1.05rem;
+        color: #1f2937;
+        text-decoration: none;
+    }
+
+    a:hover {
+        color: #0ea5e9;
+    }
+}
+
+@media (max-width: 480px) {
+    .modal {
+        padding: 2rem;
+        border-radius: 1.25rem;
+    }
+
+    .title {
+        font-size: 1.6rem;
+    }
+}

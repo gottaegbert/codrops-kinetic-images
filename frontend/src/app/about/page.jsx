@@ -1,7 +1,6 @@
 'use client';
 
 import { useLanguage } from '@/contexts/LanguageContext';
-import { Footer } from '@/components/ui/modules';
 import styles from './page.module.scss';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -29,15 +28,10 @@ export default function AboutPage() {
                             <p className={styles.paragraph}>{t('about.description3')}</p>
                         </div>
 
-                        <div className={styles.contactLink}>
-                            <Link href="/contact" className={styles.link}>
-                                {t('about.contact')} →
-                            </Link>
-                        </div>
                     </div>
 
                     {/* 右侧图片网格 */}
-                    <div className={styles.imageColumn}>
+                    {/* <div className={styles.imageColumn}>
                         <div className={styles.imageGrid}>
                             <div className={styles.imageItem}>
                                 <Image
@@ -68,7 +62,7 @@ export default function AboutPage() {
                             </div>
                             
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
 

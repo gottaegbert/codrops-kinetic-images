@@ -1,26 +1,25 @@
 .main {
     min-height: 100vh;
-    padding: 8rem 2rem 2rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
 
-.container {
-    max-width: 800px;
+.container { 
     margin: 0 auto;
+    max-width: 1400px;
     flex: 1;
-}
+        padding: 8rem 3rem 0;
+    background-color: var(--color-gray);
+}   
 
 .header {
-    text-align: center;
     margin-bottom: 3rem;
 }
 
 .title {
-    font-size: 3rem;
+    font-size: 2.5rem;
     font-weight: 300;
-    margin-bottom: 1rem;
     color: #000;
 }
 
@@ -28,7 +27,6 @@
     font-size: 1.2rem;
     color: #666;
     font-weight: 300;
-    line-height: 1.6;
 }
 
 .content {
@@ -37,9 +35,7 @@
 
 .paragraph {
     font-size: 1.1rem;
-    line-height: 1.8;
     color: #333;
-    margin-bottom: 1.5rem;
 }
 
 @media (max-width: 768px) {

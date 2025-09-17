@@ -174,7 +174,6 @@
 .Header-module-scss-module__HW1Erq__title {
   cursor: pointer;
   color: #000;
-  background: #ffffff1a;
   margin: 0;
   font-size: 1.5rem;
   font-weight: 500;
@@ -246,7 +245,9 @@
   color: #000;
   text-transform: uppercase;
   letter-spacing: .15em;
+  cursor: pointer;
   background: none;
+  border: none;
   flex-shrink: 0;
   align-items: center;
   min-width: fit-content;
@@ -277,6 +278,11 @@
   transform: scale(1.1);
 }
 
+.Header-module-scss-module__HW1Erq__navLinkDisabled {
+  pointer-events: none;
+  color: #00000059;
+}
+
 .Header-module-scss-module__HW1Erq__languageContainer {
   flex-shrink: 0;
   align-items: flex-start;
@@ -292,6 +298,10 @@
   color: inherit;
   text-transform: uppercase;
   letter-spacing: .2em;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
   font-weight: 300;
   transition: color .3s;
 }
@@ -303,6 +313,11 @@
 .Header-module-scss-module__HW1Erq__mobileNavLinkActive {
   color: var(--color-green);
   font-weight: 600;
+}
+
+.Header-module-scss-module__HW1Erq__mobileNavLinkDisabled {
+  pointer-events: none;
+  color: #00000059;
 }
 
 .Header-module-scss-module__HW1Erq__mobileLanguage {

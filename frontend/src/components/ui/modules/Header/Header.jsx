@@ -5,11 +5,13 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import LanguageSwitcher from '../../LanguageSwitcher/LanguageSwitcher';
+import ContactModal from '../ContactModal/ContactModal';
 import styles from './Header.module.scss';
 
 function Header({ children }) {
     const { t } = useLanguage();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isContactOpen, setIsContactOpen] = useState(false);
     const pathname = usePathname();
 
     const handleToggleMenu = () => {
@@ -20,25 +22,54 @@ function Header({ children }) {
         setIsMenuOpen(false);
     };
 
+    const handleOpenContact = () => {
+        setIsMenuOpen(false);
+        setIsContactOpen(true);
+    };
+
     const navItems = [
-        { href: '/archive', label: t('navigation.archive') },
-        { href: '/news', label: t('navigation.news') },
+        { href: '/archive', label: t('navigation.archive'), disabled: true },
+        { href: '/news', label: t('navigation.news'), disabled: true },
         { href: '/review', label: t('navigation.review') },
         { href: '/about', label: t('navigation.about') },
-        { href: '/contact', label: t('navigation.contact') },
+        { label: t('navigation.contact'), onClick: handleOpenContact },
     ];
 
     const navId = 'primary-navigation';
 
-    const renderNavLinks = (linkClass, activeClass) =>
+    const renderNavLinks = (linkClass, activeClass, disabledClass) =>
         navItems.map((item) => {
-            const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
+            const isActive = !item.disabled && (pathname === item.href || pathname.startsWith(`${item.href}/`));
+            const className = [linkClass, isActive ? activeClass : '', item.disabled ? disabledClass : '']
+                .filter(Boolean)
+                .join(' ');
+
+            if (item.disabled) {
+                return (
+                    <span key={item.href} className={className} aria-disabled="true">
+                        {item.label}
+                    </span>
+                );
+            }
+
+            if (item.onClick) {
+                return (
+                    <button
+                        key={item.label}
+                        type="button"
+                        className={className}
+                        onClick={item.onClick}
+                    >
+                        {item.label}
+                    </button>
+                );
+            }
 
             return (
                 <Link
                     key={item.href}
                     href={item.href}
-                    className={`${linkClass} ${isActive ? activeClass : ''}`.trim()}
+                    className={className}
                     onClick={handleNavClick}
                 >
                     {item.label}
@@ -99,7 +130,7 @@ function Header({ children }) {
                     className={`${styles.navigation} ${isMenuOpen ? styles.navigationOpen : ''}`}
                     aria-hidden={isMenuOpen}
                 >
-                    {renderNavLinks(styles.navLink, styles.navLinkActive)}
+                    {renderNavLinks(styles.navLink, styles.navLinkActive, styles.navLinkDisabled)}
                 </nav>
 
                 {children}
@@ -112,13 +143,19 @@ function Header({ children }) {
             {isMenuOpen && (
                 <div className={styles.mobileMenu} role="dialog" aria-modal="true" aria-label={t('navigation.menu')}>
                     <nav className={styles.mobileNav} aria-label={t('navigation.menu')}>
-                        {renderNavLinks(styles.mobileNavLink, styles.mobileNavLinkActive)}
+                        {renderNavLinks(
+                            styles.mobileNavLink,
+                            styles.mobileNavLinkActive,
+                            styles.mobileNavLinkDisabled
+                        )}
                     </nav>
                     <div className={styles.mobileLanguage}>
                         <LanguageSwitcher />
                     </div>
                 </div>
             )}
+
+            <ContactModal open={isContactOpen} onClose={() => setIsContactOpen(false)} />
         </header>
     );
 }

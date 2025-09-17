@@ -42,7 +42,6 @@
     font-size: 1.5rem;
     font-weight: 500;
     margin: 0;
-    background: rgba(255, 255, 255, 0.1);
     cursor: pointer;
     color: #000000;
     transition: color 0.3s ease;
@@ -114,7 +113,6 @@
 .navLink {
     display: inline-flex;
     align-items: center;
-    // justify-content: center;
     height: 2rem;
     padding: 0 0rem;
     color: #000;
@@ -123,7 +121,8 @@
     text-transform: uppercase;
     letter-spacing: 0.15em;
     background: transparent;
-    // border: 1px solid var(--color-green);
+    border: none;
+    cursor: pointer;
     flex-shrink: 0;
     position: relative;
     min-width: fit-content;
@@ -154,7 +153,10 @@
     }
 }
 
-
+.navLinkDisabled {
+    pointer-events: none;
+    color: rgba(0, 0, 0, 0.35);
+}
 
 // Language Container - Separate on the Right
 .languageContainer {
@@ -178,6 +180,10 @@
     letter-spacing: 0.2em;
     font-weight: 300;
     transition: color 0.3s ease;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
 
     &:hover {
         color: var(--color-green);
@@ -187,6 +193,11 @@
 .mobileNavLinkActive {
     color: var(--color-green);
     font-weight: 600;
+}
+
+.mobileNavLinkDisabled {
+    pointer-events: none;
+    color: rgba(0, 0, 0, 0.35);
 }
 
 .mobileLanguage {

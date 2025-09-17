@@ -50,6 +50,18 @@ const translations = {
             downloadArtistCV: 'Download artist CV',
             resumeLanguageNote: 'Available in alternate language'
         },
+        review: {
+            title: 'Review',
+            leadParagraphs: [
+                'We are building an open archive of reflections on works on paper and small-scale art, seen from a global perspective. We welcome thoughtful writing from writers, curators, and viewers—reviews, essays, and personal reflections alike. If a work or exhibition has moved you, challenged you, or opened a new way of seeing, we invite you to share your response.',
+                'Our aim is to gather art writing on small works across cultures, so that diverse perspectives can be read side by side. By collecting these voices, we hope to trace how small works resonate in different places and contexts, sustaining a conversation that extends beyond any single exhibition.'
+            ],
+            guidelinesTitle: 'Submission guidelines',
+            guidelines: [
+                'Please include a short text and a few photographs of the work or exhibition—phone images are absolutely fine. The focus should be on contemporary works on paper or small-scale art.',
+                'Send submissions to: general@makaleidos.com'
+            ]
+        },
         footer: {
             description: 'Contemporary art gallery reimagining the digital exhibition experience.',
             gallery: 'Gallery',
@@ -82,6 +94,10 @@ const translations = {
             subtitle: 'Virtual exhibitions and digital art experiences',
             current: 'Current Exhibitions',
             description: 'Explore our current virtual exhibitions featuring contemporary artists and their works on paper and small-scale art.'
+        },
+        news: {
+            comingSoonTitle: 'News Coming Soon',
+            comingSoonDescription: 'We are curating editorial features and announcements. Check back shortly!'
         }
     },
     zh: {
@@ -129,6 +145,18 @@ const translations = {
             downloadArtistCV: '下载艺术家 CV',
             resumeLanguageNote: '提供其他语言版本'
         },
+        review: {
+            title: '评论',
+            leadParagraphs: [
+                '我们正在建立一个面向全球视角的开放档案，聚焦于纸上作品与小型艺术的评论与思考。我们欢迎来自写作者、策展人以及观众的文字——无论是评论、随笔，还是个人感悟。只要有一件作品或一次展览曾打动你、启发你，或为你开启了新的观看方式，我们都鼓励你与我们分享你的想法。',
+                '我们的目标是搜集并分享来自不同文化背景的关于小型艺术的评论，让多元视角能够并置、互见。通过汇集这些声音，我们希望记录下小型艺术在不同地域与语境中所激发的共鸣，并延续一场超越单一展览的持续对话。'
+            ],
+            guidelinesTitle: '投稿要求',
+            guidelines: [
+                '投稿需包含一篇文字，以及几张作品或展览的照片——手机拍摄的图片也完全可以——唯一的要求是内容需聚焦于当代纸上作品或小件艺术作品。',
+                '请将材料发送至 general@makaleidos.com'
+            ]
+        },
         footer: {
             description: '重新构想数字展览体验的当代艺术画廊。',
             gallery: '画廊',
@@ -161,6 +189,10 @@ const translations = {
             subtitle: '虚拟展览与数字艺术体验',
             current: '当前展览',
             description: '探索我们当前的虚拟展览，展示当代艺术家的纸上作品和小型艺术品。'
+        },
+        news: {
+            comingSoonTitle: '新闻内容即将上线',
+            comingSoonDescription: '我们正在整理相关的专题与公告，敬请稍候。'
         }
     }
 };

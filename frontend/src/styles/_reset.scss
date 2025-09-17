@@ -77,8 +77,9 @@ select {
     cursor: pointer;
 }
 
+/* Allow selecting text normally */
 *::selection {
-    background-color: transparent;
+    background-color: rgba(0, 0, 0, 0.1);
     color: inherit;
 }
 
@@ -98,9 +99,5 @@ svg.icon {
 
 img {
     pointer-events: none;
-    user-select: none;
     touch-action: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
 }

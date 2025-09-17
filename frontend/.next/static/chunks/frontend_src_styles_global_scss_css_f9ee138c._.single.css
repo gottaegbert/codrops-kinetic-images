@@ -55,7 +55,7 @@ a, button, input, label, textarea, select {
 
 ::selection {
   color: inherit;
-  background-color: #0000;
+  background-color: #0000001a;
 }
 
 svg.icon path[fill], svg.icon rect[fill], svg.icon circle[fill] {
@@ -68,10 +68,6 @@ svg.icon path[stroke], svg.icon rect[stroke], svg.icon circle[stroke] {
 
 img {
   pointer-events: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
   touch-action: none;
 }
 
@@ -80,6 +76,7 @@ img {
   --color-background: #fdfdfb;
   --color-green: #75c1c4;
   --color-green-hover: #b0c8cf;
+  --color-gray: #a4a4a4;
   --font-primary: "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --card-bg-light: #c4edffd9;
   --card-bg-medium: #c4edffbf;

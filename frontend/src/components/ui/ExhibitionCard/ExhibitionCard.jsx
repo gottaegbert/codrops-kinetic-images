@@ -48,7 +48,6 @@ export default function ExhibitionCard({ mobile = false }) {
 
             <div className={styles.content}>
                 <div className={styles.exhibitionNumber}>
-                    <span className={styles.label}>Issue No.</span>
                     <span className={styles.number}>
                         {currentExhibition?.exhibitionCard?.number || '1'}
                     </span>

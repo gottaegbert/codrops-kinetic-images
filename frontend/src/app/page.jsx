@@ -17,7 +17,6 @@ import ExhibitionCard from '@/components/ui/ExhibitionCard/ExhibitionCard';
 import { useCurrentExhibition } from '@/hooks/useCurrentExhibition';
 import { getOptimizedImageUrl } from '@/sanity/client';
 
-const COUNT = 10;
 const INITIAL_SPACING = 0.05; // Initial spacing between cards
 const FINAL_SPACING = 1.0; // Final spacing between cards
 
@@ -87,7 +86,6 @@ function CurrentExhibitionButton() {
                 <div className={exhibitionStyles.exhibitionDetails}>
                     <div className={exhibitionStyles.exhibitionContent}>
                         <div className={exhibitionStyles.exhibitionNumber}>
-                            <span className={exhibitionStyles.label}>Issue No.</span>
                             <span className={exhibitionStyles.number}>
                                 {currentExhibition?.exhibitionCard?.number || '1'}
                             </span>
@@ -927,10 +925,7 @@ export default function Home() {
                         </div>
                     </div>
 
-                    {/* <h2 className={styles.sectionTitle}>
-                        {currentExhibition?.title || 'Exhibition'}
-                    </h2>
-         */}
+  
 
                 </div>
 

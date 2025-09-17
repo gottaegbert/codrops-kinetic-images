@@ -311,6 +311,7 @@
 
 @media (width <= 768px) {
   .Header-module-scss-module__HW1Erq__header {
+    pointer-events: none;
     width: 100%;
     padding: .6rem .75rem;
     top: 0;
@@ -325,6 +326,7 @@
 
   .Header-module-scss-module__HW1Erq__topRow {
     z-index: 2001;
+    pointer-events: auto;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
@@ -333,7 +335,8 @@
   }
 
   .Header-module-scss-module__HW1Erq__menuToggle {
-    z-index: 1001;
+    z-index: 2001;
+    pointer-events: auto;
     margin-left: auto;
     padding-top: 0;
     position: relative;
@@ -347,6 +350,7 @@
     z-index: 2000;
     height: 100vh;
     padding: calc(2.5rem + env(safe-area-inset-top, 0)) 1.75rem calc(2.5rem + env(safe-area-inset-bottom, 0));
+    pointer-events: auto;
     background: #fff;
     flex-direction: column;
     justify-content: center;

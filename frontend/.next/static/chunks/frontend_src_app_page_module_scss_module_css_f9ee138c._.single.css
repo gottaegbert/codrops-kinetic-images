@@ -19,6 +19,17 @@
   overflow: hidden;
 }
 
+@media (width <= 768px) {
+  .page-module-scss-module__moF6Tq__heroSection {
+    height: 115vh;
+  }
+
+  .page-module-scss-module__moF6Tq__view {
+    height: calc(100% - 6rem);
+    top: 6rem;
+  }
+}
+
 .page-module-scss-module__moF6Tq__card-base, .page-module-scss-module__moF6Tq__card-gradient, .page-module-scss-module__moF6Tq__card-glow, .page-module-scss-module__moF6Tq__card-floating, .page-module-scss-module__moF6Tq__card-heavy, .page-module-scss-module__moF6Tq__card-light {
   background: var(--card-bg-medium);
   backdrop-filter: var(--blur-medium);

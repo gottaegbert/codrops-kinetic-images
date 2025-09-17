@@ -362,10 +362,6 @@
 }
 
 @media (width <= 768px) {
-  .page-module-scss-module__moF6Tq__page {
-    padding-top: 100px;
-  }
-
   .page-module-scss-module__moF6Tq__heroSection {
     flex-direction: column;
     height: calc(100vh - 100px);

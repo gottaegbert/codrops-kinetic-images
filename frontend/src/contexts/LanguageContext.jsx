@@ -14,7 +14,8 @@ const translations = {
             news: 'News',
             review: 'Review',
             archive: 'Archive',
-            contact: 'Contact'
+            contact: 'Contact',
+            menu: 'Menu'
         },
         about: {
             title: 'About MaKaleidos',
@@ -39,7 +40,9 @@ const translations = {
             biography: 'Biography',
             selectedExhibition: 'Selected Exhibition',
             selectedPress: 'Selected Press',
-            statement: 'Artist Statement'
+            statement: 'Artist Statement',
+            currentExhibitionButton: 'Current Exhibition',
+            explore: 'Explore'
         },
         exhibition: {
             artistResume: 'Artist Resume',
@@ -89,7 +92,8 @@ const translations = {
             news: '新闻',
             review: '评论',
             archive: '档案',
-            contact: '联系'
+            contact: '联系',
+            menu: '菜单'
         },
         about: {
             title: '关于 MaKaleidos',
@@ -115,7 +119,9 @@ const translations = {
             biography: '艺术家简介',
             selectedExhibition: '精选展览',
             selectedPress: '精选媒体',
-            statement: '艺术家声明'
+            statement: '艺术家声明',
+            currentExhibitionButton: '当前展览',
+            explore: '了解更多'
         },
         exhibition: {
             artistResume: '艺术家简历',

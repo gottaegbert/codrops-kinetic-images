@@ -23,7 +23,7 @@ const FINAL_SPACING = 1.0; // Final spacing between cards
 // Current Exhibition Button Component
 function CurrentExhibitionButton() {
     const [isExpanded, setIsExpanded] = useState(false);
-    const { language } = useLanguage();
+    const { language, t } = useLanguage();
     const { currentExhibition } = useHomeContent();
 
     const formatDateRange = (startDate, endDate) => {
@@ -65,7 +65,7 @@ function CurrentExhibitionButton() {
                 className={`${exhibitionStyles.currentExhibitionButton} ${isExpanded ? exhibitionStyles.expanded : ''}`}
                 onClick={handleToggle}
             >
-                <span className={exhibitionStyles.buttonText}>Current exhibition</span>
+                <span className={exhibitionStyles.buttonText}>{t('home.currentExhibitionButton')}</span>
             
                 <svg 
                     className={`${exhibitionStyles.expandIcon} ${isExpanded ? exhibitionStyles.rotated : ''}`} 
@@ -114,7 +114,7 @@ function CurrentExhibitionButton() {
                         </div>
 
                         <button className={exhibitionStyles.exploreButton} onClick={handleLearnMoreClick}>
-                            <span>Explore</span>
+                            <span>{t('home.explore')}</span>
                         </button>
                     </div>
                 </div>

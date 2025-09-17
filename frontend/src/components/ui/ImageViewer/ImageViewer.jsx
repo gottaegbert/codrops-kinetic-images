@@ -89,26 +89,31 @@ const ImageViewer = ({
 
     if (!isOpen || !currentImage) return null;
 
+    const handleOverlayClick = (event) => {
+        if (event.currentTarget === event.target) onClose();
+    };
+
     return (
-        <div className={styles.overlay} onClick={onClose}>
-            <div className={styles.container} onClick={(e) => e.stopPropagation()}>
-                {/* 关闭按钮 */}
-                <button className={styles.closeButton} onClick={onClose}>
-                    <svg viewBox="0 0 24 24" fill="none">
-                        <path
-                            d="M18 6L6 18M6 6l12 12"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                        />
-                    </svg>
-                </button>
+        <div className={styles.overlay} onClick={handleOverlayClick}>
+            <div className={styles.container} onClick={handleOverlayClick}>
+                <div className={styles.dialog} onClick={handleOverlayClick}>
+                    {/* 关闭按钮 */}
+                    <button className={styles.closeButton} onClick={onClose}>
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <path
+                                d="M18 6L6 18M6 6l12 12"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                            />
+                        </svg>
+                    </button>
 
-                {/* 已移除不同图片的导航按钮 */}
+                    {/* 已移除不同图片的导航按钮 */}
 
-                {/* 图片容器 */}
-                <div className={styles.imageContainer}>
+                    {/* 图片容器 */}
+                    <div className={styles.imageContainer}>
                     {isLoading && (
                         <div className={styles.loading}>
                             <div className={styles.spinner}></div>
@@ -166,10 +171,10 @@ const ImageViewer = ({
                             </button>
                         </>
                     )}
-                </div>
+                    </div>
 
-                {/* 底部信息栏：中间显示按钮与描述 */}
-                <div className={styles.bottomBar}>
+                    {/* 底部信息栏：中间显示按钮与描述 */}
+                    <div className={styles.bottomBar}>
                     {!showDetailView ? (
                         hasDetailImages && (
                             <div className={styles.infoWrap}>
@@ -205,9 +210,10 @@ const ImageViewer = ({
                             </button>
                         </div>
                     )}
-                </div>
+                    </div>
 
-                {/* 已移除缩略图导航 */}
+                    {/* 已移除缩略图导航 */}
+                </div>
             </div>
         </div>
     );

@@ -236,7 +236,7 @@
 .navLink {
     text-decoration: none;
     color: #000000;
-    font-size: clamp(0.85rem, 2vw, 1rem);
+    font-size: clamp(0.65rem, 2vw, 1rem);
     font-weight: 500;
     transition: all 0.3s ease;
     position: relative;
@@ -419,8 +419,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100%;
-    overflow: hidden;
+    width: 100%;
 }
 
 .featuredImage {
@@ -434,7 +433,7 @@
 .pressReleaseContent {
     display: flex;
     flex-direction: column;
-    width: 55%;
+    width: 49%;
     justify-content: flex-start;
     text-align: left;
     padding-left: 0;
@@ -574,10 +573,15 @@
 // Responsive adjustments for press release layout
 @media (max-width: 768px) {
     .pressReleaseImage {
-        height: 250px; /* Smaller height on mobile */
+        height: auto;
     }
-    
-    .pressReleaseContent {        
+
+    .featuredImage {
+        max-width: 100%;
+    }
+
+    .pressReleaseContent {
+        width: 70%;
         :global(.content) p:first-of-type::first-letter {
             font-size: clamp(2.5rem, 6vw, 3rem);
         }

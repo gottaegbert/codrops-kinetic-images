@@ -343,7 +343,7 @@
 .page-module-scss-module__moF6Tq__navLink {
   color: #000;
   padding: clamp(.25rem, 1vw, .5rem) 0;
-  font-size: clamp(.85rem, 2vw, 1rem);
+  font-size: clamp(.65rem, 2vw, 1rem);
   font-weight: 500;
   text-decoration: none;
   transition: all .3s;
@@ -509,9 +509,8 @@
 .page-module-scss-module__moF6Tq__pressReleaseImage {
   justify-content: center;
   align-items: center;
-  height: 100%;
+  width: 100%;
   display: flex;
-  overflow: hidden;
 }
 
 .page-module-scss-module__moF6Tq__featuredImage {
@@ -526,7 +525,7 @@
   text-align: left;
   flex-direction: column;
   justify-content: flex-start;
-  width: 55%;
+  width: 49%;
   padding-left: 0;
   display: flex;
 }
@@ -654,7 +653,15 @@
 
 @media (width <= 768px) {
   .page-module-scss-module__moF6Tq__pressReleaseImage {
-    height: 250px;
+    height: auto;
+  }
+
+  .page-module-scss-module__moF6Tq__featuredImage {
+    max-width: 100%;
+  }
+
+  .page-module-scss-module__moF6Tq__pressReleaseContent {
+    width: 70%;
   }
 
   .page-module-scss-module__moF6Tq__pressReleaseContent .content p:first-of-type:first-letter {

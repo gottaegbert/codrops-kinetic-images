@@ -30,7 +30,7 @@ function ContactModalContent({ onClose }) {
                     </div>
                     <div className={styles.infoBlock}>
                         <h3>Instagram</h3>
-                        <a href="https://instagram.com/makaleidos" target="_blank" rel="noreferrer">
+                        <a href="https://www.instagram.com/makaleidos_/" target="_blank" rel="noreferrer">
                             @makaleidos
                         </a>
                     </div>

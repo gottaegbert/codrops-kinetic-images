@@ -15,7 +15,7 @@ function Footer() {
                             general@makaleidos.com
                         </a>
                         <a
-                            href="https://instagram.com/makaleidos"
+                            href="https://www.instagram.com/makaleidos_/"
                             target="_blank"
                             rel="noreferrer"
                             className={styles.contactLink}

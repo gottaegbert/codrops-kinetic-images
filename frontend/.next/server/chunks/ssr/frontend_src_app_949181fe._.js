@@ -4,7 +4,7 @@ module.exports = {
 
 var { g: global, __dirname } = __turbopack_context__;
 {
-__turbopack_context__.v("/_next/static/media/favicon.256d6d9e.ico");}}),
+__turbopack_context__.v("/_next/static/media/favicon.3981edf9.ico");}}),
 "[project]/frontend/src/app/favicon.ico.mjs { IMAGE => \"[project]/frontend/src/app/favicon.ico (static in ecmascript)\" } [app-rsc] (structured image object, ecmascript)": ((__turbopack_context__) => {
 "use strict";
 
@@ -18,7 +18,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$app$2f$fa
 const __TURBOPACK__default__export__ = {
     src: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$app$2f$favicon$2e$ico__$28$static__in__ecmascript$29$__["default"],
     width: 32,
-    height: 30
+    height: 32
 };
 }}),
 

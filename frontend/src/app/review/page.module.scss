@@ -10,10 +10,10 @@
 
 .container {
     max-width: 80%;
-    margin: 0 auto;
+    margin: 8rem auto 0;
     flex: 1;
     background-color: var(--color-gray);
-    padding: 8rem 3rem 0;
+    padding: 4rem 3rem 3rem;
 }
 
 .grid {
@@ -81,7 +81,8 @@
 
 @media (max-width: 1024px) {
     .container {
-        padding: 7rem 2rem 0;
+        margin: 7rem auto 0;
+        padding: 3.5rem 2rem 2.5rem;
     }
 
     .textColumn {
@@ -91,7 +92,8 @@
 
 @media (max-width: 768px) {
     .container {
-        padding: 6rem 1.5rem 0;
+        margin: 6rem auto 0;
+        padding: 3rem 1.5rem 2.5rem;
     }
 
     .grid {
@@ -114,7 +116,8 @@
 
 @media (max-width: 480px) {
     .container {
-        padding: 5rem 1rem 0;
+        margin: 5rem auto 0;
+        padding: 2.5rem 1rem 2rem;
     }
 
     .title {

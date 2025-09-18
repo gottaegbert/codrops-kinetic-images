@@ -16,6 +16,15 @@ export default defineConfig({
           .title('Gallery Management')
           .items([
             S.listItem()
+              .title('ℹ️ About Page')
+              .child(
+                S.document()
+                  .schemaType('aboutPage')
+                  .documentId('aboutPage')
+                  .title('About Page')
+              ),
+            S.divider(),
+            S.listItem()
               .title('📁 Exhibitions')
               .child(S.documentTypeList('exhibition').title('All Exhibitions')),
             S.divider(),

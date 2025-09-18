@@ -1,71 +1,64 @@
 'use client';
 
+import { useMemo } from 'react';
+import { PortableText } from '@portabletext/react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useAboutContent } from '@/hooks/useAboutContent';
 import styles from './page.module.scss';
-import Link from 'next/link';
-import Image from 'next/image';
+
+const portableTextComponents = {
+    block: {
+        normal: ({ children }) => (
+            <div className={styles.textBlock}>
+                <p className={styles.paragraph}>{children}</p>
+            </div>
+        )
+    }
+};
 
 export default function AboutPage() {
-    const { t } = useLanguage();
+    const { language, t } = useLanguage();
+    const { aboutContent } = useAboutContent();
+
+    const fallbackBody = useMemo(() => {
+        const paragraphs = [
+            t('about.description1'),
+            t('about.description2'),
+            t('about.description3')
+        ].filter(Boolean);
+
+        return paragraphs.map((text, index) => ({
+            _type: 'block',
+            _key: `fallback-${index}`,
+            style: 'normal',
+            markDefs: [],
+            children: [
+                {
+                    _type: 'span',
+                    _key: `fallback-${index}-span`,
+                    text,
+                    marks: []
+                }
+            ]
+        }));
+    }, [t]);
+
+    const heading = aboutContent?.heading?.[language] || t('about.title');
+    const body = aboutContent?.body?.[language]?.length
+        ? aboutContent.body[language]
+        : fallbackBody;
 
     return (
         <main className={styles.page}>
             <div className={styles.container}>
                 <div className={styles.grid}>
-                    {/* 左侧文本内容 */}
                     <div className={styles.textColumn}>
-                        <h1 className={styles.title}>{t('about.title')}</h1>
+                        <h1 className={styles.title}>{heading}</h1>
 
-                        <div className={styles.textBlock}>
-                            <p className={styles.paragraph}>{t('about.description1')}</p>
-                        </div>
-
-                        <div className={styles.textBlock}>
-                            <p className={styles.paragraph}>{t('about.description2')}</p>
-                        </div>
-
-                        <div className={styles.textBlock}>
-                            <p className={styles.paragraph}>{t('about.description3')}</p>
-                        </div>
-
+                        <PortableText value={body} components={portableTextComponents} />
                     </div>
-
-                    {/* 右侧图片网格 */}
-                    {/* <div className={styles.imageColumn}>
-                        <div className={styles.imageGrid}>
-                            <div className={styles.imageItem}>
-                                <Image
-                                    src="/images/img14.webp"
-                                    alt="Gallery space"
-                                    width={300}
-                                    height={400}
-                                    className={styles.image}
-                                />
-                            </div>
-                            <div className={styles.imageItem}>
-                                <Image
-                                    src="/images/img15.webp"
-                                    alt="Artwork detail"
-                                    width={300}
-                                    height={200}
-                                    className={styles.image}
-                                />
-                            </div>
-                            <div className={styles.imageItem}>
-                                <Image
-                                    src="/images/img16.webp"
-                                    alt="Exhibition view"
-                                    width={300}
-                                    height={300}
-                                    className={styles.image}
-                                />
-                            </div>
-                            
-                        </div>
-                    </div> */}
                 </div>
             </div>
-
         </main>
     );
 }

@@ -307,12 +307,10 @@
         padding: 1.5rem;
     }
 
-    .content {
-        padding: clamp(2rem, 5vw, 3rem) clamp(0.5rem, 2vw, 1rem);
-    }
+
 
     .infiniteScroll {
-        margin: 1.5rem 0;
+        margin: 0rem 0;
 
         &::before,
         &::after {
@@ -326,10 +324,10 @@
 
     .pageNavigation {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: flex-center;
         gap: clamp(0.75rem, 2vw, 1rem);
-        margin: clamp(1.5rem, 4vw, 2rem) 0 clamp(1rem, 3vw, 1.5rem) 0;
-        padding: clamp(0.75rem, 2vw, 1rem) 0;
+        // margin: clamp(1.5rem, 4vw, 2rem) 0 clamp(1rem, 3vw, 1.5rem) 0;
+        // padding: clamp(0.75rem, 2vw, 1rem) 1rem;
     }
 
     .navLinks {
@@ -481,6 +479,7 @@
     font-size: clamp(1.5rem, 4vw, 2rem);
     font-weight: 300;
     text-align: left;
+    margin-bottom: 2rem;
     margin-left: 0;
     color: #000000;
 }
@@ -667,8 +666,4 @@
     }
 }
 
-@media (max-width: 480px) {
-    .contentSections {
-        padding: clamp(1.5rem, 4vw, 2rem) clamp(0.75rem, 2vw, 1rem);
-    }
-}
+

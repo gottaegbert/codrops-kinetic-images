@@ -359,7 +359,7 @@
     }
 
     .topBar {
-        top: calc(20px + env(safe-area-inset-top, 0));
+        left: calc(24px + env(safe-area-inset-left, 0));
     }
 
     .content {
@@ -393,24 +393,32 @@
         width: 100%;
         height: auto;
         min-height: calc(100vh - 64px);
+        justify-content: flex-start;
     }
 
     .dialog {
-        padding: 72px 12px 28px;
+        padding: 64px 12px 28px;
         gap: 20px;
     }
 
     .topBar {
-        top: calc(14px + env(safe-area-inset-top, 0));
+        position: static;
+        top: auto;
+        left: auto;
+        transform: none;
+        width: 100%;
+        padding: 0;
+        margin: 0 auto;
+        justify-content: center;
     }
 
     .content {
-        padding: 0 12px;
+        padding: 12px 12px 0;
         gap: 16px;
     }
 
     .imageContainer {
-        max-height: calc(100vh - 220px);
+        max-height: calc(100vh - 240px);
     }
 
     .closeButton {

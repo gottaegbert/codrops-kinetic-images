@@ -552,7 +552,7 @@
 
 .page-module-scss-module__moF6Tq__interviewLayout {
   flex-direction: column;
-  gap: clamp(1.5rem, 4vw, 2.5rem);
+  gap: clamp(.5rem, 4vw, 1.5rem);
   width: 100%;
   margin-bottom: clamp(2rem, 6vw, 4rem);
   display: flex;
@@ -561,8 +561,6 @@
 .page-module-scss-module__moF6Tq__interviewHeader {
   text-align: left;
   color: #000;
-  margin-bottom: 2rem;
-  margin-left: 0;
   font-size: clamp(1.5rem, 4vw, 2rem);
   font-weight: 300;
 }

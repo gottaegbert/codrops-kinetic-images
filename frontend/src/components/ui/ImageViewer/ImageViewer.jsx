@@ -110,77 +110,10 @@ const ImageViewer = ({
                         </svg>
                     </button>
 
-                    {/* 已移除不同图片的导航按钮 */}
-
-                    {/* 图片容器 */}
-                    <div className={styles.imageContainer}>
-                    {isLoading && (
-                        <div className={styles.loading}>
-                            <div className={styles.spinner}></div>
-                        </div>
-                    )}
-
-                    {imageError ? (
-                        <div className={styles.error}>
-                            <p>图片加载失败</p>
-                        </div>
-                    ) : (
-                        <img
-                            ref={imageRef}
-                            src={displayImage?.asset?.url || displayImage?.url}
-                            alt={displayImage?.alt || displayImage?.title || `Image ${currentImageIndex + 1}`}
-                            className={styles.image}
-                            onLoad={handleImageLoad}
-                            onError={handleImageError}
-                            style={{ display: isLoading ? 'none' : 'block' }}
-                        />
-                    )}
-
-                    {/* 细节图导航按钮 */}
-                    {showDetailView && detailImages.length > 1 && (
-                        <>
-                            <button
-                                className={`${styles.navButton} ${styles.detailPrevButton}`}
-                                onClick={() => handleDetailNavigation('prev')}
-                                disabled={currentDetailIndex === 0}
-                            >
-                                <svg viewBox="0 0 24 24" fill="none">
-                                    <path
-                                        d="M15 18l-6-6 6-6"
-                                        stroke="currentColor"
-                                        strokeWidth="2"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                    />
-                                </svg>
-                            </button>
-                            <button
-                                className={`${styles.navButton} ${styles.detailNextButton}`}
-                                onClick={() => handleDetailNavigation('next')}
-                                disabled={currentDetailIndex === detailImages.length - 1}
-                            >
-                                <svg viewBox="0 0 24 24" fill="none">
-                                    <path
-                                        d="M9 18l6-6-6-6"
-                                        stroke="currentColor"
-                                        strokeWidth="2"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                    />
-                                </svg>
-                            </button>
-                        </>
-                    )}
-                    </div>
-
-                    {/* 底部信息栏：中间显示按钮与描述 */}
-                    <div className={styles.bottomBar}>
-                    {!showDetailView ? (
-                        hasDetailImages && (
-                            <div className={styles.infoWrap}>
-                                {currentDetailImage?.description && (
-                                    <p className={styles.detailDescription}>{currentDetailImage.description}</p>
-                                )}
+                    {/* 顶部按钮栏 */}
+                    <div className={styles.topBar}>
+                        {!showDetailView ? (
+                            hasDetailImages && (
                                 <button
                                     className={styles.infoButton}
                                     onClick={handleToggleDetailView}
@@ -188,10 +121,8 @@ const ImageViewer = ({
                                 >
                                     Details
                                 </button>
-                            </div>
-                        )
-                    ) : (
-                        <div className={styles.detailTextWrap}>
+                            )
+                        ) : (
                             <button
                                 className={styles.backButton}
                                 onClick={handleToggleDetailView}
@@ -208,8 +139,77 @@ const ImageViewer = ({
                                 </svg>
                                 Back
                             </button>
+                        )}
+                    </div>
+
+                    <div className={styles.content}>
+                        {/* 图片容器 */}
+                        <div className={styles.imageContainer}>
+                        {isLoading && (
+                            <div className={styles.loading}>
+                                <div className={styles.spinner}></div>
+                            </div>
+                        )}
+
+                        {imageError ? (
+                            <div className={styles.error}>
+                                <p>图片加载失败</p>
+                            </div>
+                        ) : (
+                            <img
+                                ref={imageRef}
+                                src={displayImage?.asset?.url || displayImage?.url}
+                                alt={displayImage?.alt || displayImage?.title || `Image ${currentImageIndex + 1}`}
+                                className={styles.image}
+                                onLoad={handleImageLoad}
+                                onError={handleImageError}
+                                style={{ display: isLoading ? 'none' : 'block' }}
+                            />
+                        )}
+
+                        {/* 细节图导航按钮 */}
+                        {showDetailView && detailImages.length > 1 && (
+                            <>
+                                <button
+                                    className={`${styles.navButton} ${styles.detailPrevButton}`}
+                                    onClick={() => handleDetailNavigation('prev')}
+                                    disabled={currentDetailIndex === 0}
+                                >
+                                    <svg viewBox="0 0 24 24" fill="none">
+                                        <path
+                                            d="M15 18l-6-6 6-6"
+                                            stroke="currentColor"
+                                            strokeWidth="2"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                        />
+                                    </svg>
+                                </button>
+                                <button
+                                    className={`${styles.navButton} ${styles.detailNextButton}`}
+                                    onClick={() => handleDetailNavigation('next')}
+                                    disabled={currentDetailIndex === detailImages.length - 1}
+                                >
+                                    <svg viewBox="0 0 24 24" fill="none">
+                                        <path
+                                            d="M9 18l6-6-6-6"
+                                            stroke="currentColor"
+                                            strokeWidth="2"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                        />
+                                    </svg>
+                                </button>
+                            </>
+                        )}
                         </div>
-                    )}
+
+                        {/* 底部信息栏：描述文本 */}
+                        <div className={styles.bottomBar}>
+                        {!showDetailView && hasDetailImages && currentDetailImage?.description && (
+                            <p className={styles.detailDescription}>{currentDetailImage.description}</p>
+                        )}
+                        </div>
                     </div>
 
                     {/* 已移除缩略图导航 */}

@@ -884,7 +884,7 @@ export default function Home() {
 
                     {/* 页面导航 */}
                     <div className={styles.pageNavigation}>
-                        <span className={styles.navLabel}>On this page:</span>
+                        <span className={styles.navLabel}>{t('home.onThisPage') || 'On this page:'}</span>
                         <div className={styles.navLinks}>
                             {currentExhibition?.pressRelease?.[language] && (
                                 <a href="#pressRelease" className={styles.navLink}>
@@ -893,35 +893,35 @@ export default function Home() {
                             )}
                             {(currentExhibition?.interview?.introduction?.[language] || currentExhibition?.interview?.content?.[language]) && (
                                 <a href="#interview" className={styles.navLink}>
-                                    Interview
+                                    {t('home.interview') || 'Interview'}
                                 </a>
                             )}
                             {currentExhibition?.statement?.[language] && (
                                 <a href="#statement" className={styles.navLink}>
-                                    Artist Statement
+                                    {t('home.statement') || 'Artist Statement'}
                                 </a>
                             )}
                             {currentExhibition?.biography?.[language] && (
                                 <a href="#biography" className={styles.navLink}>
-                                    Biography
+                                    {t('home.biography') || 'Biography'}
                                 </a>
                             )}
                             {currentExhibition?.selectedExhibition?.[language] && (
                                 <a href="#selectedExhibition" className={styles.navLink}>
-                                    Selected Exhibitions
+                                    {t('home.selectedExhibition') || 'Selected Exhibition'}
                                 </a>
                             )}
                             {currentExhibition?.selectedPress?.[language] && (
                                 <a href="#selectedPress" className={styles.navLink}>
-                                    Selected Press
+                                    {t('home.selectedPress') || 'Selected Press'}
                                 </a>
                             )}
                             {currentExhibition?.artistResume && (
                                 <a href="#artistResume" className={styles.navLink}>
-                                    CV
+                                    {t('exhibition.artistResume') || 'Artist Resume'}
                                 </a>
                             )}
-                         
+
                         </div>
                     </div>
 

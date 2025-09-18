@@ -9,32 +9,32 @@ export default function ReviewPage() {
     const guidelines = t('review.guidelines') || [];
 
     return (
-        <main className={styles.main}>
+        <main className={styles.page}>
             <div className={styles.container}>
-                <header className={styles.header}>
-                    <h1 className={styles.title}>{t('review.title')}</h1>
-                </header>
+                <div className={styles.grid}>
+                    <div className={styles.textColumn}>
+                        <h1 className={styles.title}>{t('review.title')}</h1>
 
-                <section className={styles.content}>
-                    {Array.isArray(leadParagraphs) &&
-                        leadParagraphs.map((paragraph, index) => (
-                            <p key={`lead-${index}`} className={styles.paragraph}>
-                                {paragraph}
-                            </p>
-                        ))}
-                </section>
-
-                <section className={styles.guidelines}>
-                    <h2 className={styles.guidelinesTitle}>{t('review.guidelinesTitle')}</h2>
-                    <ul className={styles.guidelinesList}>
-                        {Array.isArray(guidelines) &&
-                            guidelines.map((item, index) => (
-                                <li key={`guideline-${index}`} className={styles.guidelinesItem}>
-                                    {item}
-                                </li>
+                        {Array.isArray(leadParagraphs) &&
+                            leadParagraphs.map((paragraph, index) => (
+                                <div key={`lead-${index}`} className={styles.textBlock}>
+                                    <p className={styles.paragraph}>{paragraph}</p>
+                                </div>
                             ))}
-                    </ul>
-                </section>
+
+                        <section className={styles.guidelines}>
+                            <h2 className={styles.guidelinesTitle}>{t('review.guidelinesTitle')}</h2>
+                            <ul className={styles.guidelinesList}>
+                                {Array.isArray(guidelines) &&
+                                    guidelines.map((item, index) => (
+                                        <li key={`guideline-${index}`} className={styles.guidelinesItem}>
+                                            {item}
+                                        </li>
+                                    ))}
+                            </ul>
+                        </section>
+                    </div>
+                </div>
             </div>
         </main>
     );

@@ -1070,11 +1070,14 @@ export default function Home() {
                                   
                     
                                 <div className={styles.statementContent}>
-                                    <h2 className={styles.sectionTitle}>
-                                        {currentExhibition?.statement?.title?.[language]
-                                            ? currentExhibition.statement.title[language]
-                                            : (t('home.statement') || "Artist's Statement")}
-                                    </h2>
+                                    <div className={styles.interviewHeader}>
+                                        {t('home.statement') || "Artist Statement"}
+                                    </div>
+                                    {currentExhibition?.statement?.title?.[language] && (
+                                        <h2 className={styles.sectionTitle}>
+                                            {currentExhibition.statement.title[language]}
+                                        </h2>
+                                    )}
                                     <ExhibitionContentRenderer
                                         content={{ [language]: currentExhibition.statement[language] }}
                                         language={language}

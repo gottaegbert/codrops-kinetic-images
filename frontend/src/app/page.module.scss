@@ -24,12 +24,14 @@
 
 @media (max-width: 768px) {
     .heroSection {
-        height: 115vh;
+        height: 100vh;
+        min-height: 100vh;
     }
 
     .view {
-        top: 6rem;
-        height: calc(100% - 6rem);
+        top: 0;
+        height: 100vh;
+        min-height: 100vh;
     }
 }
 
@@ -207,12 +209,14 @@
 
 .pageNavigation {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
+    justify-content: flex-start;
     gap: clamp(1rem, 3vw, 2rem);
     margin: 0rem 0 clamp(1rem, 3vw, 2rem) 0;
-    padding: clamp(0.25rem, 1vw, 0.5rem) clamp(1rem, 3vw, 2rem);
+    padding: clamp(0.25rem, 1vw, 0.5rem) clamp(0.5rem, 4vw, 1.25rem);
     border-top: 1px solid rgba(90, 108, 125, 0.2);
     border-bottom: 1px solid rgba(90, 108, 125, 0.2);
+    text-align: left;
 }
 
 .navLabel {
@@ -226,7 +230,8 @@
 
 .navLinks {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
+    justify-content: flex-start;
     gap: clamp(1rem, 3vw, 2rem);
     text-transform: uppercase;
     letter-spacing: 0.15em;
@@ -287,17 +292,19 @@
     }
 
     .heroSection {
-        height: calc(100vh - 100px); /* More space for 3D cards */
+        height: 100vh;
+        min-height: 100vh;
         display: flex;
         flex-direction: column;
         position: relative;
-        min-height: 500px; /* Ensure minimum height for cards */
     }
 
     .view {
         height: 100%;
+        min-height: 100vh;
         flex: 1;
         position: relative;
+        top: 0;
         overflow: visible; /* Allow cards to be visible even if they extend beyond bounds */
         z-index: 10; /* Ensure consistent z-index across breakpoints */
     }
@@ -324,15 +331,25 @@
 
     .pageNavigation {
         flex-direction: column;
-        align-items: flex-center;
+        align-items: flex-start;
+        justify-content: flex-start;
         gap: clamp(0.75rem, 2vw, 1rem);
-        // margin: clamp(1.5rem, 4vw, 2rem) 0 clamp(1rem, 3vw, 1.5rem) 0;
-        // padding: clamp(0.75rem, 2vw, 1rem) 1rem;
+        padding: clamp(0.5rem, 2vw, 0.75rem) clamp(1rem, 4vw, 1.5rem);
+        width: 100%;
+    }
+
+    .navLabel {
+        width: 100%;
+        text-align: center;
     }
 
     .navLinks {
         gap: clamp(0.75rem, 2vw, 1rem);
         width: 100%;
+        padding-left: 20px;
+        padding-right: 20px;
+        justify-content: space-between;
+        flex-wrap: wrap;
     }
 }
 
@@ -380,19 +397,10 @@
 /* Dynamic Content Sections */
 .contentSections {
     margin: 0 auto;
+    gap: clamp(0.5rem, 4vw, 1.5rem);
     padding: clamp(0.5rem, 6vw, 1rem) clamp(0.5rem, 4vw, 1rem);
 }
 
-.contentSection {
-    margin-bottom: clamp(2rem, 6vw, 4rem);
-    
-    &:last-child {
-        margin-bottom: 0;
-    }
-    
-    // Content flows naturally without section titles
-    // Let the PortableText component handle all styling
-}
 
 /* Section Separator */
 .sectionSeparator {
@@ -416,8 +424,9 @@
 .pressReleaseImage {
     display: flex;
     justify-content: center;
+    padding-top: clamp(0.5rem, 4vw, 1.5rem);
     align-items: center;
-    width: 100%;
+    width: 60%;
 }
 
 .featuredImage {
@@ -663,5 +672,3 @@
         width: 100%;
     }
 }
-
-

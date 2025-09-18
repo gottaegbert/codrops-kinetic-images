@@ -139,10 +139,7 @@
   z-index: 18;
   text-align: center;
   backdrop-filter: blur(8px);
-  background: #fffffff2;
-  border-radius: 1rem;
   width: 520px;
-  padding: 1.5rem;
   position: absolute;
   top: 8rem;
   left: 1rem;
@@ -166,12 +163,10 @@
   flex-direction: column;
   align-items: center;
   gap: clamp(.25rem, 1vw, .5rem);
-  padding-top: -10px;
-  font-size: .75rem;
+  font-size: clamp(.85rem, 2vw, 1rem);
   font-weight: 300;
   transition: all .4s cubic-bezier(.4, 0, .2, 1);
   display: flex;
-  position: absolute;
 }
 
 .ExhibitionCard-module-scss-module__u3AODW__currentExhibitionButton:hover {
@@ -190,7 +185,7 @@
 .ExhibitionCard-module-scss-module__u3AODW__buttonText {
   text-transform: uppercase;
   letter-spacing: .15em;
-  font-size: .75rem;
+  font-size: small;
   font-weight: 300;
 }
 
@@ -370,20 +365,25 @@
   .ExhibitionCard-module-scss-module__u3AODW__exhibitionCard {
     z-index: 18;
     width: 300px;
-    top: 6rem;
+    top: 0;
     left: .5rem;
   }
 
   .ExhibitionCard-module-scss-module__u3AODW__currentExhibitionContainer {
+    top: calc(.75rem + env(safe-area-inset-top, 0));
+    align-items: center;
     width: auto;
-    max-width: 350px;
-    top: -20rem;
+    max-width: 360px;
     left: 50%;
     transform: translateX(-50%);
   }
 
+  .ExhibitionCard-module-scss-module__u3AODW__currentExhibitionButton {
+    padding-top: 0;
+  }
+
   .ExhibitionCard-module-scss-module__u3AODW__exhibitionDetails {
-    width: 350px;
+    width: 340px;
     left: 50%;
     transform: translateX(-50%);
   }
@@ -395,12 +395,12 @@
   }
 
   .ExhibitionCard-module-scss-module__u3AODW__currentExhibitionContainer {
+    top: calc(1rem + env(safe-area-inset-top, 0));
     z-index: 1800;
     width: min(90vw, 320px);
     max-width: 320px;
     padding: 0 1rem;
     position: absolute;
-    top: .75rem;
     left: 50%;
     transform: translateX(-50%);
   }
@@ -408,11 +408,12 @@
   .ExhibitionCard-module-scss-module__u3AODW__currentExhibitionButton {
     justify-content: center;
     width: 100%;
+    padding-top: 0;
   }
 
   .ExhibitionCard-module-scss-module__u3AODW__exhibitionDetails {
     width: 320px;
-    top: calc(100% + 2rem);
+    top: calc(100% + .75rem);
     left: 50%;
     transform: translateX(-50%);
   }

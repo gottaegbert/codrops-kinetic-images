@@ -8,10 +8,7 @@
     width: 520px;
     z-index: 18; /* Higher z-index to stay above 3D content */
     text-align: center;
-    background: rgba(255, 255, 255, 0.95); /* Slight background to ensure visibility */
     backdrop-filter: blur(8px);
-    border-radius: 1rem;
-    padding: 1.5rem;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
@@ -33,9 +30,7 @@
     flex-direction: column;
     align-items: center;
     gap: clamp(0.25rem, 1vw, 0.5rem);
-    font-size: 0.75rem;
-    position: absolute;
-    padding-top: -10px;
+    font-size: clamp(0.85rem, 2vw, 1rem);
     font-weight: 300;
     cursor: pointer;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -56,7 +51,7 @@
 
 .buttonText {
     font-weight: 300;
-    font-size: 0.75rem;
+    font-size: small;
     text-transform: uppercase;
     letter-spacing: 0.15em;
 }
@@ -251,24 +246,27 @@
 // Medium screens (13-inch MacBook, tablets in landscape)
 @media (max-width: 1024px) and (min-width: 769px), (max-height: 768px) and (min-width: 769px) {
     .exhibitionCard {
-        top: 6rem; /* Higher positioning for medium screens */
+        top: 0rem; /* Higher positioning for medium screens */
         left: 0.5rem;
         width: 300px;
         z-index: 18;
     }
     
     .currentExhibitionContainer {
-        top: -20rem; /* 保持与header平齐 */
-        left: 50%; /* 保持居中 */
+        top: calc(0.75rem + env(safe-area-inset-top, 0));
+        left: 50%;
         transform: translateX(-50%);
+        align-items: center;
         width: auto;
-        max-width: 350px;
+        max-width: 360px;
     }
     
- 
+    .currentExhibitionButton {
+        padding-top: 0;
+    }
     
     .exhibitionDetails {
-        width: 350px;
+        width: 340px;
         left: 50%;
         transform: translateX(-50%);
     }
@@ -282,7 +280,7 @@
     // 当前展览按钮的移动端样式
     .currentExhibitionContainer {
         position: absolute;
-        top: 0.75rem;
+        top: calc(1rem + env(safe-area-inset-top, 0));
         left: 50%;
         transform: translateX(-50%);
         width: min(90vw, 320px);
@@ -294,14 +292,14 @@
     .currentExhibitionButton {
         width: 100%;
         justify-content: center;
-        
+        padding-top: 0;
     }
     
     .exhibitionDetails {
         width: 320px; /* 与按钮最大宽度一致 */
         left: 50%; /* 居中对齐 */
         transform: translateX(-50%);
-        top: calc(100% + 2rem);
+        top: calc(100% + 0.75rem);
     }
     
     .exhibitionContent {

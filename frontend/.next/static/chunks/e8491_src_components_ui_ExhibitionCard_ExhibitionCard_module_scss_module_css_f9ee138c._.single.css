@@ -166,11 +166,12 @@
   flex-direction: column;
   align-items: center;
   gap: clamp(.25rem, 1vw, .5rem);
-  padding-top: 3vh;
-  font-size: clamp(.85rem, 2vw, 1rem);
+  padding-top: -10px;
+  font-size: .75rem;
   font-weight: 300;
   transition: all .4s cubic-bezier(.4, 0, .2, 1);
   display: flex;
+  position: absolute;
 }
 
 .ExhibitionCard-module-scss-module__u3AODW__currentExhibitionButton:hover {
@@ -189,7 +190,7 @@
 .ExhibitionCard-module-scss-module__u3AODW__buttonText {
   text-transform: uppercase;
   letter-spacing: .15em;
-  font-size: small;
+  font-size: .75rem;
   font-weight: 300;
 }
 
@@ -394,12 +395,12 @@
   }
 
   .ExhibitionCard-module-scss-module__u3AODW__currentExhibitionContainer {
-    top: calc(1rem + env(safe-area-inset-top, 0));
     z-index: 1800;
     width: min(90vw, 320px);
     max-width: 320px;
     padding: 0 1rem;
     position: absolute;
+    top: .75rem;
     left: 50%;
     transform: translateX(-50%);
   }
@@ -411,7 +412,7 @@
 
   .ExhibitionCard-module-scss-module__u3AODW__exhibitionDetails {
     width: 320px;
-    top: calc(100% + .75rem);
+    top: calc(100% + 2rem);
     left: 50%;
     transform: translateX(-50%);
   }

@@ -187,10 +187,11 @@
   letter-spacing: .15em;
   white-space: nowrap;
   background: none;
+  flex-direction: column;
   align-items: center;
+  gap: clamp(.25rem, 1vw, .5rem);
   min-width: fit-content;
-  height: 2rem;
-  padding-top: 1.5rem;
+  height: auto;
   font-size: .75rem;
   font-weight: 300;
   transition: all .3s;
@@ -207,10 +208,11 @@
 }
 
 .Header-module-scss-module__HW1Erq__menuText {
-  font-size: inherit;
+  font-size: .75rem;
   font-weight: inherit;
   text-transform: inherit;
   letter-spacing: .15em;
+  line-height: 1;
 }
 
 .Header-module-scss-module__HW1Erq__expandIcon {
@@ -218,6 +220,8 @@
   width: 20px;
   height: 20px;
   transition: transform .3s;
+  position: absolute;
+  top: 15px;
 }
 
 .Header-module-scss-module__HW1Erq__expandIcon.Header-module-scss-module__HW1Erq__rotated {
@@ -352,9 +356,15 @@
   .Header-module-scss-module__HW1Erq__menuToggle {
     z-index: 2001;
     pointer-events: auto;
+    text-align: center;
+    align-items: center;
     margin-left: auto;
     padding-top: 0;
     position: relative;
+  }
+
+  .Header-module-scss-module__HW1Erq__menuText {
+    text-align: center;
   }
 
   .Header-module-scss-module__HW1Erq__languageContainer, .Header-module-scss-module__HW1Erq__navigation, .Header-module-scss-module__HW1Erq__navLink {

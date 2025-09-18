@@ -50,9 +50,10 @@
 // Menu Toggle Button
 .menuToggle {
     display: inline-flex;
+    flex-direction: column;
     align-items: center;
-    height: 2rem;
-    padding-top: 1.5rem;
+    gap: clamp(0.25rem, 1vw, 0.5rem);
+    height: auto;
     background: transparent;
     color: #000;
     cursor: pointer;
@@ -75,15 +76,18 @@
 }
 
 .menuText {
-    font-size: inherit;
+    font-size: 0.75rem;
     font-weight: inherit;
     text-transform: inherit;
     letter-spacing: 0.15em;
+    line-height: 1;
 }
 
 .expandIcon {
     width: 20px;
     height: 20px;
+    position: absolute;
+    top: 15px;
     transition: transform 0.3s ease;
     flex-shrink: 0;
 
@@ -236,6 +240,12 @@
         position: relative;
         z-index: 2001;
         pointer-events: auto;
+        align-items: center;
+        text-align: center;
+    }
+
+    .menuText {
+        text-align: center;
     }
 
     .languageContainer {

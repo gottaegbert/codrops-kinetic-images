@@ -33,8 +33,9 @@
     flex-direction: column;
     align-items: center;
     gap: clamp(0.25rem, 1vw, 0.5rem);
-    padding-top: 3vh;
-    font-size: clamp(0.85rem, 2vw, 1rem);
+    font-size: 0.75rem;
+    position: absolute;
+    padding-top: -10px;
     font-weight: 300;
     cursor: pointer;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -55,7 +56,7 @@
 
 .buttonText {
     font-weight: 300;
-    font-size: small;
+    font-size: 0.75rem;
     text-transform: uppercase;
     letter-spacing: 0.15em;
 }
@@ -281,7 +282,7 @@
     // 当前展览按钮的移动端样式
     .currentExhibitionContainer {
         position: absolute;
-        top: calc(1rem + env(safe-area-inset-top, 0));
+        top: 0.75rem;
         left: 50%;
         transform: translateX(-50%);
         width: min(90vw, 320px);
@@ -300,7 +301,7 @@
         width: 320px; /* 与按钮最大宽度一致 */
         left: 50%; /* 居中对齐 */
         transform: translateX(-50%);
-        top: calc(100% + 0.75rem);
+        top: calc(100% + 2rem);
     }
     
     .exhibitionContent {

@@ -52,14 +52,17 @@
 
 .topBar {
     position: absolute;
-    top: 16px;
-    left: 16px;
     top: calc(16px + env(safe-area-inset-top, 0));
-    left: calc(16px + env(safe-area-inset-left, 0));
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 12px;
     z-index: 10;
+    padding: 0 16px;
+    width: auto;
+    min-width: 0;
 }
 
 .closeButton {
@@ -356,7 +359,7 @@
     }
 
     .topBar {
-        left: calc(24px + env(safe-area-inset-left, 0));
+        top: calc(20px + env(safe-area-inset-top, 0));
     }
 
     .content {
@@ -398,10 +401,7 @@
     }
 
     .topBar {
-        top: 12px;
-        left: 12px;
-        top: calc(12px + env(safe-area-inset-top, 0));
-        left: calc(12px + env(safe-area-inset-left, 0));
+        top: calc(14px + env(safe-area-inset-top, 0));
     }
 
     .content {

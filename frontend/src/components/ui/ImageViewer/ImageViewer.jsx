@@ -80,7 +80,24 @@ const ImageViewer = ({
         }
     };
 
-    // 不需要细节图内部导航
+    const handleDetailNavigation = (direction) => {
+        if (!detailImages.length) return;
+
+        setCurrentDetailIndex((prev) => {
+            if (direction === 'next') {
+                return Math.min(prev + 1, detailImages.length - 1);
+            }
+
+            if (direction === 'prev') {
+                return Math.max(prev - 1, 0);
+            }
+
+            return prev;
+        });
+
+        setIsLoading(true);
+        setImageError(false);
+    };
 
     const currentImage = images[currentImageIndex];
     const currentDetailImage = detailImages[currentDetailIndex];

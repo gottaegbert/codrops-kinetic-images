@@ -1,11 +1,13 @@
 'use client';
 
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useLenis } from '@/contexts/LenisContext';
 import { useHomeContent } from '@/hooks/useHomeContent';
 import styles from './ExhibitionCard.module.scss';
 
 export default function ExhibitionCard({ mobile = false }) {
     const { language } = useLanguage();
+    const lenis = useLenis();
     const { currentExhibition } = useHomeContent();
     
     // Format date range for display
@@ -30,10 +32,14 @@ export default function ExhibitionCard({ mobile = false }) {
     const handleLearnMoreClick = () => {
         const contentSection = document.querySelector('[data-content-section]');
         if (contentSection) {
-            contentSection.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start',
-            });
+            if (lenis) {
+                lenis.scrollTo(contentSection);
+            } else {
+                contentSection.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start',
+                });
+            }
         }
     };
 

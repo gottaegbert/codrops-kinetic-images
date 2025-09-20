@@ -1,13 +1,13 @@
 {
-  "[project]/frontend/src/webgl/Scene.jsx [app-client] (ecmascript, next/dynamic entry)": {
-    "id": "[project]/frontend/src/webgl/Scene.jsx [app-client] (ecmascript, next/dynamic entry)",
+  "[project]/src/webgl/Scene.jsx [app-client] (ecmascript, next/dynamic entry)": {
+    "id": "[project]/src/webgl/Scene.jsx [app-client] (ecmascript, next/dynamic entry)",
     "files": [
-      "static/chunks/node_modules_three_build_three_module_311a3a1e.js",
-      "static/chunks/node_modules_react-reconciler_25c8ec02._.js",
-      "static/chunks/node_modules_@react-three_fiber_dist_34711a1c._.js",
-      "static/chunks/node_modules_d24b6245._.js",
-      "static/chunks/frontend_src_webgl_dad3e146._.js",
-      "static/chunks/frontend_src_webgl_Scene_jsx_d9384693._.js"
+      "static/chunks/43938_react-reconciler_90f8f6d4._.js",
+      "static/chunks/06296_three_build_three_module_3f8813aa.js",
+      "static/chunks/a5e9a_@react-three_fiber_dist_2bf16ad4._.js",
+      "static/chunks/node_modules__pnpm_6c33fcae._.js",
+      "static/chunks/src_webgl_b7ccfe64._.js",
+      "static/chunks/src_webgl_Scene_jsx_d7a0fd23._.js"
     ]
   }
 }

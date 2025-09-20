@@ -25,6 +25,7 @@
 # production
 /build
 /dist
+.sanity-config/
 
 # misc
 .DS_Store

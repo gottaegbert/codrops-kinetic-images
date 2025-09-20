@@ -1,10 +1,12 @@
 import '@/styles/global.scss';
+import 'lenis/dist/lenis.css';
 
 import { Suspense } from 'react';
 import meta from '@/data/metadata';
 import fontFaces from '@/assets/fonts/font-faces';
 import { Layout } from '@/components/layouts/Layout';
 import { LanguageProvider } from '@/contexts/LanguageContext';
+import { LenisProvider } from '@/contexts/LenisContext';
 
 export const metadata = meta;
 
@@ -21,9 +23,11 @@ export default function RootLayout({ children }) {
             </head>
             <body className={`${fontFaces}`}>
                 <LanguageProvider>
-                    <Suspense>
-                        <Layout>{children}</Layout>
-                    </Suspense>
+                    <LenisProvider>
+                        <Suspense>
+                            <Layout>{children}</Layout>
+                        </Suspense>
+                    </LenisProvider>
                 </LanguageProvider>
             </body>
         </html>

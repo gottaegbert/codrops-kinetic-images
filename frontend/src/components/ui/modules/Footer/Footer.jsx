@@ -3,23 +3,29 @@
 import { useCallback } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import styles from './Footer.module.scss';
+import { useLenis } from '@/contexts/LenisContext';
 
 function Footer() {
     const router = useRouter();
     const pathname = usePathname();
+    const lenis = useLenis();
 
     const handleBrandClick = useCallback(
         (event) => {
             event.preventDefault();
 
             if (pathname === '/') {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                if (lenis) {
+                    lenis.scrollTo(0);
+                } else {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
                 return;
             }
 
             router.push('/', { scroll: true });
         },
-        [pathname, router]
+        [lenis, pathname, router]
     );
 
     return (

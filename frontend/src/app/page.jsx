@@ -1,6 +1,7 @@
 'use client';
 
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useLenis } from '@/contexts/LenisContext';
 import { useHomeContent } from '@/hooks/useHomeContent';
 import ExhibitionContentRenderer from '@/components/ui/ExhibitionContentRenderer';
 import PDFDownload from '@/components/ui/PDFDownload/PDFDownload';
@@ -24,6 +25,7 @@ const FINAL_SPACING = 1.0; // Final spacing between cards
 function CurrentExhibitionButton() {
     const [isExpanded, setIsExpanded] = useState(false);
     const { language, t } = useLanguage();
+    const lenis = useLenis();
     const { currentExhibition } = useHomeContent();
 
     const formatDateRange = (startDate, endDate) => {
@@ -51,10 +53,14 @@ function CurrentExhibitionButton() {
     const handleLearnMoreClick = () => {
         const contentSection = document.querySelector('[data-content-section]');
         if (contentSection) {
-            contentSection.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start',
-            });
+            if (lenis) {
+                lenis.scrollTo(contentSection);
+            } else {
+                contentSection.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start',
+                });
+            }
         }
         setIsExpanded(false);
     };

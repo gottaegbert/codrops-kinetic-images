@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
+import { useCallback, useLayoutEffect, useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { usePathname } from 'next/navigation';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -10,10 +10,28 @@ import Splash from '@/components/ui/modules/Splash/Splash';
 
 const Scene = dynamic(() => import('@/webgl/Scene'), { ssr: false });
 
+const SPLASH_STORAGE_KEY = 'makaleidosSplashSeen';
+
 export function Layout({ children }) {
     const ref = useRef(null);
     const pathname = usePathname();
     const { t } = useLanguage();
+    const [shouldShowSplash, setShouldShowSplash] = useState(false);
+    const handleSplashFinish = useCallback(() => {
+        setShouldShowSplash(false);
+    }, []);
+
+    useLayoutEffect(() => {
+        if (typeof window === 'undefined') return undefined;
+        const hasSeenSplash = sessionStorage.getItem(SPLASH_STORAGE_KEY) === 'true';
+
+        if (!hasSeenSplash) {
+            sessionStorage.setItem(SPLASH_STORAGE_KEY, 'true');
+            setShouldShowSplash(true);
+        }
+
+        return undefined;
+    }, []);
 
     return (
         <div
@@ -27,7 +45,7 @@ export function Layout({ children }) {
           
             }}
         >
-            {pathname === '/' && <Splash />}
+            {pathname === '/' && shouldShowSplash && <Splash onFinish={handleSplashFinish} />}
             <Header>
                 {/* <div
                     style={{

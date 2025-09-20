@@ -1,9 +1,9 @@
 /* [project]/frontend/src/components/ui/modules/Footer/Footer.module.scss.module.css [app-client] (css) */
 .Footer-module-scss-module__tNFpBq__footer {
+  background: var(--color-text);
   color: #fffc;
-  background: #0f172a;
   margin-top: auto;
-  padding: 1.75rem 1.5rem;
+  padding: 1rem;
 }
 
 .Footer-module-scss-module__tNFpBq__inner {
@@ -11,7 +11,6 @@
   justify-content: space-between;
   align-items: center;
   gap: 1rem 1.5rem;
-  max-width: 1200px;
   margin: 0 auto;
   display: flex;
 }

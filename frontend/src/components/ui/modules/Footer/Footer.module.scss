@@ -1,12 +1,11 @@
 .footer {
     margin-top: auto;
-    background: #0f172a;
+    background: var(--color-text);
     color: rgba(255, 255, 255, 0.8);
-    padding: 1.75rem 1.5rem;
+    padding: 1rem 1rem;
 }
 
 .inner {
-    max-width: 1200px;
     margin: 0 auto;
     display: flex;
     flex-wrap: wrap;

@@ -1,12 +1,35 @@
+'use client';
+
+import { useCallback } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
 import styles from './Footer.module.scss';
 
 function Footer() {
+    const router = useRouter();
+    const pathname = usePathname();
+
+    const handleBrandClick = useCallback(
+        (event) => {
+            event.preventDefault();
+
+            if (pathname === '/') {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                return;
+            }
+
+            router.push('/', { scroll: true });
+        },
+        [pathname, router]
+    );
+
     return (
         <footer className={styles.footer}>
             <div className={styles.inner}>
                 <div className={styles.brandBlock}>
-                    <span className={styles.brand}>MaKaleidos</span>
-                    <span className={styles.tagline}>Digital exhibitions · Works on paper · Small-scale art</span>
+                    <a href="/" onClick={handleBrandClick} className={styles.brand}>
+                        MaKaleidos
+                    </a>
+                    <span className={styles.tagline}>| Online Gallery | In small – On paper – In voices</span>
                 </div>
 
                 <div className={styles.meta}>
@@ -21,6 +44,14 @@ function Footer() {
                             className={styles.contactLink}
                         >
                             Instagram
+                        </a>
+                        <a
+                            href="#"
+                            target="_blank"
+                            rel="noreferrer"
+                            className={styles.contactLink}
+                        >
+                            Wechat
                         </a>
                     </div>
                     <small className={styles.copy}>© 2025 MaKaleidos</small>

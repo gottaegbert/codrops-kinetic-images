@@ -267,6 +267,10 @@
     // }
 }
 
+.navLinkActive {
+    color: var(--color-green);
+}
+
 // Medium screens (13-inch MacBook, tablets in landscape)
 @media (max-width: 1024px) and (min-width: 769px), (max-height: 768px) and (min-width: 769px) {
     .page {

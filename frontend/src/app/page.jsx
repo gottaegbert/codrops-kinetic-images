@@ -11,7 +11,7 @@ import exhibitionStyles from '@/components/ui/ExhibitionCard/ExhibitionCard.modu
 import { View } from '@/webgl/View';
 import { OrthographicCamera, useTexture } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, useMemo } from 'react';
 import { easing } from 'maath';
 import * as THREE from 'three';
 import ExhibitionCard from '@/components/ui/ExhibitionCard/ExhibitionCard';
@@ -733,7 +733,9 @@ export default function Home() {
     const [showScrollHint, setShowScrollHint] = useState(true);
     const [imageViewerOpen, setImageViewerOpen] = useState(false);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    const [activeNavSection, setActiveNavSection] = useState(null);
     const viewRef = useRef();
+    const lenis = useLenis();
 
     // 导入语言上下文
     const { t, language } = useLanguage();
@@ -794,6 +796,126 @@ export default function Home() {
 
     const handlePrevImage = (index) => {
         setCurrentImageIndex(index);
+    };
+
+    const navItems = useMemo(() => {
+        const items = [
+            {
+                id: 'pressRelease',
+                label: t('home.pressRelease') || 'Press Release',
+                enabled: currentExhibition?.pressRelease?.[language],
+            },
+            {
+                id: 'interview',
+                label: t('home.interview') || 'Interview',
+                enabled:
+                    currentExhibition?.interview?.introduction?.[language] ||
+                    currentExhibition?.interview?.content?.[language],
+            },
+            {
+                id: 'statement',
+                label: t('home.statement') || 'Artist Statement',
+                enabled: currentExhibition?.statement?.[language],
+            },
+            {
+                id: 'biography',
+                label: t('home.biography') || 'Biography',
+                enabled: currentExhibition?.biography?.[language],
+            },
+            {
+                id: 'selectedExhibition',
+                label: t('home.selectedExhibition') || 'Selected Exhibition',
+                enabled: currentExhibition?.selectedExhibition?.[language],
+            },
+            {
+                id: 'selectedPress',
+                label: t('home.selectedPress') || 'Selected Press',
+                enabled: currentExhibition?.selectedPress?.[language],
+            },
+            {
+                id: 'artistResume',
+                label: t('exhibition.artistResume') || 'Artist Resume',
+                enabled: currentExhibition?.artistResume,
+            },
+        ];
+
+        return items.filter((item) => Boolean(item.enabled));
+    }, [currentExhibition, language, t]);
+
+    useEffect(() => {
+        if (navItems.length === 0) {
+            setActiveNavSection(null);
+            return;
+        }
+
+        setActiveNavSection((prev) => {
+            if (prev && navItems.some((item) => item.id === prev)) {
+                return prev;
+            }
+
+            return navItems[0].id;
+        });
+    }, [navItems]);
+
+    useEffect(() => {
+        if (!navItems.length) {
+            return undefined;
+        }
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                const visibleEntry = entries
+                    .filter((entry) => entry.isIntersecting)
+                    .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+
+                if (visibleEntry) {
+                    setActiveNavSection((current) => {
+                        const next = visibleEntry.target.id;
+                        return current === next ? current : next;
+                    });
+                }
+            },
+            {
+                root: null,
+                rootMargin: '-45% 0px -45% 0px',
+                threshold: [0.1, 0.25, 0.5, 0.75],
+            }
+        );
+
+        const observedSections = navItems
+            .map(({ id }) => document.getElementById(id))
+            .filter(Boolean);
+
+        observedSections.forEach((section) => observer.observe(section));
+
+        return () => {
+            observedSections.forEach((section) => observer.unobserve(section));
+            observer.disconnect();
+        };
+    }, [navItems]);
+
+    const handleNavigationClick = (event, sectionId) => {
+        event.preventDefault();
+        const targetSection = document.getElementById(sectionId);
+
+        if (!targetSection) {
+            return;
+        }
+
+        if (lenis) {
+            lenis.scrollTo(targetSection);
+        } else {
+            targetSection.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start',
+            });
+        }
+
+        setActiveNavSection(sectionId);
+
+        if (typeof window !== 'undefined') {
+            window.history.replaceState(null, '', `#${sectionId}`);
+        }
     };
 
     // 自动隐藏滚动提示
@@ -892,42 +1014,18 @@ export default function Home() {
                     <div className={styles.pageNavigation}>
                         <span className={styles.navLabel}>{t('home.onThisPage') || 'On this page:'}</span>
                         <div className={styles.navLinks}>
-                            {currentExhibition?.pressRelease?.[language] && (
-                                <a href="#pressRelease" className={styles.navLink}>
-                                    {t('home.pressRelease') || 'Press Release'}
+                            {navItems.map(({ id, label }) => (
+                                <a
+                                    key={id}
+                                    href={`#${id}`}
+                                    className={`${styles.navLink} ${
+                                        activeNavSection === id ? styles.navLinkActive : ''
+                                    }`}
+                                    onClick={(event) => handleNavigationClick(event, id)}
+                                >
+                                    {label}
                                 </a>
-                            )}
-                            {(currentExhibition?.interview?.introduction?.[language] || currentExhibition?.interview?.content?.[language]) && (
-                                <a href="#interview" className={styles.navLink}>
-                                    {t('home.interview') || 'Interview'}
-                                </a>
-                            )}
-                            {currentExhibition?.statement?.[language] && (
-                                <a href="#statement" className={styles.navLink}>
-                                    {t('home.statement') || 'Artist Statement'}
-                                </a>
-                            )}
-                            {currentExhibition?.biography?.[language] && (
-                                <a href="#biography" className={styles.navLink}>
-                                    {t('home.biography') || 'Biography'}
-                                </a>
-                            )}
-                            {currentExhibition?.selectedExhibition?.[language] && (
-                                <a href="#selectedExhibition" className={styles.navLink}>
-                                    {t('home.selectedExhibition') || 'Selected Exhibition'}
-                                </a>
-                            )}
-                            {currentExhibition?.selectedPress?.[language] && (
-                                <a href="#selectedPress" className={styles.navLink}>
-                                    {t('home.selectedPress') || 'Selected Press'}
-                                </a>
-                            )}
-                            {currentExhibition?.artistResume && (
-                                <a href="#artistResume" className={styles.navLink}>
-                                    {t('exhibition.artistResume') || 'Artist Resume'}
-                                </a>
-                            )}
-
+                            ))}
                         </div>
                     </div>
 

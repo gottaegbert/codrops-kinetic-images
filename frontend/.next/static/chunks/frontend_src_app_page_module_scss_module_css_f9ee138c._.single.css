@@ -318,15 +318,15 @@
   text-align: left;
   border-top: 1px solid #5a6c7d33;
   border-bottom: 1px solid #5a6c7d33;
-  justify-content: flex-start;
-  align-items: flex-start;
+  align-items: center;
   gap: clamp(1rem, 3vw, 2rem);
   margin: 0 0 clamp(1rem, 3vw, 2rem);
-  padding: clamp(.25rem, 1vw, .5rem) clamp(.5rem, 4vw, 1.25rem);
+  padding: clamp(.2rem, 6vw, .5rem) clamp(.5rem, 4vw, 1rem);
   display: flex;
 }
 
 .page-module-scss-module__moF6Tq__navLabel {
+  text-align: center;
   color: #5a6c7d;
   text-transform: uppercase;
   letter-spacing: .15em;

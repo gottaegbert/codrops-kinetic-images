@@ -209,11 +209,11 @@
 
 .pageNavigation {
     display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
+    align-items: center;
     gap: clamp(1rem, 3vw, 2rem);
     margin: 0rem 0 clamp(1rem, 3vw, 2rem) 0;
-    padding: clamp(0.25rem, 1vw, 0.5rem) clamp(0.5rem, 4vw, 1.25rem);
+    // padding: clamp(0.25rem, 1vw, 0.5rem) clamp(0.5rem, 4vw, 1.25rem);
+    padding: clamp(0.2rem, 6vw, 0.5rem) clamp(0.5rem, 4vw, 1rem);
     border-top: 1px solid rgba(90, 108, 125, 0.2);
     border-bottom: 1px solid rgba(90, 108, 125, 0.2);
     text-align: left;
@@ -222,6 +222,7 @@
 .navLabel {
     font-size: clamp(0.75rem, 1.8vw, 0.9rem);
     font-weight: 600;
+    text-align: center;
     color: #5a6c7d;
     text-transform: uppercase;
     letter-spacing: 0.15em;

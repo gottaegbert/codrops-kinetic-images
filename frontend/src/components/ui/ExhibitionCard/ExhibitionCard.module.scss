@@ -253,12 +253,15 @@
     }
     
     .currentExhibitionContainer {
-        top: calc(0.75rem + env(safe-area-inset-top, 0));
+        position: fixed;
+        top: calc(0.6rem + env(safe-area-inset-top, 0));
         left: 50%;
         transform: translateX(-50%);
         align-items: center;
-        width: auto;
-        max-width: 360px;
+        width: min(85vw, 360px);
+        pointer-events: auto;
+        margin: 0 auto;
+        z-index: 3200;
     }
     
     .currentExhibitionButton {

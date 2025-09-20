@@ -370,10 +370,13 @@
   }
 
   .ExhibitionCard-module-scss-module__u3AODW__currentExhibitionContainer {
-    top: calc(.75rem + env(safe-area-inset-top, 0));
+    top: calc(.6rem + env(safe-area-inset-top, 0));
+    pointer-events: auto;
+    z-index: 3200;
     align-items: center;
-    width: auto;
-    max-width: 360px;
+    width: min(85vw, 360px);
+    margin: 0 auto;
+    position: fixed;
     left: 50%;
     transform: translateX(-50%);
   }

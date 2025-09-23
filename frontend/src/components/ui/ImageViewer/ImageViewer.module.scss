@@ -53,10 +53,11 @@
 .topBar {
     position: absolute;
     top: calc(16px + env(safe-area-inset-top, 0));
-    left: calc(48px + env(safe-area-inset-left, 0));
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
     gap: 12px;
     z-index: 10;
     padding: 0;
@@ -356,7 +357,8 @@
     }
 
     .topBar {
-        left: calc(24px + env(safe-area-inset-left, 0));
+        top: calc(12px + env(safe-area-inset-top, 0));
+        left: 50%;
     }
 
     .content {

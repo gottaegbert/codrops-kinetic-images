@@ -19,10 +19,16 @@ export function LenisProvider({ children }) {
             return undefined;
         }
 
+        // Detect coarse pointer (touch) devices
+        const isCoarsePointer = window.matchMedia('(pointer: coarse)').matches;
+
         const instance = new Lenis({
             autoRaf: true,
             smoothWheel: true,
-            syncTouch: true,
+            // On touch devices, enable smoothTouch, reduce touch multiplier, and avoid syncing native touch
+            smoothTouch: isCoarsePointer,
+            syncTouch: isCoarsePointer ? false : true,
+            touchMultiplier: isCoarsePointer ? 0.6 : 1,
         });
 
         setLenis(instance);

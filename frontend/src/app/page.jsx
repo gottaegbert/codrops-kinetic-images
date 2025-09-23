@@ -522,50 +522,81 @@ function Cards({ onFirstHover, currentSpacing, viewRef, onScrollStart, onCardCli
             if (!viewElement) return;
 
             const rect = viewElement.getBoundingClientRect();
+            const touchX = e.touches[0].clientX;
             const touchY = e.touches[0].clientY;
-            const isOverView = touchY >= rect.top && touchY <= rect.bottom;
+            const isOverView =
+                touchX >= rect.left &&
+                touchX <= rect.right &&
+                touchY >= rect.top &&
+                touchY <= rect.bottom;
 
             if (isOverView) {
-                viewElement.touchStartY = e.touches[0].clientY;
+                viewElement.touchStartX = touchX;
+                viewElement.touchStartY = touchY;
+                viewElement.lastTouchX = touchX;
+                viewElement.lastTouchY = touchY;
+                viewElement.isHorizontalSwipe = undefined; // undecided until movement exceeds threshold
             }
         };
 
         const handleTouchMove = (e) => {
             const viewElement = viewRef?.current;
-            if (!viewElement || !viewElement.touchStartY) return;
+            if (!viewElement || viewElement.touchStartX == null || viewElement.touchStartY == null) return;
 
             const rect = viewElement.getBoundingClientRect();
+            const touchX = e.touches[0].clientX;
             const touchY = e.touches[0].clientY;
-            const isOverView = touchY >= rect.top && touchY <= rect.bottom;
+            const isOverView =
+                touchX >= rect.left &&
+                touchX <= rect.right &&
+                touchY >= rect.top &&
+                touchY <= rect.bottom;
 
             if (!isOverView) return;
 
-            const deltaY = viewElement.touchStartY - touchY;
-            const scrollSensitivity = 0.008;
+            const dx = touchX - viewElement.lastTouchX;
+            const dy = touchY - viewElement.lastTouchY;
 
-            const newOffset = scrollOffset - deltaY * scrollSensitivity;
-            const clampedOffset = Math.max(maxScrollRight, Math.min(maxScrollLeft, newOffset));
-
-            // 检查是否在边界处
-            const atLeftBoundary = scrollOffset >= maxScrollLeft && deltaY < 0;
-            const atRightBoundary = scrollOffset <= maxScrollRight && deltaY > 0;
-
-            // 只有当不在边界或者滚动方向不会超出边界时才阻止默认行为
-            if (!atLeftBoundary && !atRightBoundary) {
-                e.preventDefault();
-                setScrollOffset(clampedOffset);
-                viewElement.touchStartY = touchY; // 更新起始位置
-                // 通知父组件用户开始滚动
-                if (onScrollStart) {
-                    onScrollStart();
+            // Decide gesture orientation once movement exceeds small threshold
+            const threshold = 6; // px
+            if (viewElement.isHorizontalSwipe === undefined) {
+                const totalDx = Math.abs(touchX - viewElement.touchStartX);
+                const totalDy = Math.abs(touchY - viewElement.touchStartY);
+                if (totalDx > threshold || totalDy > threshold) {
+                    viewElement.isHorizontalSwipe = totalDx > totalDy;
                 }
-            } 
+            }
+
+            // Only hijack scroll when it's a horizontal swipe
+            if (viewElement.isHorizontalSwipe) {
+                const scrollSensitivity = 0.02; // map px movement to world offset
+                const newOffset = scrollOffset + dx * scrollSensitivity; // swipe right moves gallery right
+                const clampedOffset = Math.max(maxScrollRight, Math.min(maxScrollLeft, newOffset));
+
+                // 边界检查
+                const atLeftBoundary = scrollOffset >= maxScrollLeft && dx > 0;
+                const atRightBoundary = scrollOffset <= maxScrollRight && dx < 0;
+
+                if (!atLeftBoundary && !atRightBoundary) {
+                    e.preventDefault();
+                    setScrollOffset(clampedOffset);
+                    if (onScrollStart) onScrollStart();
+                }
+            }
+
+            // Update last positions regardless to keep tracking smooth
+            viewElement.lastTouchX = touchX;
+            viewElement.lastTouchY = touchY;
         };
 
         const handleTouchEnd = () => {
             const viewElement = viewRef?.current;
             if (viewElement) {
+                delete viewElement.touchStartX;
                 delete viewElement.touchStartY;
+                delete viewElement.lastTouchX;
+                delete viewElement.lastTouchY;
+                delete viewElement.isHorizontalSwipe;
             }
         };
 

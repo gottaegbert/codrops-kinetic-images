@@ -477,25 +477,12 @@ function Cards({ onFirstHover, currentSpacing, viewRef, onScrollStart, onCardCli
     }, [currentSpacing, maxScrollLeft, dynamicCount]);
 
     useEffect(() => {
+        const viewElement = viewRef?.current;
+        if (!viewElement) return undefined;
+
         const handleWheel = (event) => {
             const deltaY = event.deltaY;
             const scrollSensitivity = 0.01;
-
-            // Check if mouse is over the 3D view area
-            const viewElement = viewRef?.current;
-            if (!viewElement) return;
-
-            const rect = viewElement.getBoundingClientRect();
-            const mouseX = event.clientX;
-            const mouseY = event.clientY;
-            const isOverView =
-                mouseX >= rect.left &&
-                mouseX <= rect.right &&
-                mouseY >= rect.top &&
-                mouseY <= rect.bottom;
-
-            // If not over the 3D view, allow normal scrolling
-            if (!isOverView) return;
 
             // 反转滚动方向：向下滚动（deltaY > 0）向右移动（减少offset）
             const newOffset = scrollOffset - deltaY * scrollSensitivity;
@@ -507,14 +494,17 @@ function Cards({ onFirstHover, currentSpacing, viewRef, onScrollStart, onCardCli
 
             // 只有当不在边界或者滚动方向不会超出边界时才阻止默认行为
             if (!atLeftBoundary && !atRightBoundary) {
-                event.preventDefault();
+                if (event.cancelable) {
+                    event.preventDefault();
+                }
+                event.stopPropagation();
                 setScrollOffset(clampedOffset);
                 // 通知父组件用户开始滚动
                 if (onScrollStart) {
                     onScrollStart();
                 }
             }
-            // 在边界处且继续向边界方向滚动时，允许页面正常滚动
+            // 在边界处且继续向边界方向滚动时，允许事件冒泡，让Lenis接管
         };
 
         const handleTouchStart = (e) => {
@@ -600,19 +590,19 @@ function Cards({ onFirstHover, currentSpacing, viewRef, onScrollStart, onCardCli
             }
         };
 
-        // Use window event listener to capture all scroll events
-        window.addEventListener('wheel', handleWheel, { passive: false });
+        // Attach listeners directly on the WebGL view so we can selectively stop propagation
+        viewElement.addEventListener('wheel', handleWheel, { passive: false });
         window.addEventListener('touchstart', handleTouchStart, { passive: true });
         window.addEventListener('touchmove', handleTouchMove, { passive: false });
         window.addEventListener('touchend', handleTouchEnd, { passive: true });
 
         return () => {
-            window.removeEventListener('wheel', handleWheel);
+            viewElement.removeEventListener('wheel', handleWheel);
             window.removeEventListener('touchstart', handleTouchStart);
             window.removeEventListener('touchmove', handleTouchMove);
             window.removeEventListener('touchend', handleTouchEnd);
         };
-    }, [maxScrollLeft, maxScrollRight, scrollOffset, viewRef]);
+    }, [maxScrollLeft, maxScrollRight, onScrollStart, scrollOffset, viewRef]);
 
     useFrame((_, delta) => {
         if (groupRef.current) {

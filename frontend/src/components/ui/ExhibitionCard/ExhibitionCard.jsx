@@ -60,7 +60,7 @@ export default function ExhibitionCard({ mobile = false }) {
                 </div>
 
                 <h4 className={styles.exhibitionName}>
-                    {currentExhibition?.title || 'The Harmonizing Gaze'}
+                    {currentExhibition?.title || 'The Harmonising Gaze'}
                 </h4>
 
                 <div className={styles.details}>

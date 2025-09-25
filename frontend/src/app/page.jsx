@@ -98,7 +98,7 @@ function CurrentExhibitionButton() {
                         </div>
 
                         <h4 className={exhibitionStyles.exhibitionName}>
-                            {currentExhibition?.title || 'The Harmonizing Gaze'}
+                            {currentExhibition?.title || 'The Harmonising Gaze'}
                         </h4>
 
                         <div className={exhibitionStyles.details}>

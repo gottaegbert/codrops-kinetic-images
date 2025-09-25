@@ -269,7 +269,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 2.5rem;
+        gap: 2rem;
         flex: 1;
         justify-content: center;
     }
@@ -282,8 +282,8 @@
         display: flex;
         justify-content: center;
         width: 100%;
-        margin-top: auto;
-        padding-bottom: calc(1.75rem + env(safe-area-inset-bottom, 0));
+        margin-top: 0.5rem; // slight separation from nav links
+        padding-bottom: calc(1.5rem + env(safe-area-inset-bottom, 0));
     }
 }
 

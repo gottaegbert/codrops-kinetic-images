@@ -135,7 +135,7 @@ function Header({ children }) {
 
                 {children}
             </div>
-            {/* Language Switcher - Separate Button on the Right */}
+            {/* Language Switcher - Separate on Desktop/Tablets */}
             <div className={styles.languageContainer}>
                 <LanguageSwitcher />
             </div>
@@ -148,10 +148,10 @@ function Header({ children }) {
                             styles.mobileNavLinkActive,
                             styles.mobileNavLinkDisabled
                         )}
+                        <div className={styles.mobileLanguage}>
+                            <LanguageSwitcher />
+                        </div>
                     </nav>
-                    <div className={styles.mobileLanguage}>
-                        <LanguageSwitcher />
-                    </div>
                 </div>
             )}
 

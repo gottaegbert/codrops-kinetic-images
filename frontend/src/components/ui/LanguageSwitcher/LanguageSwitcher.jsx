@@ -8,14 +8,13 @@ export default function LanguageSwitcher() {
 
     return (
         <div className={styles.languageSwitcher}>
+    
             <button
                 className={`${styles.langButton} ${language === 'en' ? styles.active : ''}`}
                 onClick={() => changeLanguage('en')}
                 aria-label="Switch to English"
             >
-                <span className={styles.flag} role="img" aria-hidden="true">
-                    🇬🇧
-                </span>
+                    Language:EN
                 <span className={styles.visuallyHidden}>English</span>
             </button>
             <span className={styles.separator}>|</span>
@@ -24,9 +23,7 @@ export default function LanguageSwitcher() {
                 onClick={() => changeLanguage('zh')}
                 aria-label="切换到中文"
             >
-                <span className={styles.flag} role="img" aria-hidden="true">
-                    🇨🇳
-                </span>
+                    语言:中文
                 <span className={styles.visuallyHidden}>中文</span>
             </button>
         </div>

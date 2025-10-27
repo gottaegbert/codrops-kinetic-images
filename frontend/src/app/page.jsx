@@ -212,7 +212,7 @@ function Card({
     }
 
     useFrame((_, delta) => {
-        const f = hovered ? 1.25 : active ? 1.25 : 1;
+        const f = hovered ? 1.2 : active ? 1.2 : 1;
         const targetOpacity = hovered ? 1.0 : 0.85; // Increase opacity on hover
 
         easing.damp3(ref.current.position, [0, 0, hovered ? -0.9 : 0], 0.2, delta);

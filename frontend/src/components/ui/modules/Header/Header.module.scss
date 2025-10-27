@@ -48,17 +48,15 @@
 .menuToggle {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     height: 2rem;
+    width: 2rem;
     background: transparent;
     color: #000;
     cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 0.75rem;
-    font-weight: 300;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    min-width: fit-content;
-    white-space: nowrap;
+    transition: color 0.3s ease;
+    border: none;
+    padding: 0;
 
     &:hover {
         color: var(--color-green);
@@ -66,25 +64,60 @@
 
     &.menuToggleActive {
         color: var(--color-green);
-        font-weight: 500;
+    }
+
+    &:focus-visible {
+        outline: none;
+        box-shadow: 0 0 0 2px currentColor;
+        border-radius: 999px;
     }
 }
 
-.menuText {
-    font-size: inherit;
-    font-weight: inherit;
-    text-transform: inherit;
-    letter-spacing: 0.15em;
+.hamburger {
+    position: relative;
+    width: 1.75rem;
+    height: 1.1rem;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.expandIcon {
-    width: 20px;
-    height: 20px;
-    transition: transform 0.3s ease;
-    flex-shrink: 0;
+.hamburgerBar {
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background-color: currentColor;
+    border-radius: 999px;
+    transition: transform 0.3s ease, opacity 0.3s ease, top 0.3s ease, bottom 0.3s ease;
 
-    &.rotated {
-        transform: rotate(180deg);
+    &:nth-child(1) {
+        top: 0;
+    }
+
+    &:nth-child(2) {
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    &:nth-child(3) {
+        bottom: 0;
+    }
+}
+
+.hamburgerActive {
+    .hamburgerBar:nth-child(1) {
+        top: 50%;
+        transform: translateY(-50%) rotate(45deg);
+    }
+
+    .hamburgerBar:nth-child(2) {
+        opacity: 0;
+    }
+
+    .hamburgerBar:nth-child(3) {
+        bottom: auto;
+        top: 50%;
+        transform: translateY(-50%) rotate(-45deg);
     }
 }
 

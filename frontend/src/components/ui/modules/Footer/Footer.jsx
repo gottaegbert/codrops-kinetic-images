@@ -51,14 +51,23 @@ function Footer() {
                         >
                             Instagram
                         </a>
-                        <a
+                        {/* <a
                             href="#"
                             target="_blank"
                             rel="noreferrer"
                             className={styles.contactLink}
                         >
                             Wechat
+                        </a> */}
+                        <a
+                            href="https://www.xiaohongshu.com/user/profile/637275ec000000001f01df4e"
+                            target="_blank"
+                            rel="noreferrer"
+                            className={styles.contactLink}
+                        >
+                            RED
                         </a>
+                            
                     </div>
                     <small className={styles.copy}>© 2025 MaKaleidos</small>
                 </div>

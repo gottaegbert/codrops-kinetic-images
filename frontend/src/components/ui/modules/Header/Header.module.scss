@@ -3,39 +3,36 @@
 .header {
     position: absolute;
     display: flex;
-    flex-direction: row;
+    align-items: flex-start;
     justify-content: space-between;
-    top: 0rem;
+    top: 0;
     left: 0;
     z-index: 3000;
-    padding: 0.75rem 0.75rem;
+    padding: 0.75rem;
     width: 100vw;
     opacity: 1;
     transform: translateY(0);
     pointer-events: auto;
 }
 
-.wrapper {
+.brandBlock {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-    position: relative;
-    width: fit-content;
-    white-space: nowrap;
-}
+    gap: 0.5rem;
 
-.topRow {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
-}
-
-.logo {
     a {
         text-decoration: none;
         color: inherit;
     }
+}
+
+.menuContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.75rem;
+    position: relative;
+    white-space: nowrap;
 }
 
 .title {
@@ -52,7 +49,6 @@
     display: inline-flex;
     align-items: center;
     height: 2rem;
-    padding-top: 1.5rem;
     background: transparent;
     color: #000;
     cursor: pointer;
@@ -96,18 +92,27 @@
 .navigation {
     display: flex;
     flex-direction: column;
+    align-items: flex-end;
+    gap: 0.75rem;
     opacity: 0;
-    white-space: nowrap;
     visibility: hidden;
-    flex-shrink: 0;
-    position: relative;
-    transition: all 0.3s ease;
+    pointer-events: none;
+    transform: translateY(-0.5rem);
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
 
     &.navigationOpen {
         opacity: 1;
-        transform: translateY(0);
         visibility: visible;
+        pointer-events: auto;
+        transform: translateY(0);
     }
+}
+
+.navItems {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.5rem;
 }
 
 .navLink {
@@ -158,12 +163,9 @@
     color: rgba(0, 0, 0, 0.35);
 }
 
-// Language Container - Separate on the Right
-.languageContainer {
+.languageInline {
     display: flex;
-    align-items: flex-start;
-    margin-left: auto;
-    flex-shrink: 0;
+    justify-content: flex-end;
 }
 
 .mobileMenu {
@@ -215,31 +217,19 @@
         pointer-events: none;
     }
 
-    .wrapper {
-        width: 100%;
-        align-items: flex-start;
+    .brandBlock {
+        pointer-events: auto;
     }
 
-    .topRow {
-        width: 100%;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-        position: relative;
-        z-index: 2001;
+    .menuContainer {
         pointer-events: auto;
     }
 
     .menuToggle {
-        padding-top: 0;
         margin-left: auto;
         position: relative;
         z-index: 2001;
         pointer-events: auto;
-    }
-
-    .languageContainer {
-        display: none;
     }
 
     .navigation {

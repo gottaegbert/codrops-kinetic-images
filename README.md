@@ -275,3 +275,6 @@ Exhibition (展览)
 - 一次只设置一个 "Current" 展览
 - 提前创建 "Upcoming" 展览
 - 及时将过期展览改为 "Past"
+参考
+https://tympanus.net/Tutorials/WebGLCarousel/
+https://drei.pmnd.rs/?path=/docs/shapes-roundedbox--docs

@@ -1,18 +1,18 @@
 'use client';
 
-import { useLanguage } from '@/contexts/LanguageContext';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
+import { useLanguage } from '@/contexts/LanguageContext';
 import LanguageSwitcher from '../../LanguageSwitcher/LanguageSwitcher';
 import ContactModal from '../ContactModal/ContactModal';
 import styles from './Header.module.scss';
 
 function Header({ children }) {
-    const { t } = useLanguage();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isContactOpen, setIsContactOpen] = useState(false);
     const pathname = usePathname();
+    const { t } = useLanguage();
 
     const handleToggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
@@ -95,51 +95,48 @@ function Header({ children }) {
 
     return (
         <header className={styles.header}>
-            <div className={styles.wrapper}>
-                <div className={styles.topRow}>
-                    <div className={styles.logo}>
-                        <Link href="/">
-                            <h1 className={styles.title}>MaKaleidos</h1>
-                        </Link>
-                    </div>
+            <div className={styles.brandBlock}>
+                <Link href="/">
+                    <h1 className={styles.title}>MaKaleidos</h1>
+                </Link>
+            </div>
 
-                    {/* Menu Toggle Button */}
-                    <button
-                        className={`${styles.menuToggle} ${isMenuOpen ? styles.menuToggleActive : ''}`}
-                        onClick={handleToggleMenu}
-                        aria-label={t('navigation.menu')}
-                        aria-expanded={isMenuOpen}
-                        aria-controls={navId}
+            <div className={styles.menuContainer}>
+                <button
+                    className={`${styles.menuToggle} ${isMenuOpen ? styles.menuToggleActive : ''}`}
+                    onClick={handleToggleMenu}
+                    aria-label={t('navigation.menu')}
+                    aria-expanded={isMenuOpen}
+                    aria-controls={navId}
+                >
+                    <span className={styles.menuText}>{t('navigation.menu')}</span>
+                    <svg
+                        className={`${styles.expandIcon} ${isMenuOpen ? styles.rotated : ''}`}
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
                     >
-                        <span className={styles.menuText}>{t('navigation.menu')}</span>
-                        <svg
-                            className={`${styles.expandIcon} ${isMenuOpen ? styles.rotated : ''}`}
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                        >
-                            <polyline points="6,9 12,15 18,9"></polyline>
-                        </svg>
-                    </button>
-                </div>
+                        <polyline points="6,9 12,15 18,9"></polyline>
+                    </svg>
+                </button>
 
-                {/* Navigation Links - Toggleable */}
                 <nav
                     id={navId}
                     className={`${styles.navigation} ${isMenuOpen ? styles.navigationOpen : ''}`}
-                    aria-hidden={isMenuOpen}
+                    aria-hidden={!isMenuOpen}
                 >
-                    {renderNavLinks(styles.navLink, styles.navLinkActive, styles.navLinkDisabled)}
+                    <div className={styles.navItems}>
+                        {renderNavLinks(styles.navLink, styles.navLinkActive, styles.navLinkDisabled)}
+                    </div>
+                    <div className={styles.languageInline}>
+                        <LanguageSwitcher />
+                    </div>
+                    {children}
                 </nav>
-
-                {children}
-            </div>
-            {/* Language Switcher - Separate on Desktop/Tablets */}
-            <div className={styles.languageContainer}>
-                <LanguageSwitcher />
             </div>
 
+            {/* Mobile menu overlay */}
             {isMenuOpen && (
                 <div className={styles.mobileMenu} role="dialog" aria-modal="true" aria-label={t('navigation.menu')}>
                     <nav className={styles.mobileNav} aria-label={t('navigation.menu')}>

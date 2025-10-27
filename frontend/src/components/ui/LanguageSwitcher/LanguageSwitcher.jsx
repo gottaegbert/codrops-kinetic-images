@@ -13,7 +13,10 @@ export default function LanguageSwitcher() {
                 onClick={() => changeLanguage('en')}
                 aria-label="Switch to English"
             >
-                EN
+                <span className={styles.flag} role="img" aria-hidden="true">
+                    🇬🇧
+                </span>
+                <span className={styles.visuallyHidden}>English</span>
             </button>
             <span className={styles.separator}>|</span>
             <button
@@ -21,7 +24,10 @@ export default function LanguageSwitcher() {
                 onClick={() => changeLanguage('zh')}
                 aria-label="切换到中文"
             >
-                中文
+                <span className={styles.flag} role="img" aria-hidden="true">
+                    🇨🇳
+                </span>
+                <span className={styles.visuallyHidden}>中文</span>
             </button>
         </div>
     );

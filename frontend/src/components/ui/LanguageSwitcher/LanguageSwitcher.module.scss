@@ -1,6 +1,6 @@
 .languageSwitcher {
     display: flex;
-    align-items:end;
+    align-items: flex-end;
     flex-direction: column;
     font-size: 0.75rem;
     padding: 0.5rem;
@@ -48,4 +48,10 @@
     color: var(--color-green-hover);
     font-weight: 300;
     font-size: 0.8rem;
+}
+
+@media (max-width: 768px) {
+    .languageSwitcher {
+        align-items: center;
+    }
 }

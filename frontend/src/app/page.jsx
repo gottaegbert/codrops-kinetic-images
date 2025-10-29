@@ -428,6 +428,22 @@ function Cards({ onFirstHover, currentSpacing, viewRef, onScrollStart, onCardCli
         return () => window.removeEventListener('resize', checkScreenSize);
     }, []);
 
+    const verticalOffset = useMemo(() => {
+        switch (screenSize) {
+            case 'mobile':
+                return -1.2;
+            case 'medium':
+                return -0.6;
+            default:
+                return 0;
+        }
+    }, [screenSize]);
+    const verticalOffsetRef = useRef(verticalOffset);
+
+    useEffect(() => {
+        verticalOffsetRef.current = verticalOffset;
+    }, [verticalOffset]);
+
     // Fetch current exhibition first
     const { exhibition, loading, error } = useCurrentExhibition();
 
@@ -606,7 +622,7 @@ function Cards({ onFirstHover, currentSpacing, viewRef, onScrollStart, onCardCli
 
     useFrame((_, delta) => {
         if (groupRef.current) {
-            easing.damp3(groupRef.current.position, [scrollOffset, 0, 0], 0.1, delta);
+            easing.damp3(groupRef.current.position, [scrollOffset, verticalOffsetRef.current, 0], 0.1, delta);
         }
     });
 

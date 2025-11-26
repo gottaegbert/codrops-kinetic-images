@@ -354,7 +354,7 @@ function CameraController({ triggerAnimation, onProgressChange }) {
         let lookAtTarget;
         switch (screenSize) {
             case 'mobile':
-                lookAtTarget = [0, -2.5, 0]; // 看向底部的卡片
+                lookAtTarget = [0, -2.0, 0]; // 看向底部的卡片
                 break;
             case 'medium':
                 lookAtTarget = [0, -1.5, 0];
@@ -373,7 +373,7 @@ function CameraController({ triggerAnimation, onProgressChange }) {
     switch (screenSize) {
         case 'mobile':
             zoom = 160; // 稍微拉远一点以看到底部卡片
-            initialPosition = [-20, 5, 0]; // 相机位置更高
+            initialPosition = [-25, 3, 0]; // 相机位置更高
             break;
         case 'medium':
             // 13-inch MacBook optimization
@@ -431,7 +431,7 @@ function Cards({ onFirstHover, currentSpacing, viewRef, onScrollStart, onCardCli
     const verticalOffset = useMemo(() => {
         switch (screenSize) {
             case 'mobile':
-                return -1.2;
+                return -0;
             case 'medium':
                 return -0.6;
             default:

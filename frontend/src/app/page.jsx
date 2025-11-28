@@ -211,8 +211,9 @@ function Card({
         cardHeight = baseSize;
     }
     const maxCardSize = Math.max(cardWidth, cardHeight);
-    const cardThickness = maxCardSize * 0.001; // ultra-thin slab
+    const cardThickness = maxCardSize * 0.01; // ultra-thin slab
     const edgeRadius = Math.min(cardWidth, cardHeight) * 0.01;
+    const imageDepth = cardThickness * 1;
 
     useFrame((_, delta) => {
         if (!cardRef.current) return;
@@ -238,7 +239,7 @@ function Card({
     return (
         <group position={position}>
             <group ref={cardRef} rotation={[0, -Math.PI / 4, 0]} renderOrder={index * 2}>
-                <RoundedBox
+                {/* <RoundedBox
                     args={[cardWidth, cardHeight, cardThickness]}
                     radius={edgeRadius}
                     smoothness={4}
@@ -288,11 +289,11 @@ function Card({
                             }
                         `}
                     />
-                </RoundedBox>
+                </RoundedBox> */}
 
                 {/* Image layer offset forward */}
                 <mesh
-                    position={[0, 0, cardThickness / 2 + 0.0003]}
+                    position={[0, 0, cardThickness / 2 ]}
                     renderOrder={index * 2 + 2}
                     onPointerOver={(e) => {
                         e.stopPropagation();
@@ -306,7 +307,7 @@ function Card({
                     }}
                     onClick={(e) => (e.stopPropagation(), onClick && onClick(index))}
                 >
-                    <planeGeometry args={[cardWidth, cardHeight]} />
+                    <boxGeometry args={[cardWidth, cardHeight, imageDepth]} />
                     <shaderMaterial
                         ref={imageShaderRef}
                         uniforms={useMemo(
@@ -338,8 +339,8 @@ function Card({
                                 vec2 uv = clamp(vUv, 0.0, 1.0);
                                 vec4 color = texture2D(uTexture, uv);
 
-                                float edgeX = smoothstep(0.32, 0.5, abs(uv.x - 0.5));
-                                float edgeY = smoothstep(0.32, 0.5, abs(uv.y - 0.5));
+                                float edgeX = smoothstep(0.36, 0.5, abs(uv.x - 0.5));
+                                float edgeY = smoothstep(0.36, 0.5, abs(uv.y - 0.5));
                                 float edge = clamp(max(edgeX, edgeY), 0.0, 1.0);
 
                                 vec3 edgeXCol = (
@@ -369,7 +370,7 @@ function Card({
                                 tinted = mix(tinted, blur.rgb, edge * 0.5);
                                 tinted = mix(tinted, vec3(0.9, 0.93, 0.97), edge * 0.06);
 
-                                float minAlpha = 0.12;
+                                float minAlpha = 0.718;
                                 float alpha = mix(1.0, minAlpha, edge) * uOpacity;
                                 gl_FragColor = vec4(tinted, color.a * alpha);
                             }
@@ -1121,8 +1122,8 @@ export default function Home() {
                         triggerAnimation={shouldTriggerAnimation}
                         onProgressChange={handleProgressChange}
                     />
-                    <ambientLight intensity={1.4} />
-                    <directionalLight position={[10, 10, 5]} intensity={1.9} />
+                    <ambientLight intensity={0.2} />
+                    <directionalLight position={[10, 10, 5]} intensity={1.0} />
                     <pointLight position={[0, 0, 10]} intensity={0.5} color="#ffffff" />
                     <Cards
                         onFirstHover={handleFirstHover}

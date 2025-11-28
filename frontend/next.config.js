@@ -21,7 +21,6 @@ const nextConfig = {
         api: 'modern-compiler',
         silenceDeprecations: [
             'legacy-js-api',
-            'mixed-decls',
             'color-functions',
             'global-builtin',
             'import',

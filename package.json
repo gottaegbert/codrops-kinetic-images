@@ -33,7 +33,6 @@
         "magazine-style"
     ],
     "dependencies": {
-        "@vercel/analytics": "^1.5.0",
         "fdir": "^6.5.0"
     }
 }

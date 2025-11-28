@@ -2,6 +2,7 @@ import '@/styles/global.scss';
 import 'lenis/dist/lenis.css';
 
 import { Suspense } from 'react';
+import { Analytics } from '@vercel/analytics/next';
 import meta from '@/data/metadata';
 import fontFaces from '@/assets/fonts/font-faces';
 import { Layout } from '@/components/layouts/Layout';
@@ -26,6 +27,7 @@ export default function RootLayout({ children }) {
                     <LenisProvider>
                         <Suspense>
                             <Layout>{children}</Layout>
+                            <Analytics />
                         </Suspense>
                     </LenisProvider>
                 </LanguageProvider>

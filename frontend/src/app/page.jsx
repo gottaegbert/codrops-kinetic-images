@@ -9,7 +9,7 @@ import ImageViewer from '@/components/ui/ImageViewer/ImageViewer';
 import styles from './page.module.scss';
 import exhibitionStyles from '@/components/ui/ExhibitionCard/ExhibitionCard.module.scss';
 import { View } from '@/webgl/View';
-import { OrthographicCamera, useTexture } from '@react-three/drei';
+import { OrthographicCamera, RoundedBox, useTexture } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
 import { useRef, useState, useEffect, useMemo } from 'react';
 import { easing } from 'maath';
@@ -140,8 +140,8 @@ function Card({
     imageUrl,
     imageDimensions,
 }) {
-    const ref = useRef();
-    const materialRef = useRef();
+    const cardRef = useRef();
+    const imageShaderRef = useRef();
     const [screenSize, setScreenSize] = useState('desktop');
 
     // Check screen size with multiple breakpoints
@@ -210,53 +210,173 @@ function Card({
         cardWidth = baseSize * aspectRatio;
         cardHeight = baseSize;
     }
+    const maxCardSize = Math.max(cardWidth, cardHeight);
+    const cardThickness = maxCardSize * 0.001; // ultra-thin slab
+    const edgeRadius = Math.min(cardWidth, cardHeight) * 0.01;
 
     useFrame((_, delta) => {
+        if (!cardRef.current) return;
+
         const f = hovered ? 1.2 : active ? 1.2 : 1;
         const targetOpacity = hovered ? 1.0 : 0.85; // Increase opacity on hover
 
-        easing.damp3(ref.current.position, [0, 0, hovered ? -0.9 : 0], 0.2, delta);
-        easing.damp3(ref.current.scale, [f, f, f], 0.15, delta);
+        easing.damp3(cardRef.current.position, [0, 0, hovered ? -0.9 : 0], 0.2, delta);
+        easing.damp3(cardRef.current.scale, [f, f, f], 0.15, delta);
 
-        // Smooth opacity transition
-        if (materialRef.current) {
-            easing.damp(materialRef.current, 'opacity', targetOpacity, 0.2, delta);
+        // Smooth opacity transition on the custom shader
+        if (imageShaderRef.current?.uniforms?.uOpacity) {
+            easing.damp(
+                imageShaderRef.current.uniforms.uOpacity,
+                'value',
+                targetOpacity,
+                0.2,
+                delta
+            );
         }
     });
 
     return (
         <group position={position}>
-            <mesh
-                ref={ref}
-                rotation={[0, -Math.PI / 4, 0]}
-                onPointerOver={(e) => {
-                    e.stopPropagation();
-                    document.body.style.cursor = 'pointer';
-                    onPointerOver(index);
-                }}
-                onPointerOut={(e) => {
-                    e.stopPropagation();
-                    document.body.style.cursor = 'default';
-                    onPointerOut();
-                }}
-                onClick={(e) => (e.stopPropagation(), onClick && onClick(index))}
-            >
-                <planeGeometry args={[cardWidth, cardHeight]} />
-                <meshPhysicalMaterial
-                    ref={materialRef}
-                    map={texture}
-                    transparent={true}
-                    opacity={0.65}
-                    roughness={0.1}
-                    metalness={0.0}
-                    clearcoat={1.0}
-                    clearcoatRoughness={0.3}
-                    transmission={0.2}
-                    thickness={0.1}
-                    ior={1.5}
-                    side={THREE.FrontSide}
-                />
-            </mesh>
+            <group ref={cardRef} rotation={[0, -Math.PI / 4, 0]} renderOrder={index * 2}>
+                <RoundedBox
+                    args={[cardWidth, cardHeight, cardThickness]}
+                    radius={edgeRadius}
+                    smoothness={4}
+                    renderOrder={index * 2 + 1}
+                >
+                    <shaderMaterial
+                        uniforms={useMemo(
+                            () => ({
+                                uTexture: { value: texture },
+                            }),
+                            [texture]
+                        )}
+                        transparent={true}
+                        depthWrite={false}
+                        depthTest={true}
+                        vertexShader={`
+                            varying vec3 vNormal;
+                            varying vec2 vUv;
+                            void main() {
+                                vNormal = normalize(normalMatrix * normal);
+                                vUv = uv;
+                                gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+                            }
+                        `}
+                        fragmentShader={`
+                            varying vec3 vNormal;
+                            varying vec2 vUv;
+                            uniform sampler2D uTexture;
+
+                            void main() {
+                                vec2 uv = clamp(vUv, 0.001, 0.999);
+                                vec3 edgeSample = (
+                                    texture2D(uTexture, vec2(0.02, uv.y)).rgb +
+                                    texture2D(uTexture, vec2(0.98, uv.y)).rgb +
+                                    texture2D(uTexture, vec2(uv.x, 0.02)).rgb +
+                                    texture2D(uTexture, vec2(uv.x, 0.98)).rgb
+                                ) * 0.25;
+
+                                vec3 glassBase = vec3(0.04, 0.045, 0.05); // dark glass tint
+                                float fres = pow(1.0 - abs(dot(vNormal, vec3(0.0, 0.0, 1.0))), 2.5);
+
+                                vec3 tinted = mix(glassBase, edgeSample, 0.5);
+                                tinted = mix(tinted, edgeSample, fres * 0.3);
+
+                                float alpha = 0.05 + fres * 0.1;
+                                gl_FragColor = vec4(tinted, alpha);
+                            }
+                        `}
+                    />
+                </RoundedBox>
+
+                {/* Image layer offset forward */}
+                <mesh
+                    position={[0, 0, cardThickness / 2 + 0.0003]}
+                    renderOrder={index * 2 + 2}
+                    onPointerOver={(e) => {
+                        e.stopPropagation();
+                        document.body.style.cursor = 'pointer';
+                        onPointerOver(index);
+                    }}
+                    onPointerOut={(e) => {
+                        e.stopPropagation();
+                        document.body.style.cursor = 'default';
+                        onPointerOut();
+                    }}
+                    onClick={(e) => (e.stopPropagation(), onClick && onClick(index))}
+                >
+                    <planeGeometry args={[cardWidth, cardHeight]} />
+                    <shaderMaterial
+                        ref={imageShaderRef}
+                        uniforms={useMemo(
+                            () => ({
+                                uTexture: { value: texture },
+                                uOpacity: { value: 0.9 },
+                            }),
+                            [texture]
+                        )}
+                        transparent={true}
+                        depthWrite={false}
+                        depthTest={true}
+                        polygonOffset={true}
+                        polygonOffsetFactor={-2}
+                        polygonOffsetUnits={-2}
+                        vertexShader={`
+                            varying vec2 vUv;
+                            void main() {
+                                vUv = uv;
+                                gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+                            }
+                        `}
+                        fragmentShader={`
+                            varying vec2 vUv;
+                            uniform sampler2D uTexture;
+                            uniform float uOpacity;
+
+                            void main() {
+                                vec2 uv = clamp(vUv, 0.0, 1.0);
+                                vec4 color = texture2D(uTexture, uv);
+
+                                float edgeX = smoothstep(0.32, 0.5, abs(uv.x - 0.5));
+                                float edgeY = smoothstep(0.32, 0.5, abs(uv.y - 0.5));
+                                float edge = clamp(max(edgeX, edgeY), 0.0, 1.0);
+
+                                vec3 edgeXCol = (
+                                    texture2D(uTexture, vec2(0.02, uv.y)).rgb +
+                                    texture2D(uTexture, vec2(0.98, uv.y)).rgb
+                                ) * 0.5;
+                                vec3 edgeYCol = (
+                                    texture2D(uTexture, vec2(uv.x, 0.02)).rgb +
+                                    texture2D(uTexture, vec2(uv.x, 0.98)).rgb
+                                ) * 0.5;
+                                vec3 edgeColor = mix(edgeXCol, edgeYCol, 0.5);
+
+                                // Gaussian-ish blur near edges
+                                vec2 texel = vec2(0.002, 0.002);
+                                vec4 blur =
+                                    texture2D(uTexture, uv + texel) * 0.15 +
+                                    texture2D(uTexture, uv - texel) * 0.15 +
+                                    texture2D(uTexture, uv + vec2(texel.x, -texel.y)) * 0.15 +
+                                    texture2D(uTexture, uv + vec2(-texel.x, texel.y)) * 0.15 +
+                                    texture2D(uTexture, uv + vec2(texel.x * 2.0, 0.0)) * 0.1 +
+                                    texture2D(uTexture, uv + vec2(-texel.x * 2.0, 0.0)) * 0.1 +
+                                    texture2D(uTexture, uv + vec2(0.0, texel.y * 2.0)) * 0.1 +
+                                    texture2D(uTexture, uv + vec2(0.0, -texel.y * 2.0)) * 0.1 +
+                                    texture2D(uTexture, uv) * 0.0; // summed weights ~1
+
+                                vec3 tinted = mix(color.rgb, edgeColor, edge * 0.05);
+                                tinted = mix(tinted, blur.rgb, edge * 0.5);
+                                tinted = mix(tinted, vec3(0.9, 0.93, 0.97), edge * 0.06);
+
+                                float minAlpha = 0.12;
+                                float alpha = mix(1.0, minAlpha, edge) * uOpacity;
+                                gl_FragColor = vec4(tinted, color.a * alpha);
+                            }
+                        `}
+                    />
+                </mesh>
+            </group>
         </group>
     );
 }

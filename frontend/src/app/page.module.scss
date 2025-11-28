@@ -164,6 +164,8 @@
     letter-spacing: 0.15em;
     position: relative;
     background: var(--color-green);
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
 }
 
 .scrollContent {
@@ -171,6 +173,7 @@
     animation: scroll 30s linear infinite;
     white-space: nowrap;
     width: fit-content;
+    min-width: 100%; // ensure the marquee content always spans at least the full viewport
 }
 
 .scrollItem {
@@ -216,6 +219,10 @@
     border-top: 1px solid rgba(90, 108, 125, 0.2);
     border-bottom: 1px solid rgba(90, 108, 125, 0.2);
     text-align: left;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    padding-left: clamp(1rem, 6vw, 3rem);
+    padding-right: clamp(1rem, 6vw, 3rem);
 }
 
 .navLabel {
@@ -236,6 +243,7 @@
     text-transform: uppercase;
     letter-spacing: 0.15em;
     flex-wrap: wrap;
+    width: 100%;
 }
 
 .navLink {

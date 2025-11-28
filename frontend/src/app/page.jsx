@@ -252,7 +252,7 @@ function Card({
                     clearcoat={1.0}
                     clearcoatRoughness={0.3}
                     transmission={0.2}
-                    thickness={0.5}
+                    thickness={0.1}
                     ior={1.5}
                     side={THREE.FrontSide}
                 />
@@ -365,7 +365,13 @@ function CameraController({ triggerAnimation, onProgressChange }) {
             default: // desktop
                 lookAtTarget = [0, 0, 0];
         }
-        cameraRef.current.lookAt(...lookAtTarget);
+        const startLookAtY = 0; // Begin by looking at the center, then glide to target Y
+        const blendedLookAt = [
+            lookAtTarget[0],
+            startLookAtY + (lookAtTarget[1] - startLookAtY) * curveProgress,
+            lookAtTarget[2],
+        ];
+        cameraRef.current.lookAt(...blendedLookAt);
     });
 
     // Screen-size responsive zoom and initial position
@@ -401,10 +407,11 @@ function CameraController({ triggerAnimation, onProgressChange }) {
     );
 }
 
-function Cards({ onFirstHover, currentSpacing, viewRef, onScrollStart, onCardClick }) {
+function Cards({ onFirstHover, currentSpacing, viewRef, onScrollStart, onCardClick, animationProgress }) {
     const [hovered, hover] = useState(null);
     const [imagesLoaded, setImagesLoaded] = useState(false);
     const [screenSize, setScreenSize] = useState('desktop');
+    const animationProgressRef = useRef(animationProgress);
 
     // Check screen size with multiple breakpoints
     useEffect(() => {
@@ -428,21 +435,35 @@ function Cards({ onFirstHover, currentSpacing, viewRef, onScrollStart, onCardCli
         return () => window.removeEventListener('resize', checkScreenSize);
     }, []);
 
-    const verticalOffset = useMemo(() => {
+    useEffect(() => {
+        animationProgressRef.current = animationProgress;
+    }, [animationProgress]);
+
+    const baseGroupYOffset = useMemo(() => {
         switch (screenSize) {
             case 'mobile':
-                return -0;
+                return 0;
             case 'medium':
                 return -0.6;
+            case 'laptop':
+                return 0;
             default:
                 return 0;
         }
     }, [screenSize]);
-    const verticalOffsetRef = useRef(verticalOffset);
 
-    useEffect(() => {
-        verticalOffsetRef.current = verticalOffset;
-    }, [verticalOffset]);
+    const introLift = useMemo(() => {
+        switch (screenSize) {
+            case 'mobile':
+                return 3;
+            case 'medium':
+                return 2.5;
+            case 'laptop':
+                return 1.5;
+            default:
+                return 1;
+        }
+    }, [screenSize]);
 
     // Fetch current exhibition first
     const { exhibition, loading, error } = useCurrentExhibition();
@@ -622,7 +643,9 @@ function Cards({ onFirstHover, currentSpacing, viewRef, onScrollStart, onCardCli
 
     useFrame((_, delta) => {
         if (groupRef.current) {
-            easing.damp3(groupRef.current.position, [scrollOffset, verticalOffsetRef.current, 0], 0.1, delta);
+            const introEase = Math.sin((animationProgressRef.current || 0) * Math.PI * 0.5);
+            const animatedYOffset = baseGroupYOffset + introLift * (1 - introEase);
+            easing.damp3(groupRef.current.position, [scrollOffset, animatedYOffset, 0], 0.14, delta);
         }
     });
 
@@ -987,6 +1010,7 @@ export default function Home() {
                         viewRef={viewRef}
                         onScrollStart={handleScrollStart}
                         onCardClick={handleCardClick}
+                        animationProgress={animationProgress}
                     />
                 </View>
 

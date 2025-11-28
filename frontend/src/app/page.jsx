@@ -18,7 +18,7 @@ import ExhibitionCard from '@/components/ui/ExhibitionCard/ExhibitionCard';
 import { useCurrentExhibition } from '@/hooks/useCurrentExhibition';
 import { getOptimizedImageUrl } from '@/sanity/client';
 
-const INITIAL_SPACING = 0.05; // Initial spacing between cards
+const INITIAL_SPACING = 0.0618; // Initial spacing between cards
 const FINAL_SPACING = 1.0; // Final spacing between cards
 
 // Current Exhibition Button Component
@@ -305,7 +305,23 @@ function Card({
                         document.body.style.cursor = 'default';
                         onPointerOut();
                     }}
-                    onClick={(e) => (e.stopPropagation(), onClick && onClick(index))}
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        const pointerEvent = e?.nativeEvent || e;
+                        const clientX =
+                            pointerEvent?.clientX ??
+                            pointerEvent?.pageX ??
+                            (typeof window !== 'undefined' ? window.innerWidth / 2 : 0);
+                        const clientY =
+                            pointerEvent?.clientY ??
+                            pointerEvent?.pageY ??
+                            (typeof window !== 'undefined' ? window.innerHeight / 2 : 0);
+                        const startScale = Math.min(
+                            0.65,
+                            Math.max(0.35, Math.max(cardWidth, cardHeight) / 3)
+                        );
+                        onClick && onClick(index, { clientX, clientY, scale: startScale });
+                    }}
                 >
                     <boxGeometry args={[cardWidth, cardHeight, imageDepth]} />
                     <shaderMaterial
@@ -370,7 +386,7 @@ function Card({
                                 tinted = mix(tinted, blur.rgb, edge * 0.25);
                                 tinted = mix(tinted, vec3(0.9, 0.93, 0.97), edge * 0.05);
 
-                                float minAlpha = 0.5;
+                                float minAlpha = 0.6;
                                 float alpha = mix(1.0, minAlpha, edge) * uOpacity;
                                 gl_FragColor = vec4(tinted, color.a * alpha);
                             }
@@ -1122,9 +1138,7 @@ export default function Home() {
                         triggerAnimation={shouldTriggerAnimation}
                         onProgressChange={handleProgressChange}
                     />
-                    <ambientLight intensity={0.2} />
-                    <directionalLight position={[10, 10, 5]} intensity={1.0} />
-                    <pointLight position={[0, 0, 10]} intensity={0.5} color="#ffffff" />
+                    
                     <Cards
                         onFirstHover={handleFirstHover}
                         currentSpacing={currentSpacing}

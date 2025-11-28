@@ -293,7 +293,7 @@ function Card({
 
                 {/* Image layer offset forward */}
                 <mesh
-                    position={[0, 0, cardThickness / 2 ]}
+                    position={[0, 0, cardThickness / 2 + imageDepth / 2 + 0.0003]}
                     renderOrder={index * 2 + 2}
                     onPointerOver={(e) => {
                         e.stopPropagation();
@@ -313,7 +313,7 @@ function Card({
                         uniforms={useMemo(
                             () => ({
                                 uTexture: { value: texture },
-                                uOpacity: { value: 0.9 },
+                                uOpacity: { value: 1.0 },
                             }),
                             [texture]
                         )}
@@ -354,7 +354,7 @@ function Card({
                                 vec3 edgeColor = mix(edgeXCol, edgeYCol, 0.5);
 
                                 // Gaussian-ish blur near edges
-                                vec2 texel = vec2(0.002, 0.002);
+                                vec2 texel = vec2(0.003, 0.003);
                                 vec4 blur =
                                     texture2D(uTexture, uv + texel) * 0.15 +
                                     texture2D(uTexture, uv - texel) * 0.15 +
@@ -366,11 +366,11 @@ function Card({
                                     texture2D(uTexture, uv + vec2(0.0, -texel.y * 2.0)) * 0.1 +
                                     texture2D(uTexture, uv) * 0.0; // summed weights ~1
 
-                                vec3 tinted = mix(color.rgb, edgeColor, edge * 0.05);
-                                tinted = mix(tinted, blur.rgb, edge * 0.5);
-                                tinted = mix(tinted, vec3(0.9, 0.93, 0.97), edge * 0.06);
+                                vec3 tinted = mix(color.rgb, edgeColor, edge * 0.04);
+                                tinted = mix(tinted, blur.rgb, edge * 0.25);
+                                tinted = mix(tinted, vec3(0.9, 0.93, 0.97), edge * 0.05);
 
-                                float minAlpha = 0.718;
+                                float minAlpha = 0.5;
                                 float alpha = mix(1.0, minAlpha, edge) * uOpacity;
                                 gl_FragColor = vec4(tinted, color.a * alpha);
                             }

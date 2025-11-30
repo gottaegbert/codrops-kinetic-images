@@ -30,26 +30,7 @@
 }
 ```
 
-### 3. 使用GlassCard组件
-
-```jsx
-import GlassCard from '@/components/ui/GlassCard';
-
-// 基础用法
-<GlassCard>
-  <p>卡片内容</p>
-</GlassCard>
-
-// 高级用法
-<GlassCard 
-  variant="heavy" 
-  glow={true} 
-  floating={true}
-  className="custom-class"
->
-  <p>高级卡片内容</p>
-</GlassCard>
-```
+> 当前未提供 React 组件封装，直接在自定义样式中扩展上述 SCSS 占位符即可。
 
 ## 变体说明
 

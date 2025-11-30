@@ -18,7 +18,7 @@ import ExhibitionCard from '@/components/ui/ExhibitionCard/ExhibitionCard';
 import { useCurrentExhibition } from '@/hooks/useCurrentExhibition';
 import { getOptimizedImageUrl } from '@/sanity/client';
 
-const INITIAL_SPACING = 0.0618; // Initial spacing between cards
+const INITIAL_SPACING = 1; // Initial spacing between cards
 const FINAL_SPACING = 1.0; // Final spacing between cards
 
 // Current Exhibition Button Component
@@ -139,6 +139,9 @@ function Card({
     active,
     imageUrl,
     imageDimensions,
+    animationProgress = 0,
+    revealProgress = 1,
+    radialRoll = 0,
 }) {
     const cardRef = useRef();
     const imageShaderRef = useRef();
@@ -218,11 +221,19 @@ function Card({
     useFrame((_, delta) => {
         if (!cardRef.current) return;
 
+        // Start facing the user (0) and ease to -15°
+        const prog = animationProgress || 0;
+        const introEase = Math.sin(prog * Math.PI * 0.5);
+        const targetYaw = THREE.MathUtils.lerp(0, -Math.PI / 6, introEase);
+        easing.damp(cardRef.current.rotation, 'y', targetYaw, 0.2, delta);
+        easing.damp(cardRef.current.rotation, 'z', radialRoll, 0.18, delta);
+
         const f = hovered ? 1.2 : active ? 1.2 : 1;
+        const scaledF = THREE.MathUtils.lerp(0.95, f, revealProgress);
         const targetOpacity = hovered ? 1.0 : 0.85; // Increase opacity on hover
 
         easing.damp3(cardRef.current.position, [0, 0, hovered ? -0.9 : 0], 0.2, delta);
-        easing.damp3(cardRef.current.scale, [f, f, f], 0.15, delta);
+        easing.damp3(cardRef.current.scale, [scaledF, scaledF, scaledF], 0.15, delta);
 
         // Smooth opacity transition on the custom shader
         if (imageShaderRef.current?.uniforms?.uOpacity) {
@@ -238,7 +249,7 @@ function Card({
 
     return (
         <group position={position}>
-            <group ref={cardRef} rotation={[0, -Math.PI / 4, 0]} renderOrder={-index * 2}>
+            <group ref={cardRef} rotation={[0, 0, 0]} renderOrder={-index * 2}>
                 {/* <RoundedBox
                     args={[cardWidth, cardHeight, cardThickness]}
                     radius={edgeRadius}
@@ -428,7 +439,6 @@ function CameraController({ triggerAnimation, onProgressChange }) {
         if (!cameraRef.current) return;
 
         const elapsed = (Date.now() - startTime) / 1000;
-        // 检查动画触发条件：5秒后自动触发 或 第一次hover触发
         if (!animationTriggered && (elapsed > 5 || triggerAnimation)) {
             setAnimationTriggered(true);
             setAnimationStartTime(Date.now());
@@ -437,74 +447,38 @@ function CameraController({ triggerAnimation, onProgressChange }) {
         let progress = 0;
 
         if (animationTriggered && animationStartTime) {
-            // 计算从动画开始的时间
             const animationElapsed = (Date.now() - animationStartTime) / 1000;
             const animationProgress = Math.min(animationElapsed / 3, 1);
-
-            // 使用平滑的easing函数 (ease-in-out)
             progress =
                 animationProgress < 0.5
                     ? 2 * animationProgress * animationProgress
                     : 1 - Math.pow(-2 * animationProgress + 2, 2) / 2;
         }
 
-        // 通知父组件进度变化，用于更新spacing
         onProgressChange(progress);
 
-        // Screen-size responsive camera paths - 调整以看到底部的卡片
-        let startPos, endPos;
-        switch (screenSize) {
-            case 'mobile':
-                // 移动端：相机位置更高，向下看底部的卡片
-                startPos = [-15, 5, 0];
-                endPos = [0, 15, 25];
-                break;
-            case 'medium':
-                // 13-inch MacBook and similar screens
-                startPos = [-20, 3, 0];
-                endPos = [0, 18, 30];
-                break;
-            case 'laptop':
-                startPos = [-25, 2, 0];
-                endPos = [0, 20, 35];
-                break;
-            default: // desktop
-                startPos = [-30, 0, 0];
-                endPos = [0, 20, 40];
-        }
-
-        // 使用三角函数创建更自然的曲线运动
-        const curveProgress = Math.sin(progress * Math.PI * 0.5);
-
-        // 更新相机位置
-        cameraRef.current.position.set(
-            startPos[0] + (endPos[0] - startPos[0]) * curveProgress,
-            startPos[1] + (endPos[1] - startPos[1]) * curveProgress,
-            startPos[2] + (endPos[2] - startPos[2]) * curveProgress
-        );
-
-        // 让相机看向不同屏幕尺寸下的卡片位置
+        // Keep camera static at final position/lookAt per screen size
+        let finalPos;
         let lookAtTarget;
         switch (screenSize) {
             case 'mobile':
-                lookAtTarget = [0, -2.0, 0]; // 看向底部的卡片
+                finalPos = [0, 15, 25];
+                lookAtTarget = [0, -2.0, 0];
                 break;
             case 'medium':
+                finalPos = [0, 18, 30];
                 lookAtTarget = [0, -1.5, 0];
                 break;
             case 'laptop':
+                finalPos = [0, 20, 35];
                 lookAtTarget = [0, -1, 0];
                 break;
             default: // desktop
+                finalPos = [0, 20, 40];
                 lookAtTarget = [0, 0, 0];
         }
-        const startLookAtY = 0; // Begin by looking at the center, then glide to target Y
-        const blendedLookAt = [
-            lookAtTarget[0],
-            startLookAtY + (lookAtTarget[1] - startLookAtY) * curveProgress,
-            lookAtTarget[2],
-        ];
-        cameraRef.current.lookAt(...blendedLookAt);
+        cameraRef.current.position.set(...finalPos);
+        cameraRef.current.lookAt(...lookAtTarget);
     });
 
     // Screen-size responsive zoom and initial position
@@ -512,20 +486,20 @@ function CameraController({ triggerAnimation, onProgressChange }) {
     switch (screenSize) {
         case 'mobile':
             zoom = 160; // 稍微拉远一点以看到底部卡片
-            initialPosition = [-25, 3, 0]; // 相机位置更高
+            initialPosition = [0, 15, 25]; // final position
             break;
         case 'medium':
             // 13-inch MacBook optimization
             zoom = 200;
-            initialPosition = [-25, 3, 0];
+            initialPosition = [0, 18, 30];
             break;
         case 'laptop':
             zoom = 240;
-            initialPosition = [-35, 2, 0];
+            initialPosition = [0, 20, 35];
             break;
         default: // desktop
             zoom = 260;
-            initialPosition = [-40, 0, 0];
+            initialPosition = [0, 20, 40];
     }
 
     return (
@@ -540,7 +514,16 @@ function CameraController({ triggerAnimation, onProgressChange }) {
     );
 }
 
-function Cards({ onFirstHover, currentSpacing, viewRef, onScrollStart, onCardClick, animationProgress }) {
+function Cards({
+    onFirstHover,
+    currentSpacing,
+    viewRef,
+    onScrollStart,
+    onCardClick,
+    animationProgress,
+    onImagesLoaded,
+    onLoadProgress,
+}) {
     const [hovered, hover] = useState(null);
     const [imagesLoaded, setImagesLoaded] = useState(false);
     const [screenSize, setScreenSize] = useState('desktop');
@@ -606,173 +589,7 @@ function Cards({ onFirstHover, currentSpacing, viewRef, onScrollStart, onCardCli
     const validImages = exhibitionImages.filter((img) => img?.asset);
     const dynamicCount = validImages.length;
 
-    // 初始位置设为最左边（显示第一张卡片）
-    const [scrollOffset, setScrollOffset] = useState(() => {
-        if (dynamicCount === 0) return 0;
-        const totalWidth = dynamicCount * INITIAL_SPACING;
-        return totalWidth / 2 - INITIAL_SPACING;
-    });
-    const [hasTriggeredFirstHover, setHasTriggeredFirstHover] = useState(false);
-
     const groupRef = useRef();
-
-    // 计算滚动范围限制，使用动态spacing和动态图片数量
-    const totalWidth = dynamicCount * currentSpacing;
-    const maxScrollLeft = dynamicCount > 0 ? totalWidth / 2 - currentSpacing : 0;
-    const maxScrollRight = dynamicCount > 0 ? -(totalWidth / 2 - currentSpacing) : 0;
-
-    // 处理第一次hover触发相机动画
-    const handleCardHover = (index) => {
-        hover(index);
-        if (!hasTriggeredFirstHover) {
-            setHasTriggeredFirstHover(true);
-            onFirstHover();
-        }
-    };
-
-    // 当spacing或图片数量改变时，调整scrollOffset以保持相对位置
-    useEffect(() => {
-        if (dynamicCount === 0) {
-            setScrollOffset(0);
-            return;
-        }
-
-        const totalWidth = dynamicCount * currentSpacing;
-        const newMaxScrollLeft = totalWidth / 2 - currentSpacing;
-
-        // 如果当前在初始位置，保持在左边
-        if (scrollOffset >= maxScrollLeft * 0.9) {
-            setScrollOffset(newMaxScrollLeft);
-        }
-    }, [currentSpacing, maxScrollLeft, dynamicCount]);
-
-    useEffect(() => {
-        const viewElement = viewRef?.current;
-        if (!viewElement) return undefined;
-
-        const handleWheel = (event) => {
-            const deltaY = event.deltaY;
-            const scrollSensitivity = 0.01;
-
-            // 反转滚动方向：向下滚动（deltaY > 0）向右移动（减少offset）
-            const newOffset = scrollOffset - deltaY * scrollSensitivity;
-            const clampedOffset = Math.max(maxScrollRight, Math.min(maxScrollLeft, newOffset));
-
-            // 检查是否在边界处
-            const atLeftBoundary = scrollOffset >= maxScrollLeft && deltaY < 0; // 在左边界且向上滚动
-            const atRightBoundary = scrollOffset <= maxScrollRight && deltaY > 0; // 在右边界且向下滚动
-
-            // 只有当不在边界或者滚动方向不会超出边界时才阻止默认行为
-            if (!atLeftBoundary && !atRightBoundary) {
-                if (event.cancelable) {
-                    event.preventDefault();
-                }
-                event.stopPropagation();
-                setScrollOffset(clampedOffset);
-                // 通知父组件用户开始滚动
-                if (onScrollStart) {
-                    onScrollStart();
-                }
-            }
-            // 在边界处且继续向边界方向滚动时，允许事件冒泡，让Lenis接管
-        };
-
-        const handleTouchStart = (e) => {
-            const viewElement = viewRef?.current;
-            if (!viewElement) return;
-
-            const rect = viewElement.getBoundingClientRect();
-            const touchX = e.touches[0].clientX;
-            const touchY = e.touches[0].clientY;
-            const isOverView =
-                touchX >= rect.left &&
-                touchX <= rect.right &&
-                touchY >= rect.top &&
-                touchY <= rect.bottom;
-
-            if (isOverView) {
-                viewElement.touchStartX = touchX;
-                viewElement.touchStartY = touchY;
-                viewElement.lastTouchX = touchX;
-                viewElement.lastTouchY = touchY;
-                viewElement.isHorizontalSwipe = undefined; // undecided until movement exceeds threshold
-            }
-        };
-
-        const handleTouchMove = (e) => {
-            const viewElement = viewRef?.current;
-            if (!viewElement || viewElement.touchStartX == null || viewElement.touchStartY == null) return;
-
-            const rect = viewElement.getBoundingClientRect();
-            const touchX = e.touches[0].clientX;
-            const touchY = e.touches[0].clientY;
-            const isOverView =
-                touchX >= rect.left &&
-                touchX <= rect.right &&
-                touchY >= rect.top &&
-                touchY <= rect.bottom;
-
-            if (!isOverView) return;
-
-            const dx = touchX - viewElement.lastTouchX;
-            const dy = touchY - viewElement.lastTouchY;
-
-            // Decide gesture orientation once movement exceeds small threshold
-            const threshold = 6; // px
-            if (viewElement.isHorizontalSwipe === undefined) {
-                const totalDx = Math.abs(touchX - viewElement.touchStartX);
-                const totalDy = Math.abs(touchY - viewElement.touchStartY);
-                if (totalDx > threshold || totalDy > threshold) {
-                    viewElement.isHorizontalSwipe = totalDx > totalDy;
-                }
-            }
-
-            // Only hijack scroll when it's a horizontal swipe
-            if (viewElement.isHorizontalSwipe) {
-                const scrollSensitivity = 0.02; // map px movement to world offset
-                const newOffset = scrollOffset + dx * scrollSensitivity; // swipe right moves gallery right
-                const clampedOffset = Math.max(maxScrollRight, Math.min(maxScrollLeft, newOffset));
-
-                // 边界检查
-                const atLeftBoundary = scrollOffset >= maxScrollLeft && dx > 0;
-                const atRightBoundary = scrollOffset <= maxScrollRight && dx < 0;
-
-                if (!atLeftBoundary && !atRightBoundary) {
-                    e.preventDefault();
-                    setScrollOffset(clampedOffset);
-                    if (onScrollStart) onScrollStart();
-                }
-            }
-
-            // Update last positions regardless to keep tracking smooth
-            viewElement.lastTouchX = touchX;
-            viewElement.lastTouchY = touchY;
-        };
-
-        const handleTouchEnd = () => {
-            const viewElement = viewRef?.current;
-            if (viewElement) {
-                delete viewElement.touchStartX;
-                delete viewElement.touchStartY;
-                delete viewElement.lastTouchX;
-                delete viewElement.lastTouchY;
-                delete viewElement.isHorizontalSwipe;
-            }
-        };
-
-        // Attach listeners directly on the WebGL view so we can selectively stop propagation
-        viewElement.addEventListener('wheel', handleWheel, { passive: false });
-        window.addEventListener('touchstart', handleTouchStart, { passive: true });
-        window.addEventListener('touchmove', handleTouchMove, { passive: false });
-        window.addEventListener('touchend', handleTouchEnd, { passive: true });
-
-        return () => {
-            viewElement.removeEventListener('wheel', handleWheel);
-            window.removeEventListener('touchstart', handleTouchStart);
-            window.removeEventListener('touchmove', handleTouchMove);
-            window.removeEventListener('touchend', handleTouchEnd);
-        };
-    }, [maxScrollLeft, maxScrollRight, onScrollStart, scrollOffset, viewRef]);
 
     useFrame((_, delta) => {
         if (groupRef.current) {
@@ -805,40 +622,224 @@ function Cards({ onFirstHover, currentSpacing, viewRef, onScrollStart, onCardCli
     useEffect(() => {
         if (imageData.length > 0) {
             setImagesLoaded(false);
+            onLoadProgress?.(0);
             let loadedCount = 0;
             const totalImages = imageData.length;
 
             imageData.forEach((imageInfo) => {
                 if (imageInfo.url) {
                     const img = new Image();
-                    img.onload = () => {
+                    const handleDone = () => {
                         loadedCount++;
+                        const progress = loadedCount / totalImages;
+                        onLoadProgress?.(progress);
                         if (loadedCount === totalImages) {
                             setImagesLoaded(true);
                         }
                     };
-                    img.onerror = () => {
-                        loadedCount++;
-                        if (loadedCount === totalImages) {
-                            setImagesLoaded(true);
-                        }
-                    };
+                    img.onload = handleDone;
+                    img.onerror = handleDone;
                     img.src = imageInfo.url;
                 }
             });
 
-            // Set loaded if no images to load
             if (totalImages === 0) {
                 setImagesLoaded(true);
+                onLoadProgress?.(1);
             }
         } else {
             setImagesLoaded(true);
+            onLoadProgress?.(1);
         }
-    }, [imageData]);
+    }, [imageData, onLoadProgress]);
 
-    // Calculate dynamic spacing based on actual image count
+    useEffect(() => {
+        if (imagesLoaded && onImagesLoaded) {
+            onImagesLoaded();
+        }
+    }, [imagesLoaded, onImagesLoaded]);
+
+    // Calculate dynamic spacing based on actual image count and image widths
     const actualCount = imageData.length;
-    const dynamicSpacing = actualCount > 0 ? currentSpacing : 0;
+    const spacingValues = useMemo(() => {
+        const baseSizeFor = () => {
+            switch (screenSize) {
+                case 'mobile':
+                    return 2.2; // smaller base size for mobile
+                case 'medium':
+                    return 2.0;
+                case 'laptop':
+                    return 2.0;
+                default:
+                    return 2.0;
+            }
+        };
+        const baseSize = baseSizeFor();
+        return imageData.map((imageInfo) => {
+            const dims = imageInfo.dimensions;
+            const aspect = dims?.width && dims?.height ? dims.width / dims.height : 1;
+            let cardWidth, cardHeight;
+            if (aspect >= 1) {
+                cardWidth = baseSize;
+                cardHeight = baseSize / aspect;
+            } else {
+                cardWidth = baseSize * aspect;
+                cardHeight = baseSize;
+            }
+            const maxSize = Math.max(cardWidth, cardHeight);
+            const baseSpacing = Math.max(FINAL_SPACING, maxSize * 0.9); // ensure some spacing
+            const maxSpacing = FINAL_SPACING * 1.05; // tighter cap to avoid large end gaps
+            return Math.min(baseSpacing, maxSpacing);
+        });
+    }, [imageData, screenSize]);
+    const totalWidth =
+        spacingValues.length > 0 ? spacingValues.reduce((sum, v) => sum + v, 0) : 0;
+    const edgeSpacing = spacingValues[0] ?? FINAL_SPACING;
+    const halfSpan = totalWidth > 0 ? totalWidth / 2 - edgeSpacing / 2 : 0;
+
+    // 初始位置设为最左边（显示第一张卡片）
+    const [scrollOffset, setScrollOffset] = useState(() => {
+        if (dynamicCount === 0) return 0;
+        return halfSpan;
+    });
+    const [hasTriggeredFirstHover, setHasTriggeredFirstHover] = useState(false);
+
+    // 计算滚动范围限制，使用动态spacing和动态图片数量
+    const maxScrollLeft = dynamicCount > 0 ? halfSpan : 0;
+    const maxScrollRight = dynamicCount > 0 ? -halfSpan : 0;
+
+    // 处理第一次hover触发相机动画
+    const handleCardHover = (index) => {
+        hover(index);
+        if (!hasTriggeredFirstHover) {
+            setHasTriggeredFirstHover(true);
+            onFirstHover();
+        }
+    };
+
+    // 当spacing或图片数量改变时，调整scrollOffset以保持相对位置
+    useEffect(() => {
+        if (dynamicCount === 0) {
+            setScrollOffset(0);
+            return;
+        }
+
+        // 如果当前在初始位置，保持在左边
+        if (scrollOffset >= maxScrollLeft * 0.9) {
+            setScrollOffset(halfSpan);
+        }
+    }, [halfSpan, maxScrollLeft, dynamicCount, scrollOffset]);
+
+    useEffect(() => {
+        const viewElement = viewRef?.current;
+        if (!viewElement) return undefined;
+
+        const handleWheel = (event) => {
+            const deltaY = event.deltaY;
+            const scrollSensitivity = 0.01;
+
+            const newOffset = scrollOffset - deltaY * scrollSensitivity;
+            const clampedOffset = Math.max(maxScrollRight, Math.min(maxScrollLeft, newOffset));
+
+            const atLeftBoundary = scrollOffset >= maxScrollLeft && deltaY < 0;
+            const atRightBoundary = scrollOffset <= maxScrollRight && deltaY > 0;
+
+            if (!atLeftBoundary && !atRightBoundary) {
+                if (event.cancelable) {
+                    event.preventDefault();
+                }
+                event.stopPropagation();
+                setScrollOffset(clampedOffset);
+                if (onScrollStart) {
+                    onScrollStart();
+                }
+            }
+        };
+
+        const handleTouchStart = (e) => {
+            const rect = viewElement.getBoundingClientRect();
+            const touchX = e.touches[0].clientX;
+            const touchY = e.touches[0].clientY;
+            const isOverView =
+                touchX >= rect.left &&
+                touchX <= rect.right &&
+                touchY >= rect.top &&
+                touchY <= rect.bottom;
+
+            if (isOverView) {
+                viewElement.touchStartX = touchX;
+                viewElement.touchStartY = touchY;
+                viewElement.lastTouchX = touchX;
+                viewElement.lastTouchY = touchY;
+                viewElement.isHorizontalSwipe = undefined;
+            }
+        };
+
+        const handleTouchMove = (e) => {
+            if (viewElement.touchStartX == null || viewElement.touchStartY == null) return;
+
+            const rect = viewElement.getBoundingClientRect();
+            const touchX = e.touches[0].clientX;
+            const touchY = e.touches[0].clientY;
+            const isOverView =
+                touchX >= rect.left &&
+                touchX <= rect.right &&
+                touchY >= rect.top &&
+                touchY <= rect.bottom;
+
+            if (!isOverView) return;
+
+            const dx = touchX - viewElement.lastTouchX;
+            const dy = touchY - viewElement.lastTouchY;
+
+            const threshold = 6;
+            if (viewElement.isHorizontalSwipe === undefined) {
+                const totalDx = Math.abs(touchX - viewElement.touchStartX);
+                const totalDy = Math.abs(touchY - viewElement.touchStartY);
+                if (totalDx > threshold || totalDy > threshold) {
+                    viewElement.isHorizontalSwipe = totalDx > totalDy;
+                }
+            }
+
+            if (viewElement.isHorizontalSwipe) {
+                const scrollSensitivity = 0.02;
+                const newOffset = scrollOffset + dx * scrollSensitivity;
+                const clampedOffset = Math.max(maxScrollRight, Math.min(maxScrollLeft, newOffset));
+
+                const atLeftBoundary = scrollOffset >= maxScrollLeft && dx > 0;
+                const atRightBoundary = scrollOffset <= maxScrollRight && dx < 0;
+
+                if (!atLeftBoundary && !atRightBoundary) {
+                    e.preventDefault();
+                    setScrollOffset(clampedOffset);
+                    if (onScrollStart) onScrollStart();
+                }
+            }
+
+            viewElement.lastTouchX = touchX;
+            viewElement.lastTouchY = touchY;
+        };
+
+        const handleTouchEnd = () => {
+            delete viewElement.touchStartX;
+            delete viewElement.touchStartY;
+            delete viewElement.lastTouchX;
+            delete viewElement.lastTouchY;
+            delete viewElement.isHorizontalSwipe;
+        };
+
+        viewElement.addEventListener('wheel', handleWheel, { passive: false });
+        window.addEventListener('touchstart', handleTouchStart, { passive: true });
+        window.addEventListener('touchmove', handleTouchMove, { passive: false });
+        window.addEventListener('touchend', handleTouchEnd, { passive: true });
+
+        return () => {
+            viewElement.removeEventListener('wheel', handleWheel);
+            window.removeEventListener('touchstart', handleTouchStart);
+            window.removeEventListener('touchmove', handleTouchMove);
+            window.removeEventListener('touchend', handleTouchEnd);
+        };
+    }, [maxScrollLeft, maxScrollRight, onScrollStart, scrollOffset, viewRef]);
 
     // Show loading state or error message if needed
     if (loading) {
@@ -878,8 +879,6 @@ function Cards({ onFirstHover, currentSpacing, viewRef, onScrollStart, onCardCli
     return (
         <group ref={groupRef} rotation={[0, 0, 0]}>
             {imageData.map((imageInfo, index) => {
-                // Linear stacking using dynamic spacing based on actual image count
-                const xOffset = index * dynamicSpacing - (actualCount * dynamicSpacing) / 2;
                 // Screen-size responsive Y positioning - 小尺寸固定在底部
                 let yOffset;
                 switch (screenSize) {
@@ -890,21 +889,59 @@ function Cards({ onFirstHover, currentSpacing, viewRef, onScrollStart, onCardCli
                         break;
                     case 'medium':
                         // 13-inch MacBook - 稍微下移但不要太极端
-                        yOffset = -2;
+                        yOffset = -1;
                         break;
                     case 'laptop':
                         yOffset = -1.5;
                         break;
                     default: // desktop
-                        yOffset = -1;
+                        yOffset = -0.5;
                 }
                 const zOffset = 0;
+
+                // Entry animation: top-down stagger, then wave push along Z
+                const entryDelay = index * 0.08;
+                const entryDuration = 0.45;
+                const entryProgress = THREE.MathUtils.clamp(
+                    (animationProgress - entryDelay) / entryDuration,
+                    0,
+                    1
+                );
+                const entryEase = Math.sin(entryProgress * Math.PI * 0.5);
+                const settleEase = THREE.MathUtils.clamp((animationProgress - 0.6) / 0.4, 0, 1);
+                const waveScale = entryEase * (1 - settleEase);
+                const finalEase = Math.min(1, entryEase + settleEase); // ensures we fully settle spacing
+
+                // Vertical S-curve once in place
+                const waveAmp = 0.8;
+                const wave = Math.sin(index * 1.2) * waveAmp * waveScale;
+
+                // Z push wave after entry starts
+                const pushEase = Math.sin(Math.max(entryProgress - 0.3, 0) * Math.PI * 0.5);
+                const zWave = -0.6 * Math.sin(animationProgress * 2.2 + index * 0.7) * pushEase * (1 - settleEase);
+
+                // Start near final center (no big drop), slight forward offset
+                const startY = yOffset;
+                const startZ = zOffset + 0.2;
+
+                // Position based on per-card spacing to reduce overlap
+                let cumulative = -totalWidth / 2;
+                for (let i = 0; i < index; i++) {
+                    cumulative += spacingValues[i] || 0;
+                }
+                const xCenter = cumulative + (spacingValues[index] || FINAL_SPACING) / 2;
+                const indexFromCenter = index - (actualCount - 1) / 2;
+                const extraSpread = edgeSpacing * 0.6;
+                const startX = xCenter + indexFromCenter * extraSpread; // wider spacing at start
+                const x = THREE.MathUtils.lerp(startX, xCenter, finalEase);
+                const y = THREE.MathUtils.lerp(startY, yOffset + wave, entryEase);
+                const z = THREE.MathUtils.lerp(startZ, zOffset, entryEase) + zWave;
 
                 return (
                     <Card
                         key={`card-${imageInfo.originalIndex}-${index}`}
                         index={index}
-                        position={[xOffset, yOffset, zOffset]}
+                        position={[x, y, z]}
                         onPointerOver={handleCardHover}
                         onPointerOut={() => hover(null)}
                         onClick={onCardClick}
@@ -913,6 +950,7 @@ function Cards({ onFirstHover, currentSpacing, viewRef, onScrollStart, onCardCli
                         imageUrl={imageInfo.url}
                         altText={imageInfo.alt}
                         imageDimensions={imageInfo.dimensions}
+                        animationProgress={animationProgress}
                     />
                 );
             })}
@@ -923,6 +961,8 @@ function Cards({ onFirstHover, currentSpacing, viewRef, onScrollStart, onCardCli
 export default function Home() {
     const [shouldTriggerAnimation, setShouldTriggerAnimation] = useState(false);
     const [animationProgress, setAnimationProgress] = useState(0);
+    const [galleryLoading, setGalleryLoading] = useState(true);
+    const [galleryProgress, setGalleryProgress] = useState(0);
     const [showScrollHint, setShowScrollHint] = useState(true);
     const [imageViewerOpen, setImageViewerOpen] = useState(false);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -942,6 +982,11 @@ export default function Home() {
     // 准备图片查看器的图片数据
     const exhibitionImages = exhibition?.images || [];
     const validImages = exhibitionImages.filter((img) => img?.asset);
+
+    useEffect(() => {
+        setGalleryLoading(validImages.length > 0);
+        setGalleryProgress(validImages.length > 0 ? 0 : 1);
+    }, [validImages.length]);
 
     const viewerImages = validImages.map((sanityImage, index) => ({
         url: getOptimizedImageUrl(sanityImage, {
@@ -1121,7 +1166,7 @@ export default function Home() {
     }, []);
 
     // Calculate current spacing based on animation progress
-    const currentSpacing = INITIAL_SPACING + (FINAL_SPACING - INITIAL_SPACING) * animationProgress;
+    const currentSpacing = FINAL_SPACING;
 
     return (
         <div className={styles.page}>
@@ -1142,8 +1187,29 @@ export default function Home() {
                         onScrollStart={handleScrollStart}
                         onCardClick={handleCardClick}
                         animationProgress={animationProgress}
+                        onImagesLoaded={() => setGalleryLoading(false)}
                     />
                 </View>
+                {galleryLoading && (
+                    <div
+                        style={{
+                            position: 'absolute',
+                            bottom: '12%',
+                            left: '50%',
+                            transform: 'translateX(-50%)',
+                            padding: '8px 12px',
+                            background: 'rgba(0, 0, 0, 0.55)',
+                            color: '#fff',
+                            fontSize: '12px',
+                            letterSpacing: '0.08em',
+                            textTransform: 'uppercase',
+                            borderRadius: '999px',
+                            pointerEvents: 'none',
+                        }}
+                    >
+                        Gallery loading…
+                    </div>
+                )}
 
                 {/* 移动端滚动提示 */}
                 {showScrollHint && (

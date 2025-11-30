@@ -225,15 +225,20 @@ function Card({
         const prog = animationProgress || 0;
         const introEase = Math.sin(prog * Math.PI * 0.5);
         const targetYaw = THREE.MathUtils.lerp(0, -Math.PI / 6, introEase);
-        easing.damp(cardRef.current.rotation, 'y', targetYaw, 0.2, delta);
-        easing.damp(cardRef.current.rotation, 'z', radialRoll, 0.18, delta);
+        const dampRot = screenSize === 'mobile' ? 0.28 : 0.22;
+        easing.damp(cardRef.current.rotation, 'y', targetYaw, dampRot, delta);
+        easing.damp(cardRef.current.rotation, 'z', radialRoll, dampRot * 0.9, delta);
 
         const f = hovered ? 1.2 : active ? 1.2 : 1;
         const scaledF = THREE.MathUtils.lerp(0.95, f, revealProgress);
+        const introScale = screenSize === 'mobile' ? THREE.MathUtils.lerp(0.72, 1, introEase) : 1;
+        const finalScale = scaledF * introScale;
         const targetOpacity = hovered ? 1.0 : 0.85; // Increase opacity on hover
 
-        easing.damp3(cardRef.current.position, [0, 0, hovered ? -0.9 : 0], 0.2, delta);
-        easing.damp3(cardRef.current.scale, [scaledF, scaledF, scaledF], 0.15, delta);
+        const dampPos = screenSize === 'mobile' ? 0.26 : 0.2;
+        const dampScale = screenSize === 'mobile' ? 0.24 : 0.18;
+        easing.damp3(cardRef.current.position, [0, 0, hovered ? -0.9 : 0], dampPos, delta);
+        easing.damp3(cardRef.current.scale, [finalScale, finalScale, finalScale], dampScale, delta);
 
         // Smooth opacity transition on the custom shader
         if (imageShaderRef.current?.uniforms?.uOpacity) {
@@ -448,11 +453,13 @@ function CameraController({ triggerAnimation, onProgressChange }) {
 
         if (animationTriggered && animationStartTime) {
             const animationElapsed = (Date.now() - animationStartTime) / 1000;
-            const animationProgress = Math.min(animationElapsed / 3, 1);
+            const animationDuration = screenSize === 'mobile' ? 3.8 : 3.2;
+            const animationProgress = Math.min(animationElapsed / animationDuration, 1);
+            // cubic ease-in-out for a slower, smoother ramp
             progress =
                 animationProgress < 0.5
-                    ? 2 * animationProgress * animationProgress
-                    : 1 - Math.pow(-2 * animationProgress + 2, 2) / 2;
+                    ? 4 * Math.pow(animationProgress, 3)
+                    : 1 - Math.pow(-2 * animationProgress + 2, 3) / 2;
         }
 
         onProgressChange(progress);
@@ -462,8 +469,8 @@ function CameraController({ triggerAnimation, onProgressChange }) {
         let lookAtTarget;
         switch (screenSize) {
             case 'mobile':
-                finalPos = [0, 15, 25];
-                lookAtTarget = [0, -2.0, 0];
+                finalPos = [0, 12, 24];
+                lookAtTarget = [0, -0.5, 0];
                 break;
             case 'medium':
                 finalPos = [0, 18, 30];
@@ -485,8 +492,8 @@ function CameraController({ triggerAnimation, onProgressChange }) {
     let zoom, initialPosition;
     switch (screenSize) {
         case 'mobile':
-            zoom = 160; // 稍微拉远一点以看到底部卡片
-            initialPosition = [0, 15, 25]; // final position
+            zoom = 150; // 稍微拉远一点以看到底部卡片
+            initialPosition = [0, 12, 24]; // final position
             break;
         case 'medium':
             // 13-inch MacBook optimization
@@ -558,7 +565,7 @@ function Cards({
     const baseGroupYOffset = useMemo(() => {
         switch (screenSize) {
             case 'mobile':
-                return 0;
+                return -0.5;
             case 'medium':
                 return -0.6;
             case 'laptop':
@@ -571,7 +578,7 @@ function Cards({
     const introLift = useMemo(() => {
         switch (screenSize) {
             case 'mobile':
-                return 3;
+                return 1.5;
             case 'medium':
                 return 2.5;
             case 'laptop':
@@ -881,14 +888,13 @@ function Cards({
             {imageData.map((imageInfo, index) => {
                 // Screen-size responsive Y positioning - 小尺寸固定在底部
                 let yOffset;
-                switch (screenSize) {
-                    case 'mobile':
-                        // 移动端：固定在屏幕底部20px位置
-                        // 使用负值让卡片在视野下方，通过相机角度看到
-                        yOffset = -3;
-                        break;
-                    case 'medium':
-                        // 13-inch MacBook - 稍微下移但不要太极端
+        switch (screenSize) {
+            case 'mobile':
+                // 移动端：更居中，初始位置略低
+                yOffset = -1.3;
+                break;
+            case 'medium':
+                // 13-inch MacBook - 稍微下移但不要太极端
                         yOffset = -1;
                         break;
                     case 'laptop':
@@ -900,8 +906,8 @@ function Cards({
                 const zOffset = 0;
 
                 // Entry animation: top-down stagger, then wave push along Z
-                const entryDelay = index * 0.08;
-                const entryDuration = 0.45;
+                const entryDelay = index * 0.06;
+                const entryDuration = 0.6;
                 const entryProgress = THREE.MathUtils.clamp(
                     (animationProgress - entryDelay) / entryDuration,
                     0,
@@ -913,12 +919,12 @@ function Cards({
                 const finalEase = Math.min(1, entryEase + settleEase); // ensures we fully settle spacing
 
                 // Vertical S-curve once in place
-                const waveAmp = 0.8;
+                const waveAmp = 0.5;
                 const wave = Math.sin(index * 1.2) * waveAmp * waveScale;
 
                 // Z push wave after entry starts
                 const pushEase = Math.sin(Math.max(entryProgress - 0.3, 0) * Math.PI * 0.5);
-                const zWave = -0.6 * Math.sin(animationProgress * 2.2 + index * 0.7) * pushEase * (1 - settleEase);
+                const zWave = -0.35 * Math.sin(animationProgress * 2.2 + index * 0.7) * pushEase * (1 - settleEase);
 
                 // Start near final center (no big drop), slight forward offset
                 const startY = yOffset;

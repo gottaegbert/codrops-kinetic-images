@@ -282,7 +282,7 @@
     
     // 当前展览按钮的移动端样式
     .currentExhibitionContainer {
-        position: fixed;
+        position: absolute;
         top: calc(var(--header-height, 72px) + 8px + env(safe-area-inset-top, 0));
         left: 50%;
         transform: translateX(-50%);

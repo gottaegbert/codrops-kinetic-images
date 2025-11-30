@@ -15,7 +15,7 @@
 // 当前展览按钮容器样式 (从页面文件移动过来)
 .currentExhibitionContainer {
     position: absolute; /* 绝对定位，与header基线对齐 */
-    top: calc(var(--header-height, 72px) + 8px); /* 放在 header 下方居中 */
+    top: 0;
     left: 50%;
     transform: translateX(-50%);
     z-index: 3500; /* 高于header，保持可点击 */
@@ -254,7 +254,7 @@
     
     .currentExhibitionContainer {
         position: fixed;
-        top: calc(var(--header-height, 72px) + 8px + env(safe-area-inset-top, 0));
+        top: 0;
         left: 50%;
         transform: translateX(-50%);
         align-items: center;
@@ -262,10 +262,6 @@
         pointer-events: auto;
         margin: 0 auto;
         z-index: 3200;
-    }
-    
-    .currentExhibitionButton {
-        padding-top: 0;
     }
     
     .exhibitionDetails {
@@ -283,7 +279,7 @@
     // 当前展览按钮的移动端样式
     .currentExhibitionContainer {
         position: absolute;
-        top: calc(var(--header-height, 72px) + 8px + env(safe-area-inset-top, 0));
+        top:0;
         left: 50%;
         transform: translateX(-50%);
         width: min(90vw, 320px);

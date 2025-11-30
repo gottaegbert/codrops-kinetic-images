@@ -1,7 +1,7 @@
 @import '../../../../styles/card-system.scss';
 
 .header {
-    position: absolute;
+    position: fixed;
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
@@ -9,8 +9,10 @@
     left: 0;
     z-index: 3000;
     padding: 0.75rem;
+    height: 60px;
     width: 100vw;
     opacity: 1;
+    background-color: #fdfdfbe0;
     transform: translateY(0);
     pointer-events: auto;
 }
@@ -34,6 +36,7 @@
     position: relative;
     white-space: nowrap;
 }
+
 
 .title {
     font-size: 1.5rem;
@@ -245,9 +248,9 @@
         top: 0;
         left: 0;
         right: 0;
-        padding: 2rem 2rem;
-        width: 100%;
-        pointer-events: none;
+        padding: 1rem 1rem;
+        width: 100%;    
+
     }
 
     .brandBlock {
@@ -256,7 +259,6 @@
 
     .menuContainer {
         pointer-events: auto;
-        margin-top: 0.2rem;
     }
 
     .menuToggle {

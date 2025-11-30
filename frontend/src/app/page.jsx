@@ -238,7 +238,7 @@ function Card({
 
     return (
         <group position={position}>
-            <group ref={cardRef} rotation={[0, -Math.PI / 4, 0]} renderOrder={index * 2}>
+            <group ref={cardRef} rotation={[0, -Math.PI / 4, 0]} renderOrder={-index * 2}>
                 {/* <RoundedBox
                     args={[cardWidth, cardHeight, cardThickness]}
                     radius={edgeRadius}
@@ -292,9 +292,9 @@ function Card({
                 </RoundedBox> */}
 
                 {/* Image layer offset forward */}
-                <mesh
+                    <mesh
                     position={[0, 0, cardThickness / 2 + imageDepth / 2 + 0.0003]}
-                    renderOrder={index * 2 + 2}
+                    renderOrder={-(index * 2 + 1)}
                     onPointerOver={(e) => {
                         e.stopPropagation();
                         document.body.style.cursor = 'pointer';
@@ -355,38 +355,34 @@ function Card({
                                 vec2 uv = clamp(vUv, 0.0, 1.0);
                                 vec4 color = texture2D(uTexture, uv);
 
-                                float edgeX = smoothstep(0.36, 0.5, abs(uv.x - 0.5));
-                                float edgeY = smoothstep(0.36, 0.5, abs(uv.y - 0.5));
+                                float edgeX = smoothstep(0.32, 0.46, abs(uv.x - 0.5));
+                                float edgeY = smoothstep(0.32, 0.46, abs(uv.y - 0.5));
                                 float edge = clamp(max(edgeX, edgeY), 0.0, 1.0);
 
+                                // Gentle edge tint with subtle blur near edges
                                 vec3 edgeXCol = (
-                                    texture2D(uTexture, vec2(0.02, uv.y)).rgb +
-                                    texture2D(uTexture, vec2(0.98, uv.y)).rgb
+                                    texture2D(uTexture, vec2(0.04, uv.y)).rgb +
+                                    texture2D(uTexture, vec2(0.96, uv.y)).rgb
                                 ) * 0.5;
                                 vec3 edgeYCol = (
-                                    texture2D(uTexture, vec2(uv.x, 0.02)).rgb +
-                                    texture2D(uTexture, vec2(uv.x, 0.98)).rgb
+                                    texture2D(uTexture, vec2(uv.x, 0.04)).rgb +
+                                    texture2D(uTexture, vec2(uv.x, 0.96)).rgb
                                 ) * 0.5;
-                                vec3 edgeColor = mix(edgeXCol, edgeYCol, 0.5);
+                                vec3 edgeColor = mix(edgeXCol, edgeYCol, 0.1);
 
-                                // Gaussian-ish blur near edges
-                                vec2 texel = vec2(0.003, 0.003);
-                                vec4 blur =
-                                    texture2D(uTexture, uv + texel) * 0.15 +
-                                    texture2D(uTexture, uv - texel) * 0.15 +
-                                    texture2D(uTexture, uv + vec2(texel.x, -texel.y)) * 0.15 +
-                                    texture2D(uTexture, uv + vec2(-texel.x, texel.y)) * 0.15 +
-                                    texture2D(uTexture, uv + vec2(texel.x * 2.0, 0.0)) * 0.1 +
-                                    texture2D(uTexture, uv + vec2(-texel.x * 2.0, 0.0)) * 0.1 +
-                                    texture2D(uTexture, uv + vec2(0.0, texel.y * 2.0)) * 0.1 +
-                                    texture2D(uTexture, uv + vec2(0.0, -texel.y * 2.0)) * 0.1 +
-                                    texture2D(uTexture, uv) * 0.0; // summed weights ~1
+                                // Radial smear outward near the edge
+                                vec2 dir = normalize(uv - 0.5 + 1e-4);
+                                float spread = 0.02 * edge; // tighter outward radius
+                                vec3 blur =
+                                    texture2D(uTexture, uv).rgb * 0.55 +
+                                    texture2D(uTexture, uv + dir * spread * 0.7).rgb * 0.25 +
+                                    texture2D(uTexture, uv + dir * spread * 1.2).rgb * 0.2;
 
+                                // Keep edges translucent with gentler blur
                                 vec3 tinted = mix(color.rgb, edgeColor, edge * 0.04);
-                                tinted = mix(tinted, blur.rgb, edge * 0.25);
-                                tinted = mix(tinted, vec3(0.9, 0.93, 0.97), edge * 0.05);
+                                tinted = mix(tinted, blur, edge * 0.3);
 
-                                float minAlpha = 0.6;
+                                float minAlpha = 0.85; // keep more solid interior
                                 float alpha = mix(1.0, minAlpha, edge) * uOpacity;
                                 gl_FragColor = vec4(tinted, color.a * alpha);
                             }

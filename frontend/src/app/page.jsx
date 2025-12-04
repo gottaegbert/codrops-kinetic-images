@@ -565,7 +565,7 @@ function Cards({
     const baseGroupYOffset = useMemo(() => {
         switch (screenSize) {
             case 'mobile':
-                return -0.5;
+                return 0;
             case 'medium':
                 return -0.6;
             case 'laptop':
@@ -891,7 +891,7 @@ function Cards({
         switch (screenSize) {
             case 'mobile':
                 // 移动端：更居中，初始位置略低
-                yOffset = -1.3;
+                yOffset = -1;
                 break;
             case 'medium':
                 // 13-inch MacBook - 稍微下移但不要太极端

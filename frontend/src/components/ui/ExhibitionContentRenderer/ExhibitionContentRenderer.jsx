@@ -32,7 +32,7 @@ export default function ExhibitionContentRenderer({ content, language = 'en' }) 
   }
 
   return (
-    <div className={styles.content}>
+    <div className={styles.content} data-content-section>
       <PortableText 
         value={content[language]} 
         components={components}

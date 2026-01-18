@@ -165,6 +165,7 @@
 .contentSection {
     margin-bottom: 6rem;
     max-width: 800px;
+    scroll-margin-top: calc(var(--header-height, 120px) + 2rem);
     
     h2 {
         font-size: 1.5rem;

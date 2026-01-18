@@ -4,6 +4,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import styles from './page.module.scss';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useLenis } from '@/contexts/LenisContext';
 import { useExhibition } from '@/hooks/useArchiveContent';
 import { getOptimizedImageUrl } from '@/sanity/client';
 import { PortableText } from '@portabletext/react';
@@ -23,6 +24,19 @@ const portableTextComponents = {
 export default function ArchiveDetailClient({ id }) {
     const { t, language } = useLanguage();
     const { exhibition, loading, error } = useExhibition(id);
+    const lenis = useLenis();
+
+    const handleScrollTo = (e, targetId) => {
+        e.preventDefault();
+        const element = document.getElementById(targetId);
+        if (element) {
+            if (lenis) {
+                lenis.scrollTo(element, { offset: -150 });
+            } else {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    };
 
     if (loading) {
         return (
@@ -69,13 +83,31 @@ export default function ArchiveDetailClient({ id }) {
                     <span className={styles.navLabel}>{t('home.onThisPage') || 'On this page:'}</span>
                     <div className={styles.navLinks}>
                         {exhibition.pressRelease?.[language] && (
-                            <a href="#pressRelease" className={styles.navLink}>{t('home.pressRelease') || 'Press Release'}</a>
+                            <a 
+                                href="#pressRelease" 
+                                className={styles.navLink}
+                                onClick={(e) => handleScrollTo(e, 'pressRelease')}
+                            >
+                                {t('home.pressRelease') || 'Press Release'}
+                            </a>
                         )}
                         {exhibition.interview?.content?.[language] && (
-                            <a href="#interview" className={styles.navLink}>{t('home.interview') || 'Interview'}</a>
+                            <a 
+                                href="#interview" 
+                                className={styles.navLink}
+                                onClick={(e) => handleScrollTo(e, 'interview')}
+                            >
+                                {t('home.interview') || 'Interview'}
+                            </a>
                         )}
                         {exhibition.statement?.[language] && (
-                            <a href="#statement" className={styles.navLink}>{t('home.statement') || 'Artist Statement'}</a>
+                            <a 
+                                href="#statement" 
+                                className={styles.navLink}
+                                onClick={(e) => handleScrollTo(e, 'statement')}
+                            >
+                                {t('home.statement') || 'Artist Statement'}
+                            </a>
                         )}
                     </div>
                 </nav>

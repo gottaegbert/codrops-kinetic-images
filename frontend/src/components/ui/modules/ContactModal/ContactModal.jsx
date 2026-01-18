@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import styles from './ContactModal.module.scss';
 
-function ContactModalContent({ onClose }) {
+function ContactModalContent({ onClose, isClosing }) {
     useEffect(() => {
         const handleKeyDown = (event) => {
             if (event.key === 'Escape') onClose();
@@ -14,8 +14,16 @@ function ContactModalContent({ onClose }) {
     }, [onClose]);
 
     return (
-        <div className={styles.overlay} onClick={onClose}>
-            <div className={styles.modal} role="dialog" aria-modal="true" onClick={(e) => e.stopPropagation()}>
+        <div 
+            className={`${styles.overlay} ${isClosing ? styles.closing : ''}`} 
+            onClick={onClose}
+        >
+            <div 
+                className={`${styles.modal} ${isClosing ? styles.closing : ''}`} 
+                role="dialog" 
+                aria-modal="true" 
+                onClick={(e) => e.stopPropagation()}
+            >
                 <button className={styles.closeButton} type="button" onClick={onClose} aria-label="Close contact">
                     <span>&times;</span>
                 </button>
@@ -46,13 +54,25 @@ function ContactModalContent({ onClose }) {
 
 export default function ContactModal({ open, onClose }) {
     const [mounted, setMounted] = useState(false);
+    const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
         setMounted(true);
     }, []);
 
     useEffect(() => {
-        if (!open) {
+        if (open) {
+            setIsVisible(true);
+        } else {
+            const timer = setTimeout(() => {
+                setIsVisible(false);
+            }, 400); // 400ms matches animation duration
+            return () => clearTimeout(timer);
+        }
+    }, [open]);
+
+    useEffect(() => {
+        if (!isVisible) {
             document.body.style.overflow = '';
             return;
         }
@@ -62,9 +82,15 @@ export default function ContactModal({ open, onClose }) {
         return () => {
             document.body.style.overflow = previous;
         };
-    }, [open]);
+    }, [isVisible]);
 
-    if (!mounted || !open) return null;
+    if (!mounted || !isVisible) return null;
 
-    return createPortal(<ContactModalContent onClose={onClose} />, document.body);
+    return createPortal(
+        <ContactModalContent 
+            onClose={onClose} 
+            isClosing={!open && isVisible} 
+        />, 
+        document.body
+    );
 }

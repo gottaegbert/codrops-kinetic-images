@@ -54,7 +54,7 @@ function CurrentExhibitionButton() {
         const contentSection = document.querySelector('[data-content-section]');
         if (contentSection) {
             if (lenis) {
-                lenis.scrollTo(contentSection);
+                lenis.scrollTo(contentSection, { offset: -120 });
             } else {
                 contentSection.scrollIntoView({
                     behavior: 'smooth',
@@ -1147,7 +1147,7 @@ export default function Home() {
         }
 
         if (lenis) {
-            lenis.scrollTo(targetSection);
+            lenis.scrollTo(targetSection, { offset: -120 });
         } else {
             targetSection.scrollIntoView({
                 behavior: 'smooth',

@@ -28,7 +28,7 @@ function Header({ children }) {
     };
 
     const navItems = [
-        { href: '/archive', label: t('navigation.archive'), disabled: true },
+        { href: '/archive', label: t('navigation.archive') },
         { href: '/news', label: t('navigation.news'), disabled: true },
         { href: '/review', label: t('navigation.review') },
         { href: '/about', label: t('navigation.about') },

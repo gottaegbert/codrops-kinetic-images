@@ -3,33 +3,31 @@
     z-index: 2;
     background: #fff;
     min-height: 100vh;
-    padding-bottom: 4rem;
+    display: flex;
+    flex-direction: column;
 }
 
 .container {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 8rem 3rem 0;
+    max-width: none;
+    margin: 8rem 8rem 0;
+    flex: 1;
+    padding: 4rem 0 3rem;
 }
 
 .header {
-    margin-bottom: 4rem;
+    margin-bottom: 3rem;
 }
 
 .title {
     font-size: 2.5rem;
     font-weight: 300;
-    letter-spacing: -0.02em;
     color: #000;
-    margin: 0 0 1rem;
-    line-height: 1.1;
+    margin: 0 0 3rem;
+    line-height: normal;
 }
 
 .subtitle {
-    font-size: 1rem;
-    color: #666;
-    margin: 0;
-    line-height: 1.5;
+    display: none;
 }
 
 .archiveGrid {
@@ -128,24 +126,51 @@
 }
 
 // 响应式设计
+// 响应式设计
 @media (max-width: 1024px) {
     .container {
-        padding: 7rem 2rem 0;
+        margin: 7rem 4rem 0;
+        padding: 3.5rem 0 2.5rem;
     }
     
     .archiveGrid {
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
         gap: 1.5rem;
     }
+    
+    .archiveItem:first-child {
+        grid-column: span 1;
+        
+        .itemLink {
+            display: block;
+        }
+        
+        .imageContainer {
+            margin-bottom: 1rem;
+            aspect-ratio: 3/2;
+        }
+        
+        .itemTitle {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .itemDescription {
+            font-size: 0.9rem;
+            -webkit-line-clamp: 3;
+        }
+    }
 }
 
 @media (max-width: 768px) {
     .container {
-        padding: 6rem 1.5rem 0;
+        margin: 6rem 2rem 0;
+        padding: 3rem 0 2.5rem;
     }
     
     .title {
         font-size: 2rem;
+        margin-bottom: 2rem;
     }
     
     .header {
@@ -186,7 +211,8 @@
 
 @media (max-width: 480px) {
     .container {
-        padding: 5rem 1rem 0;
+        margin: 5rem 1rem 0;
+        padding: 2.5rem 0 2rem;
     }
     
     .title {

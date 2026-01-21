@@ -140,6 +140,7 @@ function Card({
     imageUrl,
     imageDimensions,
     animationProgress = 0,
+    rotationProgress,
     revealProgress = 1,
     radialRoll = 0,
 }) {
@@ -222,16 +223,17 @@ function Card({
         if (!cardRef.current) return;
 
         // Start facing the user (0) and ease to -15°
-        const prog = animationProgress || 0;
-        const introEase = Math.sin(prog * Math.PI * 0.5);
-        const targetYaw = THREE.MathUtils.lerp(0, -Math.PI / 6, introEase);
+        const rotationProg = rotationProgress ?? animationProgress ?? 0;
+        const rotationEase = Math.sin(rotationProg * Math.PI * 0.5);
+        const targetYaw = THREE.MathUtils.lerp(0, -Math.PI / 6, rotationEase);
         const dampRot = screenSize === 'mobile' ? 0.28 : 0.22;
         easing.damp(cardRef.current.rotation, 'y', targetYaw, dampRot, delta);
         easing.damp(cardRef.current.rotation, 'z', radialRoll, dampRot * 0.9, delta);
 
         const f = hovered ? 1.2 : active ? 1.2 : 1;
         const scaledF = THREE.MathUtils.lerp(0.95, f, revealProgress);
-        const introScale = screenSize === 'mobile' ? THREE.MathUtils.lerp(0.72, 1, introEase) : 1;
+        const scaleEase = Math.sin((animationProgress || 0) * Math.PI * 0.5);
+        const introScale = screenSize === 'mobile' ? THREE.MathUtils.lerp(0.72, 1, scaleEase) : 1;
         const finalScale = scaledF * introScale;
         const targetOpacity = hovered ? 1.0 : 0.85; // Increase opacity on hover
 
@@ -562,6 +564,17 @@ function Cards({
         animationProgressRef.current = animationProgress;
     }, [animationProgress]);
 
+    const stackHold = 0.18;
+    const spreadDuration = 0.6;
+    const settleStart = 0.7;
+    const settleDuration = 0.3;
+    const maxDelay = 0.2;
+    const globalRotationProgress = THREE.MathUtils.clamp(
+        (animationProgress - stackHold) / spreadDuration,
+        0,
+        1
+    );
+
     const baseGroupYOffset = useMemo(() => {
         switch (screenSize) {
             case 'mobile':
@@ -603,6 +616,7 @@ function Cards({
             const introEase = Math.sin((animationProgressRef.current || 0) * Math.PI * 0.5);
             const animatedYOffset = baseGroupYOffset + introLift * (1 - introEase);
             easing.damp3(groupRef.current.position, [scrollOffset, animatedYOffset, 0], 0.14, delta);
+            easing.damp3(groupRef.current.rotation, [0, 0, 0], 0.16, delta);
         }
     });
 
@@ -888,13 +902,13 @@ function Cards({
             {imageData.map((imageInfo, index) => {
                 // Screen-size responsive Y positioning - 小尺寸固定在底部
                 let yOffset;
-        switch (screenSize) {
-            case 'mobile':
-                // 移动端：更居中，初始位置略低
-                yOffset = -1;
-                break;
-            case 'medium':
-                // 13-inch MacBook - 稍微下移但不要太极端
+                switch (screenSize) {
+                    case 'mobile':
+                        // 移动端：更居中，初始位置略低
+                        yOffset = -1;
+                        break;
+                    case 'medium':
+                        // 13-inch MacBook - 稍微下移但不要太极端
                         yOffset = -1;
                         break;
                     case 'laptop':
@@ -905,30 +919,23 @@ function Cards({
                 }
                 const zOffset = 0;
 
-                // Entry animation: top-down stagger, then wave push along Z
-                const entryDelay = index * 0.06;
-                const entryDuration = 0.6;
-                const entryProgress = THREE.MathUtils.clamp(
-                    (animationProgress - entryDelay) / entryDuration,
+                const spreadDelay =
+                    actualCount > 1 ? (index / (actualCount - 1)) * maxDelay : 0;
+                const spreadProgress = THREE.MathUtils.clamp(
+                    (animationProgress - stackHold - spreadDelay) / spreadDuration,
                     0,
                     1
                 );
-                const entryEase = Math.sin(entryProgress * Math.PI * 0.5);
-                const settleEase = THREE.MathUtils.clamp((animationProgress - 0.6) / 0.4, 0, 1);
-                const waveScale = entryEase * (1 - settleEase);
-                const finalEase = Math.min(1, entryEase + settleEase); // ensures we fully settle spacing
+                const spreadEase = Math.sin(spreadProgress * Math.PI * 0.5);
+                const settleProgress = THREE.MathUtils.clamp(
+                    (animationProgress - settleStart) / settleDuration,
+                    0,
+                    1
+                );
+                const settleEase = Math.sin(settleProgress * Math.PI * 0.5);
 
-                // Vertical S-curve once in place
-                const waveAmp = 0.5;
-                const wave = Math.sin(index * 1.2) * waveAmp * waveScale;
-
-                // Z push wave after entry starts
-                const pushEase = Math.sin(Math.max(entryProgress - 0.3, 0) * Math.PI * 0.5);
-                const zWave = -0.35 * Math.sin(animationProgress * 2.2 + index * 0.7) * pushEase * (1 - settleEase);
-
-                // Start near final center (no big drop), slight forward offset
-                const startY = yOffset;
-                const startZ = zOffset + 0.2;
+                const waveAmp = 0.25;
+                const wave = Math.sin(index * 1.2) * waveAmp * spreadEase * (1 - settleEase);
 
                 // Position based on per-card spacing to reduce overlap
                 let cumulative = -totalWidth / 2;
@@ -936,12 +943,16 @@ function Cards({
                     cumulative += spacingValues[i] || 0;
                 }
                 const xCenter = cumulative + (spacingValues[index] || FINAL_SPACING) / 2;
-                const indexFromCenter = index - (actualCount - 1) / 2;
-                const extraSpread = edgeSpacing * 0.6;
-                const startX = xCenter + indexFromCenter * extraSpread; // wider spacing at start
-                const x = THREE.MathUtils.lerp(startX, xCenter, finalEase);
-                const y = THREE.MathUtils.lerp(startY, yOffset + wave, entryEase);
-                const z = THREE.MathUtils.lerp(startZ, zOffset, entryEase) + zWave;
+                const stackJitter = screenSize === 'mobile' ? 0.08 : 0.12;
+                const stackAnchorX = -scrollOffset;
+                const stackBaseY = yOffset + (screenSize === 'mobile' ? 0.2 : 0.4);
+                const stackBaseZ = screenSize === 'mobile' ? 0.4 : 0.6;
+                const stackX = stackAnchorX + Math.sin(index * 1.7) * stackJitter;
+                const stackY = stackBaseY + Math.cos(index * 1.3) * stackJitter * 0.6;
+                const stackZ = stackBaseZ + index * 0.03;
+                const x = THREE.MathUtils.lerp(stackX, xCenter, spreadEase);
+                const y = THREE.MathUtils.lerp(stackY, yOffset + wave, spreadEase);
+                const z = THREE.MathUtils.lerp(stackZ, zOffset, spreadEase);
 
                 return (
                     <Card
@@ -957,6 +968,7 @@ function Cards({
                         altText={imageInfo.alt}
                         imageDimensions={imageInfo.dimensions}
                         animationProgress={animationProgress}
+                        rotationProgress={globalRotationProgress}
                     />
                 );
             })}

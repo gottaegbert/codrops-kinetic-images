@@ -1,4 +1,4 @@
-export const archiveQuery = `*[_type == "exhibition"] | order(date desc) {
+export const archiveQuery = `*[_type == "exhibition" && (!defined(isCurrent) || isCurrent == false)] | order(date desc) {
   _id,
   title,
   slug,

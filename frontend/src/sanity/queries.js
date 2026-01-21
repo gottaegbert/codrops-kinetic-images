@@ -22,7 +22,23 @@ export const CURRENT_EXHIBITION_QUERY = `
       },
       alt,
       title,
-      hotspot
+      hotspot,
+      detailImages[] {
+        asset->{
+          _id,
+          url,
+          metadata {
+            dimensions,
+            lqip,
+            blurhash,
+            palette
+          }
+        },
+        alt,
+        title,
+        description,
+        hotspot
+      }
     },
     detailImages[] {
       asset->{

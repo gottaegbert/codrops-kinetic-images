@@ -1,8 +1,6 @@
 {
-  "/about/page": "app/about/page.js",
   "/archive/[id]/page": "app/archive/[id]/page.js",
   "/archive/page": "app/archive/page.js",
   "/favicon.ico/route": "app/favicon.ico/route.js",
-  "/page": "app/page.js",
-  "/review/page": "app/review/page.js"
+  "/page": "app/page.js"
 }

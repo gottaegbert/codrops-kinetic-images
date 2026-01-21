@@ -994,19 +994,27 @@ export default function Home() {
         setGalleryProgress(validImages.length > 0 ? 0 : 1);
     }, [validImages.length]);
 
-    const viewerImages = validImages.map((sanityImage, index) => ({
-        url: getOptimizedImageUrl(sanityImage, {
-            width: 1920, // 更高分辨率用于查看器
-            quality: 95,
-            format: 'webp',
-            fit: 'max',
-        }),
-        alt: sanityImage.alt || `${exhibition?.title || 'Gallery'} image ${index + 1}`,
-        title: sanityImage.title || `Image ${index + 1}`,
-        detailImages: sanityImage.detailImages || [],
-        artworkTitle: sanityImage.artworkTitle || sanityImage.title || `Artwork ${index + 1}`,
-        artworkDescription: sanityImage.description || ''
-    }));
+    const viewerImages = validImages.map((sanityImage, index) => {
+        const detailImages = (sanityImage.detailImages || []).filter((detail) => detail?.asset);
+        return {
+            url: getOptimizedImageUrl(sanityImage, {
+                width: 1920, // 更高分辨率用于查看器
+                quality: 95,
+                format: 'webp',
+                fit: 'max',
+            }),
+            alt: sanityImage.alt || `${exhibition?.title || 'Gallery'} image ${index + 1}`,
+            title: sanityImage.title || `Image ${index + 1}`,
+            detailImages,
+            artworkTitle: sanityImage.artworkTitle || sanityImage.title || `Artwork ${index + 1}`,
+            artworkDescription: sanityImage.description || ''
+        };
+    });
+
+    const fallbackDetailImages = (exhibition?.detailImages || []).filter((detail) => detail?.asset);
+    const activeDetailImages = viewerImages[currentImageIndex]?.detailImages || [];
+    const detailImagesForViewer =
+        activeDetailImages.length > 0 ? activeDetailImages : fallbackDetailImages;
 
     const handleFirstHover = () => {
         if (!shouldTriggerAnimation) {
@@ -1506,11 +1514,7 @@ export default function Home() {
                 onClose={handleCloseImageViewer}
                 onNext={handleNextImage}
                 onPrev={handlePrevImage}
-                detailImages={
-                    exhibition?.detailImages && exhibition.detailImages[currentImageIndex]?.asset
-                        ? [exhibition.detailImages[currentImageIndex]]
-                        : []
-                }
+                detailImages={detailImagesForViewer}
                 artworkTitle={viewerImages[currentImageIndex]?.artworkTitle || ''}
                 artworkDescription={viewerImages[currentImageIndex]?.artworkDescription || ''}
             />

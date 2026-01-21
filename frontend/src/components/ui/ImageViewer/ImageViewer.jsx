@@ -102,18 +102,19 @@ const ImageViewer = ({
     const currentImage = images[currentImageIndex];
     const currentDetailImage = detailImages[currentDetailIndex];
     const displayImage = showDetailView ? currentDetailImage : currentImage;
+    const displayImageUrl = displayImage?.asset?.url || displayImage?.url;
     const hasDetailImages = detailImages.length > 0;
 
-    if (!isOpen || !currentImage) return null;
+    if (!isOpen) return null;
 
-    const handleOverlayClick = (event) => {
+    const handleOverlayPointerDown = (event) => {
         if (event.currentTarget === event.target) onClose();
     };
 
     return (
-        <div className={styles.overlay} onClick={handleOverlayClick}>
-            <div className={styles.container} onClick={handleOverlayClick}>
-                <div className={styles.dialog} onClick={handleOverlayClick}>
+        <div className={styles.overlay} onPointerDown={handleOverlayPointerDown}>
+            <div className={styles.container} onPointerDown={handleOverlayPointerDown}>
+                <div className={styles.dialog} onPointerDown={handleOverlayPointerDown}>
                     {/* 关闭按钮 */}
                     <button className={styles.closeButton} onClick={onClose}>
                         <svg viewBox="0 0 24 24" fill="none">
@@ -162,20 +163,24 @@ const ImageViewer = ({
                     <div className={styles.content}>
                         {/* 图片容器 */}
                         <div className={styles.imageContainer}>
-                        {isLoading && (
+                        {isLoading && displayImageUrl && (
                             <div className={styles.loading}>
                                 <div className={styles.spinner}></div>
                             </div>
                         )}
 
-                        {imageError ? (
+                        {!displayImageUrl ? (
+                            <div className={styles.error}>
+                                <p>图片缺失</p>
+                            </div>
+                        ) : imageError ? (
                             <div className={styles.error}>
                                 <p>图片加载失败</p>
                             </div>
                         ) : (
                             <img
                                 ref={imageRef}
-                                src={displayImage?.asset?.url || displayImage?.url}
+                                src={displayImageUrl}
                                 alt={displayImage?.alt || displayImage?.title || `Image ${currentImageIndex + 1}`}
                                 className={styles.image}
                                 onLoad={handleImageLoad}

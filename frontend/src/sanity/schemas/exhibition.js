@@ -55,6 +55,43 @@ export default {
             name: 'title',
             title: 'Image Title',
             type: 'string'
+          },
+          {
+            name: 'detailImages',
+            title: 'Detail Images',
+            type: 'array',
+            of: [{
+              type: 'image',
+              options: {
+                hotspot: true,
+                metadata: ['blurhash', 'lqip', 'palette']
+              },
+              fields: [
+                {
+                  name: 'alt',
+                  title: 'Alt Text',
+                  type: 'string',
+                  description: 'Describe the detail image for accessibility'
+                },
+                {
+                  name: 'title',
+                  title: 'Detail Title',
+                  type: 'string',
+                  description: 'Optional title for this detail image'
+                },
+                {
+                  name: 'description',
+                  title: 'Detail Description',
+                  type: 'text',
+                  rows: 2,
+                  description: 'Description of this specific detail'
+                }
+              ]
+            }],
+            options: {
+              layout: 'grid'
+            },
+            description: 'Upload detail/close-up images for this specific artwork'
           }
         ]
       }],

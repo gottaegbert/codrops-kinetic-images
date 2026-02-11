@@ -8,7 +8,8 @@ const ImageViewer = ({
     currentIndex = 0,
     isOpen = false,
     onClose,
-    detailImages = [], // 新增：细节图数组
+    detailImages: detailImagesProp = [], // 保留向后兼容
+    fallbackDetailImages = [], // 展览级别的 fallback
     artworkTitle = '',
     artworkDescription = ''
 }) => {
@@ -72,38 +73,27 @@ const ImageViewer = ({
         setImageError(true);
     };
 
+    // 1:1 对应：展览级 detailImages 按索引和 images 一一对应
+    const allDetailImages = fallbackDetailImages.length > 0
+        ? fallbackDetailImages
+        : (detailImagesProp.length > 0 ? detailImagesProp : []);
+
     const handleToggleDetailView = () => {
-        if (detailImages.length > 0) {
+        // 当前图片的对应 detail image
+        const correspondingDetail = allDetailImages[currentImageIndex];
+        if (correspondingDetail) {
             setShowDetailView(!showDetailView);
             setIsLoading(true);
             setImageError(false);
         }
     };
 
-    const handleDetailNavigation = (direction) => {
-        if (!detailImages.length) return;
-
-        setCurrentDetailIndex((prev) => {
-            if (direction === 'next') {
-                return Math.min(prev + 1, detailImages.length - 1);
-            }
-
-            if (direction === 'prev') {
-                return Math.max(prev - 1, 0);
-            }
-
-            return prev;
-        });
-
-        setIsLoading(true);
-        setImageError(false);
-    };
-
     const currentImage = images[currentImageIndex];
-    const currentDetailImage = detailImages[currentDetailIndex];
+    // 按索引取对应的 detail image
+    const currentDetailImage = allDetailImages[currentImageIndex];
     const displayImage = showDetailView ? currentDetailImage : currentImage;
     const displayImageUrl = displayImage?.asset?.url || displayImage?.url;
-    const hasDetailImages = detailImages.length > 0;
+    const hasDetailImages = !!allDetailImages[currentImageIndex];
 
     if (!isOpen) return null;
 
@@ -179,6 +169,7 @@ const ImageViewer = ({
                             </div>
                         ) : (
                             <img
+                                key={displayImageUrl}
                                 ref={imageRef}
                                 src={displayImageUrl}
                                 alt={displayImage?.alt || displayImage?.title || `Image ${currentImageIndex + 1}`}
@@ -189,46 +180,13 @@ const ImageViewer = ({
                             />
                         )}
 
-                        {/* 细节图导航按钮 */}
-                        {showDetailView && detailImages.length > 1 && (
-                            <>
-                                <button
-                                    className={`${styles.navButton} ${styles.detailPrevButton}`}
-                                    onClick={() => handleDetailNavigation('prev')}
-                                    disabled={currentDetailIndex === 0}
-                                >
-                                    <svg viewBox="0 0 24 24" fill="none">
-                                        <path
-                                            d="M15 18l-6-6 6-6"
-                                            stroke="currentColor"
-                                            strokeWidth="2"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                        />
-                                    </svg>
-                                </button>
-                                <button
-                                    className={`${styles.navButton} ${styles.detailNextButton}`}
-                                    onClick={() => handleDetailNavigation('next')}
-                                    disabled={currentDetailIndex === detailImages.length - 1}
-                                >
-                                    <svg viewBox="0 0 24 24" fill="none">
-                                        <path
-                                            d="M9 18l6-6-6-6"
-                                            stroke="currentColor"
-                                            strokeWidth="2"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                        />
-                                    </svg>
-                                </button>
-                            </>
-                        )}
+
+                        {/* 1:1 对应模式，无需细节图导航按钮 */}
                         </div>
 
                         {/* 底部信息栏：描述文本 */}
                         <div className={styles.bottomBar}>
-                        {!showDetailView && hasDetailImages && currentDetailImage?.description && (
+                        {showDetailView && hasDetailImages && currentDetailImage?.description && (
                             <p className={styles.detailDescription}>{currentDetailImage.description}</p>
                         )}
                         </div>

@@ -1526,7 +1526,7 @@ export default function Home() {
                 onClose={handleCloseImageViewer}
                 onNext={handleNextImage}
                 onPrev={handlePrevImage}
-                detailImages={detailImagesForViewer}
+                fallbackDetailImages={fallbackDetailImages}
                 artworkTitle={viewerImages[currentImageIndex]?.artworkTitle || ''}
                 artworkDescription={viewerImages[currentImageIndex]?.artworkDescription || ''}
             />

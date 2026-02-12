@@ -31,7 +31,7 @@
 }
 
 .pageNav {
-    margin-bottom: 4rem;
+    margin-bottom: 0;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -132,23 +132,60 @@
     color: #333;
 }
 
-.gallery {
-    column-count: 2;
-    column-gap: 2rem;
-    margin-bottom: 6rem;
+/* ============================================
+   GSAP Horizontal Gallery Styles
+   ============================================ */
+
+.galleryContainer {
+    width: 100%;
+    height: 100vh; /* Takes full viewport height for the pinning */
+    display: flex;
+    align-items: flex-end; /* Align items to bottom */
+    overflow: hidden; /* Hide horizontal overflow */
+    padding-bottom: 8rem; /* Space from bottom */
+}
+
+.galleryStrip {
+    display: flex;
+    align-items: flex-end;
+    gap: 4rem; /* Spacing between images */
+    padding-left: 5vw; /* Start padding */
+    padding-right: 5vw; /* End padding */
+    width: fit-content; /* Allow width to grow */
+    will-change: transform; /* Optimize for animation */
 }
 
 .galleryItem {
-    break-inside: avoid;
-    margin-bottom: 2rem;
-    width: 100%;
-    
+    position: relative;
+    flex-shrink: 0;
+
     img {
-        width: 100%;
-        height: auto;
         display: block;
+        width: auto;
+        height: 100%;
+        object-fit: contain;
+    }
+
+    &.portrait {
+        height: 60vh;
+    }
+
+    &.landscape {
+        height: 42vh;
     }
 }
+
+.artworkInfo {
+    margin-top: 0.6rem;
+    text-align: left;
+    font-size: 0.8rem;
+    color: #888;
+    letter-spacing: 0.02em;
+    line-height: 1.3;
+    white-space: nowrap;
+}
+
+/* ============================================ */
 
 .sectionImage {
     margin-bottom: 2rem;
@@ -204,9 +241,13 @@
     .container {
         padding: 6rem 1.5rem 0;
     }
-    
-    .gallery {
-        column-count: 1;
+
+    .galleryItem {
+        &.portrait {
+            height: 35vh; /* Reduced from default/50vh */
+        }
+        &.landscape {
+            height: 25vh; /* Reduced from default/35vh */
+        }
     }
-    // ... existing media queries ...
 }

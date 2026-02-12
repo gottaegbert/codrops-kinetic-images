@@ -57,6 +57,30 @@ export default {
             type: 'string'
           },
           {
+            name: 'artworkTitle',
+            title: 'Artwork Title',
+            type: 'string',
+            description: 'Title of the artwork (e.g., "Plant Pots")'
+          },
+          {
+            name: 'medium',
+            title: 'Medium',
+            type: 'string',
+            description: 'Artwork medium (e.g., "Monoprint", "Oil on Canvas")'
+          },
+          {
+            name: 'dimensions',
+            title: 'Dimensions',
+            type: 'string',
+            description: 'Artwork dimensions (e.g., "39 x 56 cm")'
+          },
+          {
+            name: 'year',
+            title: 'Year Created',
+            type: 'number',
+            description: 'Year the artwork was created'
+          },
+          {
             name: 'detailImages',
             title: 'Detail Images',
             type: 'array',

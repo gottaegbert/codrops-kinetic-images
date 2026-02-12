@@ -2,6 +2,8 @@
 
 import { createContext, useContext, useEffect, useState } from 'react';
 import Lenis from 'lenis';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 const LenisContext = createContext(null);
 
@@ -22,6 +24,9 @@ export function LenisProvider({ children }) {
         // Detect coarse pointer (touch) devices
         const isCoarsePointer = window.matchMedia('(pointer: coarse)').matches;
 
+        // Register ScrollTrigger
+        gsap.registerPlugin(ScrollTrigger);
+
         const instance = new Lenis({
             autoRaf: true,
             smoothWheel: true,
@@ -33,9 +38,20 @@ export function LenisProvider({ children }) {
 
         setLenis(instance);
 
+        // Integrate Lenis with ScrollTrigger
+        instance.on('scroll', ScrollTrigger.update);
+
+        const ticker = (time) => {
+            instance.raf(time * 1000);
+        };
+
+        gsap.ticker.add(ticker);
+        gsap.ticker.lagSmoothing(0);
+
         return () => {
             instance.destroy();
             setLenis(null);
+            gsap.ticker.remove(ticker);
         };
     }, []);
 

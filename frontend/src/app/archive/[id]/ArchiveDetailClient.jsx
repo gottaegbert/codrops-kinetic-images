@@ -8,6 +8,12 @@ import { useLenis } from '@/contexts/LenisContext';
 import { useExhibition } from '@/hooks/useArchiveContent';
 import { getOptimizedImageUrl } from '@/sanity/client';
 import { PortableText } from '@portabletext/react';
+import { useRef, useLayoutEffect, useState, useCallback } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+// Register ScrollTrigger
+gsap.registerPlugin(ScrollTrigger);
 
 const portableTextComponents = {
     marks: {
@@ -26,6 +32,9 @@ export default function ArchiveDetailClient({ id }) {
     const { exhibition, loading, error } = useExhibition(id);
     const lenis = useLenis();
 
+    const containerRef = useRef(null);
+    const stripRef = useRef(null);
+
     const handleScrollTo = (e, targetId) => {
         e.preventDefault();
         const element = document.getElementById(targetId);
@@ -37,6 +46,56 @@ export default function ArchiveDetailClient({ id }) {
             }
         }
     };
+
+    const handleImageLoad = useCallback(() => {
+        ScrollTrigger.refresh();
+    }, []);
+
+    useLayoutEffect(() => {
+        if (loading || error || !exhibition?.images?.length) return;
+
+        const container = containerRef.current;
+        const strip = stripRef.current;
+
+        if (!container || !strip) return;
+
+        // Context for clean up
+        let ctx = gsap.context(() => {
+            // Function to calculate scroll width dynamically
+            const getScrollAmount = () => {
+                let stripWidth = strip.scrollWidth;
+                // Add significant buffer so user sees past the last image (40% of viewport width)
+                // This creates whitespace after the last image
+                return -(stripWidth - window.innerWidth + window.innerWidth * 0.4);
+            };
+
+            const tl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: container,
+                    start: "top top", // Pins when container hits top of viewport
+                    end: () => `+=${strip.scrollWidth + window.innerHeight}`, // Moderate extra scroll duration
+                    pin: true,
+                    scrub: true, // Instant scrub to work with Lenis smoothing without lag
+                    invalidateOnRefresh: true,
+                    markers: false
+                }
+            });
+
+            // 1. Scroll the strip horizontally
+            tl.to(strip, {
+                x: getScrollAmount,
+                ease: "none",
+                duration: 1
+            });
+            
+            // 2. Hold at the end (50% of the movement duration)
+            // This creates a distinct pause at the end before unpinning, checking the "don't unpin too early" box
+            tl.to({}, { duration: 0.5 });
+
+        }, container); // Scope to container
+
+        return () => ctx.revert();
+    }, [loading, error, exhibition]);
 
     if (loading) {
         return (
@@ -60,6 +119,8 @@ export default function ArchiveDetailClient({ id }) {
             </main>
         );
     }
+
+    const validImages = exhibition.images?.filter(img => img.asset) || [];
 
     return (
         <main className={styles.page}>
@@ -111,26 +172,48 @@ export default function ArchiveDetailClient({ id }) {
                         )}
                     </div>
                 </nav>
+            </div>
 
-                {exhibition.images && exhibition.images.length > 0 && (
-                    <section className={styles.gallery}>
-                        {exhibition.images.map((img, index) => (
-                             img.asset && (
-                                <div key={img._key || index} className={styles.galleryItem}>
-                                    <Image
+            {/* GSAP Scroll-linked horizontal gallery */}
+            {validImages.length > 0 && (
+                <div ref={containerRef} className={styles.galleryContainer}>
+                    <div ref={stripRef} className={styles.galleryStrip}>
+                        {validImages.map((img, index) => {
+                             const dims = img.asset?.metadata?.dimensions;
+                             const aspectRatio = dims ? dims.width / dims.height : 1;
+                             const isLandscape = aspectRatio >= 1;
+
+                             const infoParts = [];
+                             if (img.artworkTitle) infoParts.push(img.artworkTitle);
+                             if (img.year) infoParts.push(String(img.year));
+                             if (img.medium) infoParts.push(img.medium);
+                             if (img.dimensions) infoParts.push(img.dimensions);
+                             const artworkInfo = infoParts.length > 0
+                                 ? infoParts.join('; ')
+                                 : (img.alt || img.title || '');
+
+                             return (
+                                <div 
+                                    key={img._key || index} 
+                                    className={`${styles.galleryItem} ${isLandscape ? styles.landscape : styles.portrait}`}
+                                >
+                                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                                    <img
                                         src={getOptimizedImageUrl(img.asset, { width: 1200 })}
                                         alt={img.alt || exhibition.title}
-                                        width={800}
-                                        height={600}
-                                        className={styles.image}
-                                        style={{ height: 'auto' }} // Ensure aspect ratio is maintained
+                                        onLoad={handleImageLoad}
                                     />
+                                    {artworkInfo && (
+                                        <p className={styles.artworkInfo}>{artworkInfo}</p>
+                                    )}
                                 </div>
-                            )
-                        ))}
-                    </section>
-                )}
+                            );
+                        })}
+                    </div>
+                </div>
+            )}
 
+            <div className={styles.container}>
                 {/* Content Sections */}
                 {exhibition.pressRelease?.[language] && (
                     <section id="pressRelease" className={styles.contentSection}>

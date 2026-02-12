@@ -14,7 +14,11 @@ export const archiveQuery = `*[_type == "exhibition" && (!defined(isCurrent) || 
         lqip
       }
     },
-    alt
+    alt,
+    artworkTitle,
+    medium,
+    dimensions,
+    year
   },
   pressRelease {
     featuredImage {
@@ -76,6 +80,10 @@ export const exhibitionByIdQuery = `*[_type == "exhibition" && _id == $id][0] {
     },
     alt,
     title,
+    artworkTitle,
+    medium,
+    dimensions,
+    year,
     detailImages[] {
       asset->{
         _id,

@@ -22,6 +22,10 @@ export const CURRENT_EXHIBITION_QUERY = `
       },
       alt,
       title,
+      artworkTitle,
+      medium,
+      dimensions,
+      year,
       hotspot,
       detailImages[] {
         asset->{
